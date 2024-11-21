@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { EnergyChart } from "@/components/dashboard/EnergyChart";
 import { PowerStats } from "@/components/dashboard/PowerStats";
+import { Chatbot } from "@/components/Chatbot";
 
 const Index = () => {
   return (
@@ -27,6 +28,11 @@ const Index = () => {
 
           <div className="grid gap-4 md:grid-cols-4">
             <EnergyChart />
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
+            <Chatbot />
           </div>
         </motion.div>
       </main>
