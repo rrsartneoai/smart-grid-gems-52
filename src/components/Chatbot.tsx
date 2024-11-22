@@ -7,11 +7,28 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getGeminiResponse } from "@/lib/gemini";
 import { Send } from "lucide-react";
+import { stats } from "./dashboard/PowerStats";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+const getDashboardValue = (query: string): string => {
+  const lowercaseQuery = query.toLowerCase();
+  
+  // Find matching stat based on query
+  const matchingStat = stats.find(stat => {
+    const title = stat.title.toLowerCase();
+    return lowercaseQuery.includes(title);
+  });
+
+  if (matchingStat) {
+    return `${matchingStat.title}: ${matchingStat.value}${matchingStat.unit ? ' ' + matchingStat.unit : ''} (${matchingStat.description})`;
+  }
+
+  return "Przepraszam, nie mogę znaleźć tej informacji w dashboardzie.";
+};
 
 export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,7 +36,15 @@ export function Chatbot() {
   const { toast } = useToast();
 
   const { mutate: sendMessage, isPending } = useMutation({
-    mutationFn: getGeminiResponse,
+    mutationFn: async (input: string) => {
+      // First check if we can get the value from dashboard
+      const dashboardValue = getDashboardValue(input);
+      if (dashboardValue !== "Przepraszam, nie mogę znaleźć tej informacji w dashboardzie.") {
+        return dashboardValue;
+      }
+      // If not found in dashboard, use Gemini
+      return getGeminiResponse(input);
+    },
     onSuccess: (response) => {
       setMessages((prev) => [
         ...prev,
