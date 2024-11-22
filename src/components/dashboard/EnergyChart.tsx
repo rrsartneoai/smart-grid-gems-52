@@ -40,7 +40,7 @@ export const EnergyChart = () => {
   ];
 
   return (
-    <Card className="col-span-4">
+    <Card className="col-span-4 dark:border-gray-700 dark:bg-gray-800">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>Zużycie vs. Generacja Energii</span>
@@ -51,6 +51,7 @@ export const EnergyChart = () => {
                 variant={activeMetric === metric.id ? "default" : "outline"}
                 size="sm"
                 onClick={() => setActiveMetric(metric.id as MetricType)}
+                className="dark:border-gray-600"
               >
                 {metric.label}
               </Button>
@@ -93,7 +94,7 @@ export const EnergyChart = () => {
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className="rounded-lg border bg-background p-2 shadow-sm">
+                      <div className="rounded-lg border bg-background p-2 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div className="grid gap-2">
                           <div className="font-medium">{label}</div>
                           {payload.map((entry, index) => (
@@ -136,7 +137,7 @@ export const EnergyChart = () => {
                           className="h-2 w-2 rounded-full"
                           style={{ backgroundColor: entry.color }}
                         />
-                        <span className="text-sm font-medium">
+                        <span className="text-sm font-medium dark:text-gray-300">
                           {entry.value === "consumption"
                             ? "Zużycie"
                             : entry.value === "generation"

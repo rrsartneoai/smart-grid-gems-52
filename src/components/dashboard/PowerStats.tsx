@@ -52,7 +52,7 @@ export const PowerStats = () => {
           transition={{ delay: index * 0.1 }}
         >
           <Card
-            className="cursor-pointer transition-all hover:shadow-md"
+            className="cursor-pointer transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
             onClick={() => setExpandedCard(expandedCard === index ? null : index)}
           >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
