@@ -2,10 +2,12 @@ import { motion } from "framer-motion";
 import { EnergyChart } from "@/components/dashboard/EnergyChart";
 import { PowerStats } from "@/components/dashboard/PowerStats";
 import { Chatbot } from "@/components/Chatbot";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
+      <DarkModeToggle />
       <main className="container px-4 py-12 mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
