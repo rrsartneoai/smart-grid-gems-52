@@ -152,7 +152,7 @@ export const PowerStats = () => {
             </CardContent>
           </Card>
         </motion.div>
-      </>
+      ))}
     </>
   );
 };
