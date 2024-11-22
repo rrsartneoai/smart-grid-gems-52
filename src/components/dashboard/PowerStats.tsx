@@ -3,7 +3,7 @@ import { Battery, Cpu, Zap, Power, DollarSign, Flame } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
-const stats = [
+export const stats = [
   {
     title: "Ladunek",
     value: "13,819",
