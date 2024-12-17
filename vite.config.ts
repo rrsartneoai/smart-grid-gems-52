@@ -19,9 +19,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     rollupOptions: {
-      external: [
-        'pdfjs-dist/build/pdf.worker.entry'
-      ]
+      external: []
     },
     target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     commonjsOptions: {
@@ -29,7 +27,6 @@ export default defineConfig(({ mode }) => ({
     }
   },
   optimizeDeps: {
-    exclude: ['pdfjs-dist/build/pdf.worker.entry'],
-    include: ['react-dropzone']
+    include: ['react-dropzone', 'pdfjs-dist/build/pdf.worker.mjs']
   }
 }));
