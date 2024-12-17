@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -16,6 +15,21 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-    },
+    }
   },
+  build: {
+    rollupOptions: {
+      external: [
+        'pdfjs-dist/build/pdf.worker.entry'
+      ]
+    },
+    target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
+    commonjsOptions: {
+      include: [/node_modules/]
+    }
+  },
+  optimizeDeps: {
+    exclude: ['pdfjs-dist/build/pdf.worker.entry'],
+    include: ['react-dropzone']
+  }
 }));

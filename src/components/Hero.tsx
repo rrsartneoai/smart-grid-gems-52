@@ -20,7 +20,7 @@ export const Hero = () => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-flex items-center justify-center px-4 py-1.5 mb-8 text-sm font-medium text-emerald-700 bg-emerald-50 rounded-full"
           >
-            Curated Resources
+            Wyselekcjonowane Zasoby
           </motion.div>
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
@@ -28,7 +28,7 @@ export const Hero = () => {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl"
           >
-            Smart Grid & IoT Resources
+            Zasoby Smart Grid i IoT
           </motion.h1>
           <motion.p
             initial={{ y: 20, opacity: 0 }}
@@ -36,7 +36,7 @@ export const Hero = () => {
             transition={{ delay: 0.4, duration: 0.5 }}
             className="max-w-2xl mx-auto mt-6 text-lg leading-8 text-gray-600"
           >
-            A handpicked collection of the best frameworks, libraries, and software for Smart Grid and IoT development.
+            Starannie wyselekcjonowana kolekcja najlepszych frameworków, bibliotek i oprogramowania do rozwoju Smart Grid i IoT.
           </motion.p>
         </motion.div>
       </div>

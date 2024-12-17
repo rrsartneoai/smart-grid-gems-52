@@ -3,6 +3,7 @@ import { EnergyChart } from "@/components/dashboard/EnergyChart";
 import { PowerStats } from "@/components/dashboard/PowerStats";
 import { Chatbot } from "@/components/Chatbot";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { FileUpload } from "@/components/FileUpload";
 
 const Index = () => {
   return (
@@ -17,7 +18,7 @@ const Index = () => {
         >
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-bold tracking-tight">
-              Dashboard Sieci Energetycznej
+              Panel Sieci Energetycznej
             </h1>
             <p className="text-muted-foreground">
               Monitoruj zużycie i generację energii w czasie rzeczywistym
@@ -32,9 +33,15 @@ const Index = () => {
             <EnergyChart />
           </div>
 
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
-            <Chatbot />
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Wgraj plik</h2>
+              <FileUpload />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
+              <Chatbot />
+            </div>
           </div>
         </motion.div>
       </main>
