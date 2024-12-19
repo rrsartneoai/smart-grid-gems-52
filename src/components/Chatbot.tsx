@@ -10,7 +10,7 @@ import { ChatInput } from "./chat/ChatInput";
 import { ChatHeader } from "./chat/ChatHeader";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
-import { stats } from "./dashboard/PowerStats"; // Add this import
+import { stats } from "./dashboard/PowerStats";
 
 interface Message {
   role: "user" | "assistant";
@@ -28,7 +28,6 @@ declare global {
 const getDashboardValue = (query: string): string => {
   const lowercaseQuery = query.toLowerCase();
   
-  // Find matching stat based on query
   const matchingStat = stats.find(stat => {
     const title = stat.title.toLowerCase();
     return lowercaseQuery.includes(title);
@@ -54,8 +53,9 @@ export function Chatbot() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<any>(null);
-  
+
   const conversation = useConversation({
+    apiKey: localStorage.getItem('ELEVENLABS_API_KEY') || '',
     overrides: {
       tts: {
         voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte - bardziej przyjazny głos
@@ -63,7 +63,17 @@ export function Chatbot() {
     },
   });
 
-  // Auto-scroll effect
+  useEffect(() => {
+    const apiKey = localStorage.getItem('ELEVENLABS_API_KEY');
+    if (!apiKey) {
+      toast({
+        title: "ElevenLabs API Key Required",
+        description: "Please enter your ElevenLabs API key in the settings to enable voice features.",
+        duration: 5000,
+      });
+    }
+  }, [toast]);
+
   useEffect(() => {
     if (scrollAreaRef.current) {
       const scrollContainer = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
@@ -89,12 +99,21 @@ export function Chatbot() {
       };
       setMessages((prev) => [...prev, newMessage]);
       
-      // Use ElevenLabs for speech
-      conversation.startSession({
-        agentId: "default", // Replace with your actual agent ID
-      }).then(() => {
-        conversation.setVolume({ volume: 0.8 });
-      });
+      const apiKey = localStorage.getItem('ELEVENLABS_API_KEY');
+      if (apiKey) {
+        conversation.startSession({
+          agentId: "default",
+        }).then(() => {
+          conversation.setVolume({ volume: 0.8 });
+        }).catch(error => {
+          console.error('Error starting ElevenLabs session:', error);
+          toast({
+            variant: "destructive",
+            title: "Voice Error",
+            description: "Failed to start voice synthesis. Please check your API key.",
+          });
+        });
+      }
     },
     onError: () => {
       toast({
