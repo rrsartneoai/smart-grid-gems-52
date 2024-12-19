@@ -1,18 +1,20 @@
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { generateRAGResponse } from "@/utils/ragUtils";
-import { Send, Mic, MicOff, User, Bot } from "lucide-react";
-import { stats } from "./dashboard/PowerStats";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useConversation } from "@11labs/react";
+import { ChatMessage } from "./chat/ChatMessage";
+import { ChatInput } from "./chat/ChatInput";
+import { ChatHeader } from "./chat/ChatHeader";
+import { format } from "date-fns";
+import { pl } from "date-fns/locale";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  timestamp: Date;
 }
 
 declare global {
@@ -43,6 +45,7 @@ export function Chatbot() {
     {
       role: "assistant",
       content: "Witaj! Jestem twoim asystentem sieci energetycznej. Jak mogę Ci pomóc?",
+      timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
@@ -50,7 +53,14 @@ export function Chatbot() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isRecording, setIsRecording] = useState(false);
   const recognitionRef = useRef<any>(null);
-  const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
+  
+  const conversation = useConversation({
+    overrides: {
+      tts: {
+        voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte - bardziej przyjazny głos
+      },
+    },
+  });
 
   // Auto-scroll effect
   useEffect(() => {
@@ -71,11 +81,19 @@ export function Chatbot() {
       return generateRAGResponse(input);
     },
     onSuccess: (response) => {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: response },
-      ]);
-      speak(response);
+      const newMessage = {
+        role: "assistant" as const,
+        content: response,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, newMessage]);
+      
+      // Use ElevenLabs for speech
+      conversation.startSession({
+        agentId: "default", // Replace with your actual agent ID
+      }).then(() => {
+        conversation.setVolume({ volume: 0.8 });
+      });
     },
     onError: () => {
       toast({
@@ -86,19 +104,15 @@ export function Chatbot() {
     },
   });
 
-  const speak = (text: string) => {
-    if (!speechSynthesisRef.current) {
-      speechSynthesisRef.current = window.speechSynthesis;
-    }
-    const utterance = new SpeechSynthesisUtterance(text);
-    speechSynthesisRef.current.speak(utterance);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMessage = { role: "user" as const, content: input };
+    const userMessage = {
+      role: "user" as const,
+      content: input,
+      timestamp: new Date(),
+    };
     setMessages((prev) => [...prev, userMessage]);
     sendMessage(input);
     setInput("");
@@ -122,7 +136,7 @@ export function Chatbot() {
           .map((result) => result[0].transcript)
           .join("");
         setInput(transcript);
-        const userMessage = { role: "user" as const, content: transcript };
+        const userMessage = { role: "user" as const, content: transcript, timestamp: new Date() };
         setMessages((prev) => [...prev, userMessage]);
         sendMessage(transcript);
         setIsRecording(false);
@@ -152,74 +166,56 @@ export function Chatbot() {
     }
   };
 
+  const handleStopSpeaking = () => {
+    conversation.endSession();
+  };
+
+  const handleSaveHistory = () => {
+    const historyText = messages
+      .map((msg) => {
+        const time = format(msg.timestamp, "HH:mm", { locale: pl });
+        return `[${time}] ${msg.role === "user" ? "Użytkownik" : "Asystent"}: ${msg.content}`;
+      })
+      .join("\n\n");
+
+    const blob = new Blob([historyText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `chat-history-${format(new Date(), "yyyy-MM-dd-HH-mm")}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Historia zapisana",
+      description: "Plik z historią czatu został pobrany.",
+    });
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col bg-background">
-      <div className="p-4 border-b flex items-center gap-3">
-        <Avatar className="h-10 w-10">
-          <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
-          <AvatarFallback><Bot className="h-6 w-6" /></AvatarFallback>
-        </Avatar>
-        <div>
-          <h3 className="font-semibold">Asystent Sieci Energetycznej</h3>
-          <p className="text-sm text-muted-foreground">Zawsze online</p>
-        </div>
-      </div>
+      <ChatHeader
+        isSpeaking={conversation.isSpeaking}
+        onStopSpeaking={handleStopSpeaking}
+        onSaveHistory={handleSaveHistory}
+      />
       
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
         {messages.map((message, i) => (
-          <div
-            key={i}
-            className={`mb-4 flex items-start gap-3 ${
-              message.role === "user" ? "flex-row-reverse" : "flex-row"
-            }`}
-          >
-            <Avatar className="h-8 w-8 mt-1">
-              {message.role === "user" ? (
-                <>
-                  <AvatarImage src="/placeholder.svg" />
-                  <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
-                </>
-              ) : (
-                <>
-                  <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
-                  <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
-                </>
-              )}
-            </Avatar>
-            <div
-              className={`rounded-lg p-3 max-w-[80%] ${
-                message.role === "user"
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted"
-              }`}
-            >
-              {message.content}
-            </div>
-          </div>
+          <ChatMessage key={i} {...message} />
         ))}
       </ScrollArea>
 
-      <form onSubmit={handleSubmit} className="p-4 border-t flex gap-2 bg-background">
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Napisz wiadomość..."
-          className="flex-1"
-          disabled={isPending}
-        />
-        <Button type="submit" size="icon" disabled={isPending}>
-          <Send className="h-4 w-4" />
-        </Button>
-        <Button
-          type="button"
-          size="icon"
-          variant="outline"
-          onClick={handleVoiceInput}
-          disabled={isPending}
-        >
-          {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-        </Button>
-      </form>
+      <ChatInput
+        input={input}
+        setInput={setInput}
+        handleSubmit={handleSubmit}
+        handleVoiceInput={handleVoiceInput}
+        isRecording={isRecording}
+        isPending={isPending}
+      />
     </Card>
   );
 }
