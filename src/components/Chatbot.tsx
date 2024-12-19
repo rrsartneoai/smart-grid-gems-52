@@ -10,6 +10,7 @@ import { ChatInput } from "./chat/ChatInput";
 import { ChatHeader } from "./chat/ChatHeader";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
+import { stats } from "./dashboard/PowerStats"; // Add this import
 
 interface Message {
   role: "user" | "assistant";
