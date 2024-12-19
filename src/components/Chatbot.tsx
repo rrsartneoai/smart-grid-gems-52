@@ -58,8 +58,16 @@ export function Chatbot() {
     apiKey: localStorage.getItem('ELEVENLABS_API_KEY') || '',
     overrides: {
       tts: {
-        voiceId: "XB0fDUnXU5powFXDhCwa", // Charlotte - bardziej przyjazny głos
+        voiceId: "XB0fDUnXU5powFXDhCwa",
       },
+    },
+    onError: (error) => {
+      console.error('ElevenLabs error:', error);
+      toast({
+        variant: "destructive",
+        title: "Błąd głosowy",
+        description: "Wystąpił problem z syntezą głosu. Sprawdź czy klucz API jest poprawny.",
+      });
     },
   });
 
@@ -67,9 +75,26 @@ export function Chatbot() {
     const apiKey = localStorage.getItem('ELEVENLABS_API_KEY');
     if (!apiKey) {
       toast({
-        title: "ElevenLabs API Key Required",
-        description: "Please enter your ElevenLabs API key in the settings to enable voice features.",
+        variant: "destructive",
+        title: "Wymagany klucz API",
+        description: "Wprowadź swój klucz API ElevenLabs w ustawieniach, aby włączyć funkcje głosowe.",
         duration: 5000,
+      });
+    } else {
+      // Sprawdź poprawność klucza API przy starcie
+      fetch('https://api.elevenlabs.io/v1/voices', {
+        headers: {
+          'Accept': 'application/json',
+          'xi-api-key': apiKey
+        }
+      }).catch(error => {
+        console.error('Error validating API key:', error);
+        toast({
+          variant: "destructive",
+          title: "Błędny klucz API",
+          description: "Twój klucz API ElevenLabs jest nieprawidłowy. Sprawdź ustawienia.",
+          duration: 5000,
+        });
       });
     }
   }, [toast]);
