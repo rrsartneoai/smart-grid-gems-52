@@ -6,12 +6,20 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { generateRAGResponse } from "@/utils/ragUtils";
-import { Send, Mic, MicOff } from "lucide-react";
+import { Send, Mic, MicOff, User, Bot } from "lucide-react";
 import { stats } from "./dashboard/PowerStats";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+}
+
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
 }
 
 const getDashboardValue = (query: string): string => {
@@ -31,14 +39,18 @@ const getDashboardValue = (query: string): string => {
 };
 
 export function Chatbot() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content: "Witaj! Jestem twoim asystentem sieci energetycznej. Jak mogę Ci pomóc?",
+    },
+  ]);
   const [input, setInput] = useState("");
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
-    const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
-
+  const recognitionRef = useRef<any>(null);
+  const speechSynthesisRef = useRef<SpeechSynthesis | null>(null);
 
   // Auto-scroll effect
   useEffect(() => {
@@ -63,7 +75,7 @@ export function Chatbot() {
         ...prev,
         { role: "assistant", content: response },
       ]);
-        speak(response);
+      speak(response);
     },
     onError: () => {
       toast({
@@ -74,14 +86,13 @@ export function Chatbot() {
     },
   });
 
-    const speak = (text: string) => {
-        if (!speechSynthesisRef.current) {
-            speechSynthesisRef.current = window.speechSynthesis;
-        }
-        const utterance = new SpeechSynthesisUtterance(text);
-        speechSynthesisRef.current.speak(utterance);
-    };
-
+  const speak = (text: string) => {
+    if (!speechSynthesisRef.current) {
+      speechSynthesisRef.current = window.speechSynthesis;
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesisRef.current.speak(utterance);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,68 +104,90 @@ export function Chatbot() {
     setInput("");
   };
 
-    const handleVoiceInput = () => {
-        if (!recognitionRef.current) {
-            const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                toast({
-                    variant: "destructive",
-                    title: "Error",
-                    description: "Speech recognition is not supported in this browser.",
-                });
-                return;
-            }
-            recognitionRef.current = new SpeechRecognition();
-            recognitionRef.current.lang = 'pl-PL';
-            recognitionRef.current.onresult = (event) => {
-                const transcript = Array.from(event.results)
-                    .map((result) => result[0].transcript)
-                    .join("");
-                setInput(transcript);
-                const userMessage = { role: "user" as const, content: transcript };
-                setMessages((prev) => [...prev, userMessage]);
-                sendMessage(transcript);
-                setIsRecording(false);
-                recognitionRef.current?.stop();
-            };
+  const handleVoiceInput = () => {
+    if (!recognitionRef.current) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Speech recognition is not supported in this browser.",
+        });
+        return;
+      }
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.lang = 'pl-PL';
+      recognitionRef.current.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map((result) => result[0].transcript)
+          .join("");
+        setInput(transcript);
+        const userMessage = { role: "user" as const, content: transcript };
+        setMessages((prev) => [...prev, userMessage]);
+        sendMessage(transcript);
+        setIsRecording(false);
+        recognitionRef.current?.stop();
+      };
 
-            recognitionRef.current.onerror = (event) => {
-                console.error("Speech recognition error:", event.error);
-                toast({
-                    variant: "destructive",
-                    title: "Error",
-                    description: "Error during speech recognition. Please try again.",
-                });
-                setIsRecording(false);
-            };
-            recognitionRef.current.onend = () => {
-                setIsRecording(false);
-            };
-        }
+      recognitionRef.current.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Error during speech recognition. Please try again.",
+        });
+        setIsRecording(false);
+      };
+      recognitionRef.current.onend = () => {
+        setIsRecording(false);
+      };
+    }
 
-
-        if (!isRecording) {
-            recognitionRef.current.start();
-            setIsRecording(true);
-        } else {
-            recognitionRef.current.stop();
-            setIsRecording(false);
-        }
-    };
-
+    if (!isRecording) {
+      recognitionRef.current.start();
+      setIsRecording(true);
+    } else {
+      recognitionRef.current.stop();
+      setIsRecording(false);
+    }
+  };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col">
+    <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col bg-background">
+      <div className="p-4 border-b flex items-center gap-3">
+        <Avatar className="h-10 w-10">
+          <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
+          <AvatarFallback><Bot className="h-6 w-6" /></AvatarFallback>
+        </Avatar>
+        <div>
+          <h3 className="font-semibold">Asystent Sieci Energetycznej</h3>
+          <p className="text-sm text-muted-foreground">Zawsze online</p>
+        </div>
+      </div>
+      
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
         {messages.map((message, i) => (
           <div
             key={i}
-            className={`mb-4 ${
-              message.role === "user" ? "text-right" : "text-left"
+            className={`mb-4 flex items-start gap-3 ${
+              message.role === "user" ? "flex-row-reverse" : "flex-row"
             }`}
           >
+            <Avatar className="h-8 w-8 mt-1">
+              {message.role === "user" ? (
+                <>
+                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
+                </>
+              ) : (
+                <>
+                  <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
+                  <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+                </>
+              )}
+            </Avatar>
             <div
-              className={`inline-block p-3 rounded-lg ${
+              className={`rounded-lg p-3 max-w-[80%] ${
                 message.role === "user"
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted"
@@ -165,23 +198,27 @@ export function Chatbot() {
           </div>
         ))}
       </ScrollArea>
-      <form onSubmit={handleSubmit} className="p-4 border-t flex gap-2">
+
+      <form onSubmit={handleSubmit} className="p-4 border-t flex gap-2 bg-background">
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask a question..."
+          placeholder="Napisz wiadomość..."
+          className="flex-1"
           disabled={isPending}
         />
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" size="icon" disabled={isPending}>
           <Send className="h-4 w-4" />
         </Button>
-          <Button
-              type="button"
-              onClick={handleVoiceInput}
-              disabled={isPending}
-          >
-              {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-          </Button>
+        <Button
+          type="button"
+          size="icon"
+          variant="outline"
+          onClick={handleVoiceInput}
+          disabled={isPending}
+        >
+          {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+        </Button>
       </form>
     </Card>
   );
