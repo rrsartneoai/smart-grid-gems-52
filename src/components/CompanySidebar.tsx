@@ -57,10 +57,11 @@ export function CompanySidebar() {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-[-40px] top-4 z-50"
+        className="absolute right-[-120px] top-4 z-50 flex items-center gap-2 px-4"
         onClick={() => setCollapsed(!collapsed)}
       >
         <Menu className="h-4 w-4" />
+        <span className="text-sm font-medium">Menu</span>
       </Button>
       <Sidebar>
         <SidebarContent>
