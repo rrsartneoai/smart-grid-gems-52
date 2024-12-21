@@ -44,7 +44,7 @@ export function FileUpload() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 1,
-    maxSize: 5 * 1024 * 1024, // 5MB
+    maxSize: 20 * 1024 * 1024, // 20MB
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
       'application/pdf': ['.pdf'],
@@ -67,7 +67,7 @@ export function FileUpload() {
             : "Przeciągnij i upuść plik lub kliknij, aby wybrać"}
         </p>
         <p className="mt-2 text-xs text-gray-500">
-          Obsługiwane formaty: PDF, DOCX, PNG, JPG (max 5MB)
+          Obsługiwane formaty: PDF, DOCX, PNG, JPG (max 20MB)
         </p>
       </div>
     </Card>
