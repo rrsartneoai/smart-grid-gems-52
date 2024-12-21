@@ -18,7 +18,6 @@ export const DropZone = ({
   setIsDragging 
 }: DropZoneProps) => {
   const handleButtonClick = () => {
-    // Programmatically click the hidden file input
     document.getElementById('file-upload')?.click();
   };
 
@@ -43,8 +42,8 @@ export const DropZone = ({
         <div className="text-center">
           <p className="text-sm text-muted-foreground">
             {isProcessing 
-              ? `Processing file: ${selectedFile?.name}...` 
-              : "Drag and drop a file or"}
+              ? `Przetwarzanie pliku: ${selectedFile?.name}...` 
+              : "Przeciągnij i upuść pliki lub"}
           </p>
           <Button 
             variant="link" 
@@ -52,7 +51,7 @@ export const DropZone = ({
             disabled={isProcessing}
             onClick={handleButtonClick}
           >
-            choose from disk
+            wybierz z dysku
           </Button>
           <input
             id="file-upload"
@@ -61,10 +60,11 @@ export const DropZone = ({
             accept=".pdf,.docx,.png,.jpg,.jpeg"
             onChange={(e) => onFileSelect(e.target.files)}
             disabled={isProcessing}
+            multiple // Dodajemy obsługę wielu plików
           />
         </div>
         <p className="text-xs text-muted-foreground">
-          PDF, DOCX, PNG, JPG (max. 5MB)
+          PDF, DOCX, PNG, JPG (max. 20MB na plik, do 5 plików)
         </p>
       </div>
     </Card>

@@ -9,42 +9,41 @@ export function FileUpload() {
   const { toast } = useToast();
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    if (!file) return;
+    for (const file of acceptedFiles) {
+      try {
+        let text = "";
+        if (file.type.includes("image")) {
+          text = await processImageFile(file);
+        } else if (file.type === "application/pdf") {
+          text = await processPdfFile(file);
+        } else if (
+          file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+          text = await processDocxFile(file);
+        } else {
+          throw new Error("Nieobsługiwany format pliku");
+        }
 
-    try {
-      let text = "";
-      if (file.type.includes("image")) {
-        text = await processImageFile(file);
-      } else if (file.type === "application/pdf") {
-        text = await processPdfFile(file);
-      } else if (
-        file.type ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
-        text = await processDocxFile(file);
-      } else {
-        throw new Error("Nieobsługiwany format pliku");
+        const result = await processDocumentForRAG(text);
+        toast({
+          title: "Sukces",
+          description: `Przetworzono plik: ${file.name}`,
+        });
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Błąd",
+          description: `Błąd podczas przetwarzania pliku: ${file.name}`,
+        });
       }
-
-      const result = await processDocumentForRAG(text);
-      toast({
-        title: "Sukces",
-        description: result,
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Błąd",
-        description: "Wystąpił problem podczas przetwarzania pliku",
-      });
     }
   }, [toast]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 1,
-    maxSize: 20 * 1024 * 1024, // 20MB
+    maxFiles: 5, // Zwiększamy limit do 5 plików jednocześnie
+    maxSize: 20 * 1024 * 1024, // 20MB na plik
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
       'application/pdf': ['.pdf'],
@@ -63,11 +62,11 @@ export function FileUpload() {
       <div className="text-center">
         <p className="text-sm text-gray-600">
           {isDragActive
-            ? "Upuść plik tutaj..."
-            : "Przeciągnij i upuść plik lub kliknij, aby wybrać"}
+            ? "Upuść pliki tutaj..."
+            : "Przeciągnij i upuść pliki lub kliknij, aby wybrać"}
         </p>
         <p className="mt-2 text-xs text-gray-500">
-          Obsługiwane formaty: PDF, DOCX, PNG, JPG (max 20MB)
+          Obsługiwane formaty: PDF, DOCX, PNG, JPG (max 20MB na plik, do 5 plików)
         </p>
       </div>
     </Card>
