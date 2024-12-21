@@ -33,7 +33,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
     <aside
       className={cn(
         "h-screen sticky top-0 border-r bg-background transition-all duration-300",
-        collapsed ? "w-16" : "w-64"
+        collapsed ? "w-0 overflow-hidden" : "w-64"
       )}
     >
       {children}
@@ -78,30 +78,18 @@ export function SidebarMenuButton({
   asChild?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const { collapsed } = useSidebar();
-  const Comp = asChild ? "div" : "button";
+  const Component = asChild ? "div" : "button";
 
   return (
-    <Comp
+    <Component
+      {...(props as any)}
       className={cn(
         "w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors",
         collapsed && "justify-center",
         className
       )}
-      {...props}
     >
       {children}
-    </Comp>
-  );
-}
-
-export function SidebarTrigger() {
-  const { collapsed, setCollapsed } = useSidebar();
-  return (
-    <button
-      onClick={() => setCollapsed(!collapsed)}
-      className="p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
-    >
-      {collapsed ? "→" : "←"}
-    </button>
+    </Component>
   );
 }

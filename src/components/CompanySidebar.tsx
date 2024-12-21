@@ -8,13 +8,15 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
-import { Building2, Plus } from "lucide-react";
+import { Building2, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 
 export function CompanySidebar() {
+  const { collapsed, setCollapsed } = useSidebar();
   const [companies, setCompanies] = useState([
     { id: 1, name: "Firma 1" },
     { id: 2, name: "Firma 2" },
@@ -51,65 +53,75 @@ export function CompanySidebar() {
   };
 
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Firmy</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {companies.map((company) => (
-                <SidebarMenuItem key={company.id}>
-                  <SidebarMenuButton>
-                    <Building2 className="w-4 h-4 mr-2" />
-                    <span>{company.name}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-            {isAdding ? (
-              <div className="p-2 space-y-2">
-                <Input
-                  placeholder="Nazwa firmy"
-                  value={newCompanyName}
-                  onChange={(e) => setNewCompanyName(e.target.value)}
-                  className="w-full"
-                />
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    onClick={handleAddCompany}
+    <div className="relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-[-40px] top-4 z-50"
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <Menu className="h-4 w-4" />
+      </Button>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {companies.map((company) => (
+                  <SidebarMenuItem key={company.id}>
+                    <SidebarMenuButton>
+                      <Building2 className="w-4 h-4 mr-2" />
+                      <span>{company.name}</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+              {isAdding ? (
+                <div className="p-2 space-y-2">
+                  <Input
+                    placeholder="Nazwa firmy"
+                    value={newCompanyName}
+                    onChange={(e) => setNewCompanyName(e.target.value)}
                     className="w-full"
-                  >
-                    Dodaj
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => {
-                      setIsAdding(false);
-                      setNewCompanyName("");
-                    }}
-                    className="w-full"
-                  >
-                    Anuluj
-                  </Button>
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={handleAddCompany}
+                      className="w-full"
+                    >
+                      Dodaj
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        setIsAdding(false);
+                        setNewCompanyName("");
+                      }}
+                      className="w-full"
+                    >
+                      Anuluj
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              companies.length < 5 && (
-                <Button
-                  variant="ghost"
-                  className="w-full mt-2"
-                  onClick={() => setIsAdding(true)}
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Dodaj firmę
-                </Button>
-              )
-            )}
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+              ) : (
+                companies.length < 5 && (
+                  <Button
+                    variant="ghost"
+                    className="w-full mt-2"
+                    onClick={() => setIsAdding(true)}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Dodaj firmę
+                  </Button>
+                )
+              )}
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </div>
   );
 }
