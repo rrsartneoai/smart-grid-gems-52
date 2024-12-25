@@ -1,25 +1,17 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY || "";
+const genAI = new GoogleGenerativeAI(apiKey);
 
-if (!API_KEY) {
-  console.error("Brak klucza API dla Gemini. Proszę dodać VITE_GOOGLE_API_KEY.");
-}
+export const geminiModel = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-const genAI = new GoogleGenerativeAI(API_KEY || "");
-
-export const getGeminiResponse = async (prompt: string) => {
-  if (!API_KEY) {
-    return "Przepraszam, ale brak skonfigurowanego klucza API dla Gemini. Proszę skontaktować się z administratorem.";
-  }
-
+export async function generateGeminiResponse(prompt: string) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
+    const result = await geminiModel.generateContent(prompt);
     const response = await result.response;
     return response.text();
   } catch (error) {
-    console.error("Błąd podczas komunikacji z Gemini:", error);
-    return "Przepraszam, wystąpił błąd podczas przetwarzania zapytania. Proszę spróbować ponownie.";
+    console.error('Gemini API Error:', error);
+    throw new Error('Failed to generate response');
   }
-};
+}
