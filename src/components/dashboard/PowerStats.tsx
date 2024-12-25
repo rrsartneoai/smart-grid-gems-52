@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 
+// Export stats for use in Chatbot
+export const stats = companiesData[0].stats; // Using first company's stats as default
+
 export const PowerStats = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
   const { selectedCompanyId } = useCompanyStore();
