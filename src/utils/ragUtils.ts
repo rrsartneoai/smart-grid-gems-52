@@ -21,3 +21,23 @@ export async function generateRAGResponse(input: string): Promise<string> {
     return "Przepraszam, wystąpił błąd podczas generowania odpowiedzi. Proszę spróbować ponownie.";
   }
 }
+
+export async function processDocumentForRAG(text: string): Promise<string> {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    
+    const prompt = `
+      Analyze the following text related to power grid management:
+      ${text}
+      
+      Please provide a summary and key insights from this document.
+    `;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Error processing document:', error);
+    return "Wystąpił błąd podczas przetwarzania dokumentu.";
+  }
+}

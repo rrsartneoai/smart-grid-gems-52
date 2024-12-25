@@ -42,8 +42,8 @@ export function FileUpload() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    maxFiles: 5, // Zwiększamy limit do 5 plików jednocześnie
-    maxSize: 20 * 1024 * 1024, // 20MB na plik
+    maxFiles: 5,
+    maxSize: 20 * 1024 * 1024,
     accept: {
       'image/*': ['.png', '.jpg', '.jpeg'],
       'application/pdf': ['.pdf'],
