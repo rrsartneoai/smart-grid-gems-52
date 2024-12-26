@@ -37,7 +37,7 @@ export function FileInfo({ file, topics = [] }: FileInfoProps) {
               <ul className="mt-2 space-y-1">
                 {topics.map((topic, index) => (
                   <li key={index} className="text-sm text-muted-foreground pl-6">
-                    {topic}
+                    {topic.trim()}
                   </li>
                 ))}
               </ul>
