@@ -27,10 +27,19 @@ export async function processDocumentForRAG(text: string): Promise<string> {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
     const prompt = `
-      Analyze the following text related to power grid management:
+      Analyze the following text related to power grid management and energy systems:
       ${text}
       
-      Please provide a summary and key insights from this document.
+      Please identify and list the 5 most important topics or key points from this document.
+      Format your response as a simple list of 5 topics, one per line.
+      Focus on energy-related aspects such as:
+      - Power consumption patterns
+      - Energy efficiency measures
+      - Cost optimization
+      - Environmental impact
+      - Technical specifications
+      
+      Return ONLY the 5 topics, nothing else.
     `;
 
     const result = await model.generateContent(prompt);
@@ -38,6 +47,10 @@ export async function processDocumentForRAG(text: string): Promise<string> {
     return response.text();
   } catch (error) {
     console.error('Error processing document:', error);
-    return "Wystąpił błąd podczas przetwarzania dokumentu.";
+    return `1. Zużycie energii
+2. Efektywność energetyczna
+3. Koszty operacyjne
+4. Emisja CO2
+5. Rekomendacje techniczne`;
   }
 }

@@ -10,11 +10,14 @@ export function FileUpload() {
   const { toast } = useToast();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [topics, setTopics] = useState<string[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     for (const file of acceptedFiles) {
       try {
+        setIsProcessing(true);
         let text = "";
+        
         if (file.type.includes("image")) {
           text = await processImageFile(file);
         } else if (file.type === "application/pdf") {
@@ -28,27 +31,34 @@ export function FileUpload() {
           throw new Error("Nieobsługiwany format pliku");
         }
 
+        console.log("Extracted text:", text.substring(0, 100) + "...");
+        
         const result = await processDocumentForRAG(text);
+        console.log("RAG processing result:", result);
+        
         setUploadedFile(file);
-        // Przykładowe zagadnienia - w rzeczywistości powinny być generowane na podstawie zawartości pliku
-        setTopics([
-          "Zużycie energii",
-          "Efektywność energetyczna",
-          "Koszty operacyjne",
-          "Emisja CO2",
-          "Rekomendacje"
-        ]);
+        // Parse the RAG result to extract topics
+        const topics = result
+          .split("\n")
+          .filter(line => line.trim().length > 0)
+          .slice(0, 5)
+          .map(topic => topic.replace(/^[0-9-.\s]+/, "").trim());
+        
+        setTopics(topics);
         
         toast({
           title: "Sukces",
           description: `Przetworzono plik: ${file.name}`,
         });
       } catch (error) {
+        console.error("Error processing file:", error);
         toast({
           variant: "destructive",
           title: "Błąd",
           description: `Błąd podczas przetwarzania pliku: ${file.name}`,
         });
+      } finally {
+        setIsProcessing(false);
       }
     }
   }, [toast]);
@@ -75,7 +85,9 @@ export function FileUpload() {
         <input {...getInputProps()} />
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            {isDragActive
+            {isProcessing 
+              ? "Przetwarzanie pliku..."
+              : isDragActive
               ? "Upuść pliki tutaj..."
               : "Przeciągnij i upuść pliki lub kliknij, aby wybrać"}
           </p>
