@@ -2,6 +2,12 @@ https://smart-grid-gems-22.lovable.app/
 
 ---
 
+codzienne aktualizacje:
+
+https://smart-grid-gems-96.lovable.app/
+
+---
+
 
 [![COMMIT-HANGES-Zrzut-ekranu-17-12-2024-165141-rrsartneoai.jpg](https://i.postimg.cc/SsfyTT6g/COMMIT-HANGES-Zrzut-ekranu-17-12-2024-165141-rrsartneoai.jpg)](https://postimg.cc/N9LqLxPX)
 
