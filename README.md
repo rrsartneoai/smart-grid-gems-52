@@ -1,5 +1,10 @@
 https://smart-grid-gems-22.lovable.app/
 
+
+codzienne aktualizacje:
+
+https://smart-grid-gems-96.lovable.app/
+
 ---
 
 
