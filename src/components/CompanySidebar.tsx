@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Factory, Wind, Leaf, Cpu, Zap, Menu } from "lucide-react";
+import { Factory, Wind, Leaf, Cpu, Zap, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { companiesData } from "@/data/companies";
 import { create } from "zustand";
@@ -48,18 +48,19 @@ export function CompanySidebar() {
 
   return (
     <div className="relative h-screen">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="fixed right-4 top-4 z-50"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <Menu className="h-4 w-4" />
-      </Button>
       <Sidebar>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="mb-2">Firmy</SidebarGroupLabel>
+            <div className="flex items-center justify-between mb-2">
+              <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setCollapsed(!collapsed)}
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            </div>
             <SidebarGroupContent>
               <SidebarMenu>
                 {companiesData.map((company) => (
@@ -77,6 +78,16 @@ export function CompanySidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                <SidebarMenuItem>
+                  <Button 
+                    variant="outline" 
+                    className="w-full mt-4"
+                    onClick={() => console.log("Add company clicked")}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Dodaj firmę
+                  </Button>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

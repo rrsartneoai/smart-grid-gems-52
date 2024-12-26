@@ -10,17 +10,23 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyAnalysis } from "@/components/analysis/CompanyAnalysis";
 import { IoTStatus } from "@/components/status/IoTStatus";
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="flex justify-between items-center p-4 border-b">
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold hidden sm:block">Panel Monitorowania</h1>
-          <h1 className="text-xl font-semibold sm:hidden">Panel</h1>
-          <DarkModeToggle />
+        <div className="flex flex-col items-start gap-1">
+          <h1 className="text-xl font-semibold">Panel Monitorowania</h1>
+          <p className="text-sm text-muted-foreground">
+            efektywności energetycznej smartgrid na Pomorzu
+          </p>
         </div>
-        <ApiKeySettings />
+        <div className="flex items-center gap-4">
+          <DarkModeToggle />
+          <ApiKeySettings />
+        </div>
       </div>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
@@ -40,9 +46,13 @@ const Index = () => {
                 </TabsList>
                 
                 <TabsContent value="spaces" className="space-y-6">
-                  <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                    <PowerStats />
-                  </div>
+                  <DndContext collisionDetection={closestCenter}>
+                    <SortableContext items={[]} strategy={rectSortingStrategy}>
+                      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                        <PowerStats />
+                      </div>
+                    </SortableContext>
+                  </DndContext>
 
                   <div className="grid gap-4">
                     <EnergyChart />
