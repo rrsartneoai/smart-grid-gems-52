@@ -48,18 +48,20 @@ export function CompanySidebar() {
 
   return (
     <div className="relative h-screen">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute left-4 top-4 z-50"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <Menu className="h-4 w-4" />
-      </Button>
       <Sidebar>
-        <SidebarContent className="mt-16">
+        <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+            <div className="flex items-center gap-2 mb-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => setCollapsed(!collapsed)}
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+              <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+            </div>
             <SidebarGroupContent>
               <SidebarMenu>
                 {companiesData.map((company) => (
