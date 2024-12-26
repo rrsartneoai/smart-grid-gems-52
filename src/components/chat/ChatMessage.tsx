@@ -16,18 +16,20 @@ export function ChatMessage({ role, content, timestamp }: ChatMessageProps) {
         role === "user" ? "flex-row-reverse" : "flex-row"
       }`}
     >
-      <Avatar className="h-8 w-8 mt-1">
+      <Avatar className="h-8 w-8">
         {role === "user" ? (
           <>
-            <AvatarImage src="/placeholder.svg" alt="Avatar użytkownika" />
+            <AvatarImage src="/placeholder.svg" />
             <AvatarFallback className="bg-blue-500">
               <Zap className="h-4 w-4 text-white" />
             </AvatarFallback>
           </>
         ) : (
           <>
-            <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" alt="Avatar asystenta" />
-            <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
+            <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
+            <AvatarFallback>
+              <Bot className="h-4 w-4" />
+            </AvatarFallback>
           </>
         )}
       </Avatar>
