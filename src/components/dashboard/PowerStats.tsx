@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
+import { Badge } from "@/components/ui/badge";
 
-// Export stats for use in Chatbot
-export const stats = companiesData[0].stats; // Using first company's stats as default
+export const stats = companiesData[0].stats;
 
 export const PowerStats = () => {
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
@@ -13,6 +13,13 @@ export const PowerStats = () => {
   const selectedCompany = companiesData.find(
     (company) => company.id === selectedCompanyId
   );
+
+  const getStatusColor = (value: string | number) => {
+    if (typeof value === "string") return "bg-green-500";
+    if (value > 80) return "bg-green-500";
+    if (value > 50) return "bg-yellow-500";
+    return "bg-red-500";
+  };
 
   return (
     <>
@@ -28,25 +35,39 @@ export const PowerStats = () => {
             className="cursor-pointer transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
             onClick={() => setExpandedCard(expandedCard === index ? null : index)}
           >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {stat.value}
-                {stat.unit && <span className="text-sm ml-1">{stat.unit}</span>}
+            <CardContent className="pt-6">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <stat.icon className="h-5 w-5 text-muted-foreground" />
+                  <span className="text-sm font-medium">{stat.title}</span>
+                </div>
+                <Badge variant="outline" className={getStatusColor(stat.value)}>
+                  Good
+                </Badge>
               </div>
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
               
+              <div className="mt-2">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold">{stat.value}</span>
+                  {stat.unit && (
+                    <span className="text-sm text-muted-foreground">
+                      {stat.unit}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stat.description}
+                </p>
+              </div>
+
               {expandedCard === index && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-4 space-y-2"
+                  className="mt-4 pt-4 border-t space-y-2"
                 >
-                  {stat.details.map((detail, detailIndex) => (
+                  {stat.details.map((detail) => (
                     <div
                       key={detail.label}
                       className="flex items-center justify-between text-sm"
