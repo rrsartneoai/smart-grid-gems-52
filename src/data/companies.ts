@@ -17,7 +17,7 @@ export type CompanyData = {
   }[];
 };
 
-import { Battery, Cpu, Zap, Power, DollarSign, Flame } from "lucide-react";
+import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge, Wifi, Timer } from "lucide-react";
 
 export const companiesData: CompanyData[] = [
   {
@@ -69,6 +69,54 @@ export const companiesData: CompanyData[] = [
           { label: "Wydajność", value: "85%" },
           { label: "Emisja CO2", value: "500 g/kWh" },
           { label: "Moc nominalna", value: "20,000 MW" },
+        ],
+      },
+      {
+        title: "Częstotliwość sieci",
+        value: "50.02",
+        unit: "Hz",
+        icon: Activity,
+        description: "Stabilna częstotliwość w normie",
+        details: [
+          { label: "Min", value: "49.98 Hz" },
+          { label: "Max", value: "50.05 Hz" },
+          { label: "Średnia", value: "50.01 Hz" },
+        ],
+      },
+      {
+        title: "Napięcie fazowe",
+        value: "230.5",
+        unit: "V",
+        icon: Gauge,
+        description: "Optymalne napięcie w sieci",
+        details: [
+          { label: "Min", value: "228.0 V" },
+          { label: "Max", value: "232.0 V" },
+          { label: "Średnia", value: "230.2 V" },
+        ],
+      },
+      {
+        title: "Jakość sygnału",
+        value: "98.5",
+        unit: "%",
+        icon: Wifi,
+        description: "Wysoka jakość transmisji danych",
+        details: [
+          { label: "Utracone pakiety", value: "0.02%" },
+          { label: "Opóźnienie", value: "15ms" },
+          { label: "Stabilność", value: "99.9%" },
+        ],
+      },
+      {
+        title: "Czas odpowiedzi",
+        value: "12",
+        unit: "ms",
+        icon: Timer,
+        description: "Szybka komunikacja z urządzeniami",
+        details: [
+          { label: "Min", value: "8 ms" },
+          { label: "Max", value: "25 ms" },
+          { label: "Średnia", value: "15 ms" },
         ],
       },
     ],

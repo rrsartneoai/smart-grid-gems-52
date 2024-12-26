@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bot, User } from "lucide-react";
+import { Bot, Zap } from "lucide-react";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 
@@ -20,7 +20,7 @@ export function ChatMessage({ role, content, timestamp }: ChatMessageProps) {
         {role === "user" ? (
           <>
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback><User className="h-4 w-4" /></AvatarFallback>
+            <AvatarFallback><Zap className="h-4 w-4 text-blue-500" /></AvatarFallback>
           </>
         ) : (
           <>
