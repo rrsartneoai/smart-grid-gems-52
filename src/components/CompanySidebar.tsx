@@ -48,15 +48,16 @@ export function CompanySidebar() {
 
   return (
     <div className="relative h-screen">
-      <Sidebar>
+      <Sidebar className={collapsed ? "w-16" : "w-64"}>
         <SidebarContent>
           <SidebarGroup>
-            <div className="flex items-center justify-between mb-2">
-              <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+            <div className="flex items-center justify-between p-4">
+              {!collapsed && <SidebarGroupLabel>Firmy</SidebarGroupLabel>}
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setCollapsed(!collapsed)}
+                className={collapsed ? "ml-auto" : ""}
               >
                 <Menu className="h-4 w-4" />
               </Button>
@@ -74,18 +75,18 @@ export function CompanySidebar() {
                       }
                     >
                       {getCompanyIcon(company.id)}
-                      <span className="ml-2">{company.name}</span>
+                      {!collapsed && <span className="ml-2">{company.name}</span>}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
                 <SidebarMenuItem>
                   <Button 
                     variant="outline" 
-                    className="w-full mt-4"
+                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-4`}
                     onClick={() => console.log("Add company clicked")}
                   >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Dodaj firmę
+                    <Plus className="w-4 h-4" />
+                    {!collapsed && <span className="ml-2">Dodaj firmę</span>}
                   </Button>
                 </SidebarMenuItem>
               </SidebarMenu>
