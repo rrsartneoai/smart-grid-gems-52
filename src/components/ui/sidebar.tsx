@@ -27,13 +27,18 @@ export function useSidebar() {
   return context;
 }
 
-export function Sidebar({ children }: { children: React.ReactNode }) {
+interface SidebarProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Sidebar({ children, className }: SidebarProps) {
   const { collapsed } = useSidebar();
   return (
     <aside
       className={cn(
         "h-screen sticky top-0 border-r bg-background transition-all duration-300",
-        collapsed ? "w-0 overflow-hidden" : "w-64"
+        className
       )}
     >
       {children}
