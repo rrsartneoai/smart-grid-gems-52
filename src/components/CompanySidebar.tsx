@@ -47,17 +47,16 @@ export function CompanySidebar() {
   const { selectedCompanyId, setSelectedCompanyId } = useCompanyStore();
 
   return (
-    <div className="relative">
+    <div className="relative h-screen">
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-[-120px] top-4 z-50 flex items-center gap-2 px-4"
+        className="absolute left-4 top-4 z-50"
         onClick={() => setCollapsed(!collapsed)}
       >
         <Menu className="h-4 w-4" />
-        <span className="text-sm font-medium">Menu</span>
       </Button>
-      <Sidebar>
+      <Sidebar className="mt-16">
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Firmy</SidebarGroupLabel>
