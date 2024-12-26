@@ -19,12 +19,14 @@ export function ChatMessage({ role, content, timestamp }: ChatMessageProps) {
       <Avatar className="h-8 w-8 mt-1">
         {role === "user" ? (
           <>
-            <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback><Zap className="h-4 w-4 text-blue-500" /></AvatarFallback>
+            <AvatarImage src="/placeholder.svg" alt="User avatar" />
+            <AvatarFallback className="bg-primary">
+              <Zap className="h-4 w-4 text-primary-foreground" />
+            </AvatarFallback>
           </>
         ) : (
           <>
-            <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
+            <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" alt="Assistant avatar" />
             <AvatarFallback><Bot className="h-4 w-4" /></AvatarFallback>
           </>
         )}
