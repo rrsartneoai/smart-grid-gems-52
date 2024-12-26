@@ -48,40 +48,42 @@ export function CompanySidebar() {
 
   return (
     <div className="relative h-screen">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute left-4 top-4 z-50"
-        onClick={() => setCollapsed(!collapsed)}
-      >
-        <Menu className="h-4 w-4" />
-      </Button>
-      <Sidebar className="mt-16">
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Firmy</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {companiesData.map((company) => (
-                  <SidebarMenuItem key={company.id}>
-                    <SidebarMenuButton
-                      onClick={() => setSelectedCompanyId(company.id)}
-                      className={
-                        selectedCompanyId === company.id
-                          ? "bg-accent text-accent-foreground"
-                          : ""
-                      }
-                    >
-                      {getCompanyIcon(company.id)}
-                      <span className="ml-2">{company.name}</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
+      <div className="w-full">
+        <Sidebar>
+          <SidebarContent className="mt-16">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute left-4 top-4"
+              onClick={() => setCollapsed(!collapsed)}
+            >
+              <Menu className="h-4 w-4" />
+            </Button>
+            <SidebarGroup>
+              <SidebarGroupLabel>Firmy</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {companiesData.map((company) => (
+                    <SidebarMenuItem key={company.id}>
+                      <SidebarMenuButton
+                        onClick={() => setSelectedCompanyId(company.id)}
+                        className={
+                          selectedCompanyId === company.id
+                            ? "bg-accent text-accent-foreground"
+                            : ""
+                        }
+                      >
+                        {getCompanyIcon(company.id)}
+                        <span className="ml-2">{company.name}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+        </Sidebar>
+      </div>
     </div>
   );
 }
