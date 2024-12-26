@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Save, StopCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface ChatHeaderProps {
   isSpeaking: boolean;
@@ -33,13 +34,25 @@ export function ChatHeader({ isSpeaking, onStopSpeaking, onSaveHistory }: ChatHe
             <StopCircle className="h-4 w-4" />
           </Button>
         )}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onSaveHistory}
-        >
-          <Save className="h-4 w-4" />
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="flex flex-col items-center">
+                <span className="text-xs text-muted-foreground mb-1">Zapisz</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={onSaveHistory}
+                >
+                  <Save className="h-4 w-4" />
+                </Button>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Zapisz historię rozmowy</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
