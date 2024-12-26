@@ -12,20 +12,41 @@ import { CompanyAnalysis } from "@/components/analysis/CompanyAnalysis";
 import { IoTStatus } from "@/components/status/IoTStatus";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { Button } from "@/components/ui/button";
+import { FileText } from "lucide-react";
+import { generatePDF } from "@/utils/pdfGenerator";
+import { useCompanyStore } from "@/components/CompanySidebar";
+import { companiesData } from "@/data/companies";
 
 const Index = () => {
+  const { selectedCompanyId } = useCompanyStore();
+  const selectedCompany = companiesData.find(
+    (company) => company.id === selectedCompanyId
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <div className="flex justify-between items-center p-4 border-b">
-        <div className="flex flex-col items-start gap-1">
-          <h1 className="text-xl font-semibold">Panel Monitorowania</h1>
-          <p className="text-sm text-muted-foreground">
-            efektywności energetycznej smartgrid na Pomorzu
-          </p>
+        <div className="flex items-center gap-4">
+          <ApiKeySettings />
+          <div className="flex flex-col items-start gap-1">
+            <h1 className="text-xl font-semibold">Panel Monitorowania</h1>
+            <p className="text-sm text-muted-foreground">
+              efektywności energetycznej smartgrid na Pomorzu
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-4">
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+            onClick={() => generatePDF(selectedCompany)}
+          >
+            <FileText className="w-4 h-4" />
+            Generuj raport
+          </Button>
           <DarkModeToggle />
-          <ApiKeySettings />
         </div>
       </div>
       <SidebarProvider>
