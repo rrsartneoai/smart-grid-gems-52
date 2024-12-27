@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Progress } from "@/components/ui/progress";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
   const {
@@ -34,11 +35,15 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return value;
   };
 
+  const isExpanded = expandedCard === index;
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Card
-        className="cursor-move transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
-        onClick={() => setExpandedCard(expandedCard === index ? null : index)}
+        className={`cursor-move transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800 ${
+          isExpanded ? 'ring-2 ring-primary' : ''
+        }`}
+        onClick={() => setExpandedCard(isExpanded ? null : index)}
       >
         <CardContent className="pt-6">
           <div className="flex items-start justify-between mb-2">
@@ -46,9 +51,16 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
               <stat.icon className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm font-medium">{stat.title}</span>
             </div>
-            <Badge variant="outline" className={getStatusColor(stat.value)}>
-              Good
-            </Badge>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className={getStatusColor(stat.value)}>
+                Good
+              </Badge>
+              {isExpanded ? (
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              )}
+            </div>
           </div>
           
           <div className="mt-4">
@@ -69,26 +81,29 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
             </p>
           </div>
 
-          {expandedCard === index && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t space-y-2"
-            >
-              {stat.details.map((detail) => (
-                <div
-                  key={detail.label}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span className="text-muted-foreground">
-                    {detail.label}
-                  </span>
-                  <span className="font-medium">{detail.value}</span>
-                </div>
-              ))}
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="mt-4 pt-4 border-t space-y-2"
+              >
+                {stat.details.map((detail) => (
+                  <div
+                    key={detail.label}
+                    className="flex items-center justify-between text-sm"
+                  >
+                    <span className="text-muted-foreground">
+                      {detail.label}
+                    </span>
+                    <span className="font-medium">{detail.value}</span>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </CardContent>
       </Card>
     </div>
