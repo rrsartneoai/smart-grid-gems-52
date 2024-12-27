@@ -23,26 +23,47 @@ export function ChatInput({
   isPending,
 }: ChatInputProps) {
   return (
-    <form onSubmit={handleSubmit} className="p-4 border-t flex gap-2 bg-background">
+    <form onSubmit={handleSubmit} className="p-4 border-t flex gap-3 bg-background">
       <Input
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Napisz wiadomość..."
-        className="flex-1"
+        className="flex-1 text-base"
         disabled={isPending}
       />
-      <Button type="submit" size="icon" disabled={isPending}>
-        <Send className="h-4 w-4" />
-      </Button>
-      <Button
-        type="button"
-        size="icon"
-        variant="outline"
-        onClick={handleVoiceInput}
-        disabled={isPending}
-      >
-        {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button type="submit" size="icon" disabled={isPending} className="shadow-sm">
+              <Send className="h-5 w-5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Wyślij wiadomość</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              type="button"
+              size="icon"
+              variant="outline"
+              onClick={handleVoiceInput}
+              disabled={isPending}
+              className="shadow-sm"
+            >
+              {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{isRecording ? 'Zatrzymaj nagrywanie' : 'Rozpocznij nagrywanie'}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -52,8 +73,9 @@ export function ChatInput({
               variant="outline"
               onClick={handleClearConversation}
               disabled={isPending}
+              className="shadow-sm"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-5 w-5" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

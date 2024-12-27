@@ -72,14 +72,14 @@ export function Chatbot() {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col bg-background">
+    <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col bg-background shadow-lg rounded-xl">
       <ChatHeader
         isSpeaking={conversation.isSpeaking}
         onStopSpeaking={handleStopSpeaking}
         onSaveHistory={handleSaveHistory}
       />
       
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-6">
         {messages.map((message, i) => (
           <ChatMessage key={i} {...message} />
         ))}
