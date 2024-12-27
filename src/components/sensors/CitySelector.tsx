@@ -9,9 +9,9 @@ export const CitySelector = ({ cities, selectedCity, onCitySelect }: CitySelecto
     {cities.map((city) => (
       <button
         key={city}
-        onClick={() => onCitySelect(city)}
+        onClick={() => onCitySelect(city.toLowerCase())}
         className={`text-xl font-semibold hover:text-primary transition-colors ${
-          selectedCity === city ? "text-primary" : ""
+          selectedCity === city.toLowerCase() ? "text-primary" : ""
         }`}
       >
         {city}

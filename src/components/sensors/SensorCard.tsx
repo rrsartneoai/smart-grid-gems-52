@@ -1,9 +1,9 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LucideIcon } from "lucide-react";
+import { ReactNode } from "react";
 
 interface SensorCardProps {
-  icon: React.ReactElement<LucideIcon>;
+  icon: ReactNode;
   name: string;
   value: string;
   unit: string;
