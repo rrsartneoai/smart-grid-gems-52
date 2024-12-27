@@ -27,7 +27,6 @@ const Index = () => {
     document.documentElement.classList.add("dark");
   }, []);
 
-  // Keyboard shortcuts
   useHotkeys("?", () => {
     toast({
       title: "Dostępne skróty klawiszowe",
@@ -46,12 +45,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Tutorial />
-      <div className="flex justify-between items-center p-4 border-b">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-b">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
           <ApiKeySettings />
-          <div className="flex flex-col items-start gap-1">
-            <h1 className="text-xl font-semibold">Panel Monitorowania</h1>
-            <p className="text-sm text-muted-foreground">
+          <div className="flex flex-col items-center sm:items-start gap-1">
+            <h1 className="text-xl font-semibold text-center sm:text-left">Panel Monitorowania</h1>
+            <p className="text-sm text-muted-foreground text-center sm:text-left">
               efektywności energetycznej smartgrid na Pomorzu
             </p>
           </div>
@@ -62,7 +61,7 @@ const Index = () => {
         </div>
       </div>
       <SidebarProvider>
-        <div className="min-h-screen flex w-full">
+        <div className="min-h-screen flex w-full flex-col lg:flex-row">
           <CompanySidebar />
           <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
             <motion.div
@@ -72,7 +71,7 @@ const Index = () => {
               className="flex flex-col gap-6"
             >
               <Tabs defaultValue="spaces" className="w-full">
-                <TabsList className="w-full justify-start overflow-x-auto">
+                <TabsList className="w-full justify-start overflow-x-auto flex-wrap">
                   <TabsTrigger value="spaces">Przestrzenie</TabsTrigger>
                   <TabsTrigger value="insights">Analiza</TabsTrigger>
                   <TabsTrigger value="status">Status</TabsTrigger>
