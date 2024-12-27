@@ -9,6 +9,7 @@ import {
   Volume2,
   Gauge,
   Sun,
+  Zap,
 } from "lucide-react";
 import {
   Carousel,
@@ -30,7 +31,7 @@ const SensorsPanel = () => {
           icon: <Thermometer className="w-5 h-5" />,
           name: "Temp",
           value: "21.5",
-          unit: "°",
+          unit: "°C",
           status: "Good",
         },
         {
@@ -47,11 +48,74 @@ const SensorsPanel = () => {
           unit: "ppb",
           status: "Good",
         },
+        {
+          icon: <Atom className="w-5 h-5" />,
+          name: "PM 2.5",
+          value: "12",
+          unit: "µg/m³",
+          status: "Good",
+        },
+        {
+          icon: <Atom className="w-5 h-5" />,
+          name: "PM10",
+          value: "15",
+          unit: "µg/m³",
+          status: "Good",
+        },
+        {
+          icon: <Droplet className="w-5 h-5" />,
+          name: "Humidity",
+          value: "45",
+          unit: "%",
+          status: "Good",
+        },
+        {
+          icon: <Volume2 className="w-5 h-5" />,
+          name: "Noise",
+          value: "52",
+          unit: "dBA",
+          status: "Warning",
+        },
+        {
+          icon: <Gauge className="w-5 h-5" />,
+          name: "Pressure",
+          value: "1013",
+          unit: "hPa",
+          status: "Good",
+        },
+        {
+          icon: <Sun className="w-5 h-5" />,
+          name: "Light",
+          value: "75",
+          unit: "%",
+          status: "Good",
+        },
       ],
     },
     gdynia: {
       name: "Gdynia",
       sensors: [
+        {
+          icon: <Thermometer className="w-5 h-5" />,
+          name: "Temp",
+          value: "19.8",
+          unit: "°C",
+          status: "Good",
+        },
+        {
+          icon: <Cloud className="w-5 h-5" />,
+          name: "CO₂",
+          value: "485",
+          unit: "ppm",
+          status: "Good",
+        },
+        {
+          icon: <Wind className="w-5 h-5" />,
+          name: "VOC",
+          value: "52",
+          unit: "ppb",
+          status: "Warning",
+        },
         {
           icon: <Atom className="w-5 h-5" />,
           name: "PM 2.5",
@@ -62,14 +126,35 @@ const SensorsPanel = () => {
         {
           icon: <Atom className="w-5 h-5" />,
           name: "PM10",
-          value: "8",
+          value: "11",
           unit: "µg/m³",
           status: "Good",
         },
         {
           icon: <Droplet className="w-5 h-5" />,
           name: "Humidity",
-          value: "33",
+          value: "55",
+          unit: "%",
+          status: "Good",
+        },
+        {
+          icon: <Volume2 className="w-5 h-5" />,
+          name: "Noise",
+          value: "48",
+          unit: "dBA",
+          status: "Good",
+        },
+        {
+          icon: <Gauge className="w-5 h-5" />,
+          name: "Pressure",
+          value: "1015",
+          unit: "hPa",
+          status: "Good",
+        },
+        {
+          icon: <Sun className="w-5 h-5" />,
+          name: "Light",
+          value: "82",
           unit: "%",
           status: "Good",
         },
@@ -78,6 +163,48 @@ const SensorsPanel = () => {
     sopot: {
       name: "Sopot",
       sensors: [
+        {
+          icon: <Thermometer className="w-5 h-5" />,
+          name: "Temp",
+          value: "20.2",
+          unit: "°C",
+          status: "Good",
+        },
+        {
+          icon: <Cloud className="w-5 h-5" />,
+          name: "CO₂",
+          value: "495",
+          unit: "ppm",
+          status: "Good",
+        },
+        {
+          icon: <Wind className="w-5 h-5" />,
+          name: "VOC",
+          value: "45",
+          unit: "ppb",
+          status: "Good",
+        },
+        {
+          icon: <Atom className="w-5 h-5" />,
+          name: "PM 2.5",
+          value: "10",
+          unit: "µg/m³",
+          status: "Good",
+        },
+        {
+          icon: <Atom className="w-5 h-5" />,
+          name: "PM10",
+          value: "13",
+          unit: "µg/m³",
+          status: "Good",
+        },
+        {
+          icon: <Droplet className="w-5 h-5" />,
+          name: "Humidity",
+          value: "50",
+          unit: "%",
+          status: "Good",
+        },
         {
           icon: <Volume2 className="w-5 h-5" />,
           name: "Noise",
@@ -88,14 +215,14 @@ const SensorsPanel = () => {
         {
           icon: <Gauge className="w-5 h-5" />,
           name: "Pressure",
-          value: "1034",
+          value: "1014",
           unit: "hPa",
           status: "Good",
         },
         {
           icon: <Sun className="w-5 h-5" />,
-          name: "Rel light",
-          value: "0",
+          name: "Light",
+          value: "68",
           unit: "%",
           status: "Good",
         },
@@ -130,7 +257,7 @@ const SensorsPanel = () => {
                   {location.name}
                 </button>
                 <div className="grid gap-4">
-                  {location.sensors.map((sensor, sensorIndex) => (
+                  {locations[selectedCity].sensors.map((sensor, sensorIndex) => (
                     <Card key={sensorIndex} className="p-4">
                       <div className="flex items-center gap-3">
                         <div className="text-muted-foreground">{sensor.icon}</div>
@@ -142,7 +269,11 @@ const SensorsPanel = () => {
                             {sensor.status && (
                               <Badge
                                 variant="outline"
-                                className="bg-green-500/10 text-green-500 border-green-500/20"
+                                className={`${
+                                  sensor.status === "Good"
+                                    ? "bg-green-500/10 text-green-500 border-green-500/20"
+                                    : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
+                                }`}
                               >
                                 {sensor.status}
                               </Badge>
