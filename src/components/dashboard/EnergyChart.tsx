@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
   Legend,
   ReferenceArea,
+  Label,
 } from "recharts";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
@@ -16,6 +17,28 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+
+const CustomTooltip = ({ active, payload, label }) => {
+  if (!active || !payload) return null;
+
+  return (
+    <div className="bg-background/95 border rounded-lg p-3 shadow-lg">
+      <p className="font-medium mb-2">{`Time: ${label}`}</p>
+      {payload.map((entry, index) => (
+        <div key={index} className="flex items-center gap-2 text-sm">
+          <div
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-muted-foreground">{entry.name}:</span>
+          <span className="font-medium">
+            {entry.value} {entry.name === "Efficiency" ? "%" : "MW"}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export function EnergyChart() {
   const { toast } = useToast();
@@ -55,10 +78,15 @@ export function EnergyChart() {
 
   return (
     <Card className="col-span-4 p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold">
-          Zużycie energii - {selectedCompany?.name}
-        </h3>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h3 className="text-lg font-semibold mb-1">
+            Zużycie energii - {selectedCompany?.name}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Monitorowanie zużycia, produkcji i wydajności w czasie rzeczywistym
+          </p>
+        </div>
         <div className="flex gap-2">
           {isZoomed && (
             <Button variant="outline" onClick={handleResetZoom} size="sm">
@@ -77,38 +105,62 @@ export function EnergyChart() {
         </div>
       </div>
       
-      <div className="h-[300px] w-full">
+      <div className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={selectedCompany?.energyData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
             onMouseDown={(e) => setZoomLeft(e?.activeLabel)}
             onMouseMove={(e) => isZoomed && setZoomRight(e?.activeLabel)}
             onMouseUp={() => handleZoom({ left: zoomLeft, right: zoomRight })}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              className="opacity-30"
+            />
             <XAxis 
               dataKey="name" 
+              height={60}
               tick={{ fontSize: 12 }} 
               tickMargin={10}
               domain={isZoomed ? [zoomLeft, zoomRight] : ['auto', 'auto']}
-            />
-            <YAxis tick={{ fontSize: 12 }} tickMargin={10} />
-            <Tooltip 
-              contentStyle={{ 
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
+            >
+              <Label 
+                value="Czas" 
+                position="bottom" 
+                offset={20}
+                className="text-sm fill-muted-foreground"
+              />
+            </XAxis>
+            <YAxis 
+              tick={{ fontSize: 12 }} 
+              tickMargin={10}
+              width={80}
+            >
+              <Label 
+                value="Wartość (MW / %)" 
+                angle={-90} 
+                position="left" 
+                offset={0}
+                className="text-sm fill-muted-foreground"
+              />
+            </YAxis>
+            <Tooltip content={<CustomTooltip />} />
+            <Legend 
+              verticalAlign="bottom" 
+              height={36}
+              wrapperStyle={{
+                paddingTop: "20px",
+                borderTop: "1px solid var(--border)",
               }}
             />
-            <Legend />
             <Line
               type="monotone"
               dataKey="consumption"
               name="Zużycie"
               stroke="#ef4444"
               strokeWidth={2}
-              dot={{ strokeWidth: 2 }}
+              dot={{ strokeWidth: 2, r: 4 }}
               activeDot={{ r: 6 }}
             />
             <Line
@@ -117,16 +169,16 @@ export function EnergyChart() {
               name="Produkcja"
               stroke="#34d399"
               strokeWidth={2}
-              dot={{ strokeWidth: 2 }}
+              dot={{ strokeWidth: 2, r: 4 }}
               activeDot={{ r: 6 }}
             />
             <Line
               type="monotone"
               dataKey="efficiency"
-              name="Wydajność (%)"
+              name="Wydajność"
               stroke="#60a5fa"
               strokeWidth={2}
-              dot={{ strokeWidth: 2 }}
+              dot={{ strokeWidth: 2, r: 4 }}
               activeDot={{ r: 6 }}
             />
             {zoomLeft && zoomRight && (
