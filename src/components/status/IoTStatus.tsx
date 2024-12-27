@@ -12,38 +12,39 @@ export function IoTStatus() {
     (company) => company.id === selectedCompanyId
   );
 
+  // Adjust devices based on company ID
   const devices = [
     {
       id: 1,
-      name: "Smart Meter #1",
+      name: `Smart Meter #${selectedCompanyId}`,
       status: "online",
       lastUpdate: "2 min ago",
-      signal: 95,
-      battery: 80,
+      signal: 95 - (selectedCompanyId * 5),
+      battery: 80 - (selectedCompanyId * 3),
     },
     {
       id: 2,
-      name: "Energy Monitor #2",
-      status: "warning",
+      name: `Energy Monitor #${selectedCompanyId}`,
+      status: selectedCompanyId % 2 === 0 ? "warning" : "online",
       lastUpdate: "5 min ago",
-      signal: 65,
-      battery: 30,
+      signal: 65 - (selectedCompanyId * 2),
+      battery: 30 + (selectedCompanyId * 5),
     },
     {
       id: 3,
-      name: "Power Sensor #3",
-      status: "offline",
+      name: `Power Sensor #${selectedCompanyId}`,
+      status: selectedCompanyId % 3 === 0 ? "offline" : "online",
       lastUpdate: "1 hour ago",
-      signal: 0,
-      battery: 15,
+      signal: selectedCompanyId % 3 === 0 ? 0 : 75,
+      battery: 15 + (selectedCompanyId * 4),
     },
     {
       id: 4,
-      name: "Grid Analyzer #4",
+      name: `Grid Analyzer #${selectedCompanyId}`,
       status: "online",
       lastUpdate: "1 min ago",
-      signal: 88,
-      battery: 90,
+      signal: 88 - (selectedCompanyId * 3),
+      battery: 90 - (selectedCompanyId * 2),
     },
   ];
 
@@ -146,8 +147,6 @@ export function IoTStatus() {
           </motion.div>
         ))}
       </div>
-      
-      <FloatingChatbot />
     </div>
   );
 }

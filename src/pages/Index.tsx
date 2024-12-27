@@ -14,6 +14,7 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useEffect } from "react";
 import { FloatingChatbot } from "@/components/FloatingChatbot";
+import { Chatbot } from "@/components/Chatbot";
 
 const Index = () => {
   useEffect(() => {
@@ -69,6 +70,10 @@ const Index = () => {
                     <div className="w-full">
                       <h2 className="text-2xl font-bold mb-4">Wgraj plik</h2>
                       <FileUpload />
+                    </div>
+                    <div className="w-full">
+                      <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
+                      <Chatbot />
                     </div>
                   </div>
                 </TabsContent>

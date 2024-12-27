@@ -11,7 +11,7 @@ interface SensorCardProps {
 }
 
 export const SensorCard = ({ icon, name, value, unit, status }: SensorCardProps) => (
-  <Card className="p-4">
+  <Card className="p-4 hover:scale-105 transition-transform duration-200">
     <div className="flex items-center gap-3">
       <div className="text-muted-foreground">{icon}</div>
       <div className="flex-1">

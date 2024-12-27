@@ -4,11 +4,14 @@ import { CitySelector } from "./CitySelector";
 import { sensorsData } from "./SensorsData";
 
 const SensorsPanel = () => {
-  const [selectedCity, setSelectedCity] = useState<string>("gdansk"); // Set default city
-  const cities = Object.keys(sensorsData).map(key => sensorsData[key].name);
+  const [selectedCity, setSelectedCity] = useState<string>("gdansk");
+  const cities = Object.keys(sensorsData).map(key => key);
   
-  // Get current city's sensor data safely
-  const currentCityData = selectedCity ? sensorsData[selectedCity.toLowerCase()] : null;
+  const currentCityData = sensorsData[selectedCity];
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city.toLowerCase());
+  };
 
   return (
     <div className="w-full">
@@ -26,7 +29,7 @@ const SensorsPanel = () => {
       <CitySelector
         cities={cities}
         selectedCity={selectedCity}
-        onCitySelect={setSelectedCity}
+        onCitySelect={handleCitySelect}
       />
 
       {currentCityData && (
