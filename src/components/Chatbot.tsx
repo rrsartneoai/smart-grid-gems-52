@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useConversation } from "@11labs/react";
@@ -12,6 +12,7 @@ import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 
 export function Chatbot() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isTyping, setIsTyping] = useState(false);
   const {
     messages,
     input,
@@ -48,6 +49,10 @@ export function Chatbot() {
     }
   }, [messages]);
 
+  useEffect(() => {
+    setIsTyping(isPending);
+  }, [isPending]);
+
   const handleStopSpeaking = () => {
     conversation.endSession();
   };
@@ -77,12 +82,22 @@ export function Chatbot() {
         isSpeaking={conversation.isSpeaking}
         onStopSpeaking={handleStopSpeaking}
         onSaveHistory={handleSaveHistory}
+        isTyping={isTyping}
       />
       
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-6">
-        {messages.map((message, i) => (
-          <ChatMessage key={i} {...message} />
-        ))}
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-6 overflow-y-auto">
+        <div className="space-y-6">
+          {messages.map((message, i) => (
+            <ChatMessage key={i} {...message} />
+          ))}
+          {isTyping && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="animate-pulse">●</span>
+              <span className="animate-pulse delay-75">●</span>
+              <span className="animate-pulse delay-150">●</span>
+            </div>
+          )}
+        </div>
       </ScrollArea>
 
       <ChatInput
