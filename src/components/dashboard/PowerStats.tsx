@@ -18,6 +18,8 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     transition,
   } = useSortable({ id: stat.title });
 
+  const [isHovered, setIsHovered] = useState(false);
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -35,7 +37,7 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return value;
   };
 
-  const isExpanded = expandedCard === index;
+  const isExpanded = expandedCard === index || isHovered;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -50,6 +52,8 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
       style={style} 
       {...attributes} 
       {...listeners}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
@@ -104,7 +108,7 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, delay: isHovered ? 0.1 : 0 }}
                 className="mt-4 pt-4 border-t space-y-2"
               >
                 {stat.details.map((detail) => (
