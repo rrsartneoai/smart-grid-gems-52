@@ -18,6 +18,8 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     transition,
   } = useSortable({ id: stat.title });
 
+  const [isHovered, setIsHovered] = useState(false);
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -35,15 +37,34 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return value;
   };
 
-  const isExpanded = expandedCard === index;
+  const isExpanded = expandedCard === index || isHovered;
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setExpandedCard(expandedCard === index ? null : index);
+    }
+  };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div 
+      ref={setNodeRef} 
+      style={style} 
+      {...attributes} 
+      {...listeners}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-expanded={isExpanded}
+      className="focus:outline-none focus:ring-2 focus:ring-primary rounded-lg"
+    >
       <Card
-        className={`cursor-move transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800 ${
+        className={`cursor-move transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 ${
           isExpanded ? 'ring-2 ring-primary' : ''
         }`}
-        onClick={() => setExpandedCard(isExpanded ? null : index)}
+        onClick={() => setExpandedCard(expandedCard === index ? null : index)}
       >
         <CardContent className="pt-6">
           <div className="flex items-start justify-between mb-2">
@@ -87,7 +108,7 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.2, delay: isHovered ? 0.1 : 0 }}
                 className="mt-4 pt-4 border-t space-y-2"
               >
                 {stat.details.map((detail) => (
