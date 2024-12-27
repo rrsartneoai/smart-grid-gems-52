@@ -10,12 +10,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Factory, Wind, Leaf, Cpu, Zap, Menu, Plus, FileText } from "lucide-react";
+import { Factory, Wind, Leaf, Cpu, Zap, Menu, Plus, FileText, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { companiesData } from "@/data/companies";
 import { create } from "zustand";
 import { generatePDF } from "@/utils/pdfGenerator";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyStore {
   selectedCompanyId: number;
@@ -50,6 +51,7 @@ export function CompanySidebar() {
   const selectedCompany = companiesData.find(
     (company) => company.id === selectedCompanyId
   );
+  const navigate = useNavigate();
 
   return (
     <div className="relative h-screen">
@@ -102,6 +104,16 @@ export function CompanySidebar() {
                   >
                     <FileText className="w-4 h-4" />
                     {!collapsed && <span className="ml-2">Generuj raport</span>}
+                  </Button>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Button
+                    variant="outline"
+                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-2`}
+                    onClick={() => navigate('/assistant')}
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    {!collapsed && <span className="ml-2">Asystent</span>}
                   </Button>
                 </SidebarMenuItem>
               </SidebarMenu>
