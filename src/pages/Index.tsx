@@ -56,7 +56,7 @@ const Index = () => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <NotificationCenter />
           <DarkModeToggle />
         </div>

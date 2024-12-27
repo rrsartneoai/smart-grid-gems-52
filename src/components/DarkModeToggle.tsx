@@ -36,7 +36,6 @@ export function DarkModeToggle() {
       variant="outline"
       size="icon"
       onClick={toggleDarkMode}
-      className="fixed top-4 right-4"
     >
       {isDark ? (
         <Sun className="h-5 w-5 text-yellow-500" />
