@@ -55,13 +55,13 @@ export const ekoEnergiaPlus: Company = {
     }
   ],
   energyData: [
-    { name: "00:00", consumption: 2400, production: 2000, efficiency: 83 },
-    { name: "03:00", consumption: 1398, production: 1200, efficiency: 86 },
-    { name: "06:00", consumption: 9800, production: 8500, efficiency: 87 },
-    { name: "09:00", consumption: 3908, production: 3500, efficiency: 90 },
-    { name: "12:00", consumption: 4800, production: 4200, efficiency: 88 },
-    { name: "15:00", consumption: 3800, production: 3400, efficiency: 89 },
-    { name: "18:00", consumption: 4300, production: 3800, efficiency: 88 },
-    { name: "21:00", consumption: 2400, production: 2100, efficiency: 87 },
+    { timestamp: "00:00", consumption: 2400 },
+    { timestamp: "03:00", consumption: 1398 },
+    { timestamp: "06:00", consumption: 9800 },
+    { timestamp: "09:00", consumption: 3908 },
+    { timestamp: "12:00", consumption: 4800 },
+    { timestamp: "15:00", consumption: 3800 },
+    { timestamp: "18:00", consumption: 4300 },
+    { timestamp: "21:00", consumption: 2400 },
   ],
 };
