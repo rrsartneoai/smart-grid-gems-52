@@ -15,14 +15,37 @@ import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useEffect } from "react";
 import { FloatingChatbot } from "@/components/FloatingChatbot";
 import { Chatbot } from "@/components/Chatbot";
+import { NotificationCenter } from "@/components/ui/notifications/NotificationCenter";
+import { Tutorial } from "@/components/Tutorial";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const { toast } = useToast();
+
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
 
+  // Keyboard shortcuts
+  useHotkeys("?", () => {
+    toast({
+      title: "Dostępne skróty klawiszowe",
+      description: "Ctrl+K: Wyszukiwanie\nCtrl+/: Pomoc\nCtrl+B: Menu boczne",
+    });
+  });
+
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+    toast({
+      title: "Wyszukiwanie",
+      description: "Funkcja wyszukiwania zostanie wkrótce dodana",
+    });
+  });
+
   return (
     <div className="min-h-screen bg-background">
+      <Tutorial />
       <div className="flex justify-between items-center p-4 border-b">
         <div className="flex items-center gap-4">
           <ApiKeySettings />
@@ -33,7 +56,10 @@ const Index = () => {
             </p>
           </div>
         </div>
-        <DarkModeToggle />
+        <div className="flex items-center gap-2">
+          <NotificationCenter />
+          <DarkModeToggle />
+        </div>
       </div>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
