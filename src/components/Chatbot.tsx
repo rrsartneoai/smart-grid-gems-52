@@ -63,41 +63,8 @@ export function Chatbot() {
     },
     onError: (error) => {
       console.error('ElevenLabs error:', error);
-      toast({
-        variant: "destructive",
-        title: "Błąd głosowy",
-        description: "Wystąpił problem z syntezą głosu. Sprawdź czy klucz API jest poprawny.",
-      });
     },
   });
-
-  useEffect(() => {
-    const apiKey = localStorage.getItem('ELEVENLABS_API_KEY');
-    if (!apiKey) {
-      toast({
-        variant: "destructive",
-        title: "Wymagany klucz API",
-        description: "Wprowadź swój klucz API ElevenLabs w ustawieniach, aby włączyć funkcje głosowe.",
-        duration: 5000,
-      });
-    } else {
-      // Sprawdź poprawność klucza API przy starcie
-      fetch('https://api.elevenlabs.io/v1/voices', {
-        headers: {
-          'Accept': 'application/json',
-          'xi-api-key': apiKey
-        }
-      }).catch(error => {
-        console.error('Error validating API key:', error);
-        toast({
-          variant: "destructive",
-          title: "Błędny klucz API",
-          description: "Twój klucz API ElevenLabs jest nieprawidłowy. Sprawdź ustawienia.",
-          duration: 5000,
-        });
-      });
-    }
-  }, [toast]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -132,11 +99,6 @@ export function Chatbot() {
           conversation.setVolume({ volume: 0.8 });
         }).catch(error => {
           console.error('Error starting ElevenLabs session:', error);
-          toast({
-            variant: "destructive",
-            title: "Voice Error",
-            description: "Failed to start voice synthesis. Please check your API key.",
-          });
         });
       }
     },
