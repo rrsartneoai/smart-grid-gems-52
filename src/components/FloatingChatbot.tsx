@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Chatbot } from './Chatbot';
 import { Button } from './ui/button';
-import { Zap } from 'lucide-react';
+import { Bot } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
@@ -28,17 +28,17 @@ export function FloatingChatbot() {
           <TooltipTrigger asChild>
             <Button
               size="lg"
-              className="rounded-full p-4 shadow-lg flex items-center gap-2"
+              className="rounded-full p-4 shadow-lg flex items-center gap-2 bg-primary hover:bg-primary/90"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <Zap className="h-6 w-6 animate-pulse" />
+              <Bot className="h-6 w-6" />
               <span className="text-sm font-medium">
-                {isOpen ? "Zamknij" : "GridBot"}
+                {isOpen ? "Zamknij" : "Asystent AI"}
               </span>
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Asystent AI GridBot</p>
+            <p>Asystent AI - pomoc i analiza danych</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

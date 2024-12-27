@@ -17,6 +17,12 @@ import { create } from "zustand";
 import { generatePDF } from "@/utils/pdfGenerator";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CompanyStore {
   selectedCompanyId: number;
@@ -59,12 +65,13 @@ export function CompanySidebar() {
         <SidebarContent>
           <SidebarGroup>
             <div className="flex items-center justify-between p-4 border-b border-border/50">
-              {!collapsed && <SidebarGroupLabel className="text-lg font-semibold">Firmy</SidebarGroupLabel>}
+              <div className="flex-1">
+                {!collapsed && <h2 className="text-lg font-semibold">Firmy</h2>}
+              </div>
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setCollapsed(!collapsed)}
-                className={collapsed ? "ml-auto" : ""}
               >
                 <Menu className="h-4 w-4" />
               </Button>
@@ -88,34 +95,53 @@ export function CompanySidebar() {
                   </SidebarMenuItem>
                 ))}
                 <div className="mt-4 space-y-2">
-                  <SidebarMenuItem>
-                    <Button 
-                      variant="outline" 
-                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
-                      onClick={() => console.log("Add company clicked")}
-                    >
-                      <Plus className="w-4 h-4" />
-                      {!collapsed && <span className="ml-2">Dodaj firmę</span>}
-                    </Button>
-                  </SidebarMenuItem>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <SidebarMenuItem>
+                          <Button 
+                            variant="outline" 
+                            className={cn(
+                              "w-full gap-2 bg-primary/5 hover:bg-primary/10 border-primary/20",
+                              collapsed && "w-10 p-2"
+                            )}
+                          >
+                            <Plus className="w-4 h-4 text-primary" />
+                            {!collapsed && "Dodaj firmę"}
+                          </Button>
+                        </SidebarMenuItem>
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Dodaj nową firmę do systemu</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+
                   <SidebarMenuItem>
                     <Button
                       variant="outline"
-                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
+                      className={cn(
+                        "w-full gap-2",
+                        collapsed && "w-10 p-2"
+                      )}
                       onClick={() => generatePDF(selectedCompany)}
                     >
                       <FileText className="w-4 h-4" />
-                      {!collapsed && <span className="ml-2">Generuj raport</span>}
+                      {!collapsed && "Generuj raport"}
                     </Button>
                   </SidebarMenuItem>
+
                   <SidebarMenuItem>
                     <Button
                       variant="outline"
-                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
+                      className={cn(
+                        "w-full gap-2",
+                        collapsed && "w-10 p-2"
+                      )}
                       onClick={() => navigate('/assistant')}
                     >
                       <MessageSquare className="w-4 h-4" />
-                      {!collapsed && <span className="ml-2">Asystent</span>}
+                      {!collapsed && "Asystent"}
                     </Button>
                   </SidebarMenuItem>
                 </div>

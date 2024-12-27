@@ -15,10 +15,20 @@ import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, ZoomIn } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
-const CustomTooltip = ({ active, payload, label }) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    name: string;
+    color: string;
+  }>;
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   if (!active || !payload) return null;
 
   return (
@@ -46,12 +56,12 @@ export function EnergyChart() {
   const selectedCompany = companiesData.find(
     (company) => company.id === selectedCompanyId
   );
-  const [zoomLeft, setZoomLeft] = useState(null);
-  const [zoomRight, setZoomRight] = useState(null);
+  const [zoomLeft, setZoomLeft] = useState<string | null>(null);
+  const [zoomRight, setZoomRight] = useState<string | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  const handleZoom = (area) => {
-    if (area.left === area.right || area.left === undefined) {
+  const handleZoom = (area: { left?: string; right?: string }) => {
+    if (!area.left || !area.right || area.left === area.right) {
       setZoomLeft(null);
       setZoomRight(null);
       setIsZoomed(false);
@@ -90,6 +100,7 @@ export function EnergyChart() {
         <div className="flex gap-2">
           {isZoomed && (
             <Button variant="outline" onClick={handleResetZoom} size="sm">
+              <ZoomIn className="h-4 w-4 mr-2" />
               Reset zoom
             </Button>
           )}
@@ -110,9 +121,9 @@ export function EnergyChart() {
           <LineChart
             data={selectedCompany?.energyData}
             margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-            onMouseDown={(e) => setZoomLeft(e?.activeLabel)}
-            onMouseMove={(e) => isZoomed && setZoomRight(e?.activeLabel)}
-            onMouseUp={() => handleZoom({ left: zoomLeft, right: zoomRight })}
+            onMouseDown={(e) => e?.activeLabel && setZoomLeft(e.activeLabel)}
+            onMouseMove={(e) => isZoomed && e?.activeLabel && setZoomRight(e.activeLabel)}
+            onMouseUp={() => handleZoom({ left: zoomLeft || '', right: zoomRight || '' })}
           >
             <CartesianGrid 
               strokeDasharray="3 3" 
@@ -123,7 +134,7 @@ export function EnergyChart() {
               height={60}
               tick={{ fontSize: 12 }} 
               tickMargin={10}
-              domain={isZoomed ? [zoomLeft, zoomRight] : ['auto', 'auto']}
+              domain={isZoomed && zoomLeft && zoomRight ? [zoomLeft, zoomRight] : ['auto', 'auto']}
             >
               <Label 
                 value="Czas" 
