@@ -19,8 +19,6 @@ import { NotificationCenter } from "@/components/ui/notifications/NotificationCe
 import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useToast } from "@/hooks/use-toast";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 
 const Index = () => {
   const { toast } = useToast();
@@ -58,7 +56,6 @@ const Index = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <LanguageSelector />
           <NotificationCenter />
           <DarkModeToggle />
         </div>
@@ -82,19 +79,17 @@ const Index = () => {
                 </TabsList>
                 
                 <TabsContent value="spaces" className="space-y-6">
-                  <ResizablePanelGroup direction="vertical" className="min-h-[800px] rounded-lg border">
-                    <ResizablePanel defaultSize={40}>
-                      <div className="p-4">
+                  <DndContext collisionDetection={closestCenter}>
+                    <SortableContext items={[]} strategy={rectSortingStrategy}>
+                      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                         <PowerStats />
                       </div>
-                    </ResizablePanel>
-                    <ResizableHandle />
-                    <ResizablePanel defaultSize={60}>
-                      <div className="p-4">
-                        <EnergyChart />
-                      </div>
-                    </ResizablePanel>
-                  </ResizablePanelGroup>
+                    </SortableContext>
+                  </DndContext>
+
+                  <div className="grid gap-4">
+                    <EnergyChart />
+                  </div>
 
                   <div className="mt-8 grid gap-8 md:grid-cols-2">
                     <div className="w-full">
