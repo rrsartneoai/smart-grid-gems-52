@@ -8,21 +8,49 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  dataVisualizations?: Array<{
+    type: "consumption" | "production" | "efficiency";
+    title: string;
+  }>;
 }
 
-const getDashboardValue = (query: string): string => {
+const getDashboardValue = (query: string): { text: string; visualizations?: Message["dataVisualizations"] } => {
   const lowercaseQuery = query.toLowerCase();
   
+  // Check for visualization requests
+  if (lowercaseQuery.includes("zużycie") || lowercaseQuery.includes("zuzycie")) {
+    return {
+      text: "Oto wykres zużycia energii w czasie:",
+      visualizations: [{ type: "consumption", title: "Zużycie energii" }]
+    };
+  }
+  
+  if (lowercaseQuery.includes("produkcja")) {
+    return {
+      text: "Oto wykres produkcji energii w czasie:",
+      visualizations: [{ type: "production", title: "Produkcja energii" }]
+    };
+  }
+  
+  if (lowercaseQuery.includes("wydajność") || lowercaseQuery.includes("wydajnosc")) {
+    return {
+      text: "Oto wykres wydajności w czasie:",
+      visualizations: [{ type: "efficiency", title: "Wydajność" }]
+    };
+  }
+
   const matchingStat = companiesData[0]?.stats.find(stat => {
     const title = stat.title.toLowerCase();
     return lowercaseQuery.includes(title);
   });
 
   if (matchingStat) {
-    return `${matchingStat.title}: ${matchingStat.value}${matchingStat.unit ? ' ' + matchingStat.unit : ''} (${matchingStat.description})`;
+    return {
+      text: `${matchingStat.title}: ${matchingStat.value}${matchingStat.unit ? ' ' + matchingStat.unit : ''} (${matchingStat.description})`
+    };
   }
 
-  return "I couldn't find this information in the dashboard.";
+  return { text: "Nie znalazłem tej informacji w panelu." };
 };
 
 export const useChat = () => {
@@ -53,16 +81,18 @@ export const useChat = () => {
   const { mutate: sendMessage, isPending } = useMutation({
     mutationFn: async (input: string) => {
       const dashboardValue = getDashboardValue(input);
-      if (dashboardValue !== "I couldn't find this information in the dashboard.") {
+      if (dashboardValue.text !== "Nie znalazłem tej informacji w panelu.") {
         return dashboardValue;
       }
-      return generateRAGResponse(input);
+      const response = await generateRAGResponse(input);
+      return { text: response };
     },
     onSuccess: (response) => {
       const newMessage = {
         role: "assistant" as const,
-        content: response,
+        content: response.text,
         timestamp: new Date(),
+        dataVisualizations: response.visualizations,
       };
       setMessages((prev) => [...prev, newMessage]);
     },

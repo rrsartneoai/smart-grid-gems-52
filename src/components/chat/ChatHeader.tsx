@@ -6,11 +6,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 interface ChatHeaderProps {
   isSpeaking: boolean;
+  isTyping: boolean;
   onStopSpeaking: () => void;
   onSaveHistory: () => void;
 }
 
-export function ChatHeader({ isSpeaking, onStopSpeaking, onSaveHistory }: ChatHeaderProps) {
+export function ChatHeader({ isSpeaking, isTyping, onStopSpeaking, onSaveHistory }: ChatHeaderProps) {
   return (
     <div className="p-4 border-b flex items-center justify-between bg-card">
       <div className="flex items-center gap-4">
@@ -20,7 +21,9 @@ export function ChatHeader({ isSpeaking, onStopSpeaking, onSaveHistory }: ChatHe
         </Avatar>
         <div>
           <h3 className="text-lg font-semibold tracking-tight">Asystent Sieci Energetycznej</h3>
-          <p className="text-sm text-muted-foreground">Zawsze online</p>
+          <p className="text-sm text-muted-foreground">
+            {isTyping ? "Pisze..." : "Zawsze online"}
+          </p>
         </div>
       </div>
       <div className="flex gap-3">
