@@ -10,10 +10,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Factory, Wind, Leaf, Cpu, Zap, Menu, Plus } from "lucide-react";
+import { Factory, Wind, Leaf, Cpu, Zap, Menu, Plus, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { companiesData } from "@/data/companies";
 import { create } from "zustand";
+import { generatePDF } from "@/utils/pdfGenerator";
+import { cn } from "@/lib/utils";
 
 interface CompanyStore {
   selectedCompanyId: number;
@@ -28,15 +30,15 @@ export const useCompanyStore = create<CompanyStore>((set) => ({
 const getCompanyIcon = (id: number) => {
   switch (id) {
     case 1:
-      return <Factory className="w-4 h-4 text-orange-500" />;
+      return <Factory className="w-4 h-4 text-emerald-500" />;
     case 2:
-      return <Leaf className="w-4 h-4 text-green-500" />;
+      return <Leaf className="w-4 h-4 text-emerald-500" />;
     case 3:
-      return <Wind className="w-4 h-4 text-blue-500" />;
+      return <Wind className="w-4 h-4 text-emerald-500" />;
     case 4:
-      return <Cpu className="w-4 h-4 text-purple-500" />;
+      return <Cpu className="w-4 h-4 text-emerald-500" />;
     case 5:
-      return <Zap className="w-4 h-4 text-yellow-500" />;
+      return <Zap className="w-4 h-4 text-emerald-500" />;
     default:
       return <Factory className="w-4 h-4" />;
   }
@@ -45,10 +47,13 @@ const getCompanyIcon = (id: number) => {
 export function CompanySidebar() {
   const { collapsed, setCollapsed } = useSidebar();
   const { selectedCompanyId, setSelectedCompanyId } = useCompanyStore();
+  const selectedCompany = companiesData.find(
+    (company) => company.id === selectedCompanyId
+  );
 
   return (
     <div className="relative h-screen">
-      <Sidebar className={collapsed ? "w-16" : "w-64"}>
+      <Sidebar>
         <SidebarContent>
           <SidebarGroup>
             <div className="flex items-center justify-between p-4">
@@ -68,11 +73,11 @@ export function CompanySidebar() {
                   <SidebarMenuItem key={company.id}>
                     <SidebarMenuButton
                       onClick={() => setSelectedCompanyId(company.id)}
-                      className={
+                      className={cn(
                         selectedCompanyId === company.id
-                          ? "bg-accent text-accent-foreground"
+                          ? "bg-emerald-500/10 text-emerald-500"
                           : ""
-                      }
+                      )}
                     >
                       {getCompanyIcon(company.id)}
                       {!collapsed && <span className="ml-2">{company.name}</span>}
@@ -87,6 +92,16 @@ export function CompanySidebar() {
                   >
                     <Plus className="w-4 h-4" />
                     {!collapsed && <span className="ml-2">Dodaj firmę</span>}
+                  </Button>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Button
+                    variant="outline"
+                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-2`}
+                    onClick={() => generatePDF(selectedCompany)}
+                  >
+                    <FileText className="w-4 h-4" />
+                    {!collapsed && <span className="ml-2">Generuj raport</span>}
                   </Button>
                 </SidebarMenuItem>
               </SidebarMenu>

@@ -1,0 +1,24 @@
+import { LucideIcon } from "lucide-react";
+
+export interface CompanyStats {
+  title: string;
+  value: string;
+  unit?: string;
+  icon: LucideIcon;
+  description: string;
+  details: { label: string; value: string }[];
+}
+
+export interface EnergyData {
+  name: string;
+  consumption: number;
+  production: number;
+  efficiency: number;
+}
+
+export interface Company {
+  id: number;
+  name: string;
+  stats: CompanyStats[];
+  energyData: EnergyData[];
+}

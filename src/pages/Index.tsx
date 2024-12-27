@@ -12,17 +12,13 @@ import { CompanyAnalysis } from "@/components/analysis/CompanyAnalysis";
 import { IoTStatus } from "@/components/status/IoTStatus";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
-import { generatePDF } from "@/utils/pdfGenerator";
-import { useCompanyStore } from "@/components/CompanySidebar";
-import { companiesData } from "@/data/companies";
+import { useEffect } from "react";
 
 const Index = () => {
-  const { selectedCompanyId } = useCompanyStore();
-  const selectedCompany = companiesData.find(
-    (company) => company.id === selectedCompanyId
-  );
+  // Enable dark mode by default
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -36,18 +32,7 @@ const Index = () => {
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-            onClick={() => generatePDF(selectedCompany)}
-          >
-            <FileText className="w-4 h-4" />
-            Generuj raport
-          </Button>
-          <DarkModeToggle />
-        </div>
+        <DarkModeToggle />
       </div>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">

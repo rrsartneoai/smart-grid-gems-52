@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { Company } from '@/data/companies';
+import type { Company } from '@/types/company';
 
 export const generatePDF = (company: Company | undefined) => {
   if (!company) return;
