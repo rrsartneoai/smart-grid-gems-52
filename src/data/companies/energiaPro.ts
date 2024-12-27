@@ -1,5 +1,5 @@
 import { Company } from "@/types/company";
-import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge } from "lucide-react";
+import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge, Timer as Clock } from "lucide-react";
 
 export const energiaPro: Company = {
   id: 1,
@@ -92,7 +92,7 @@ export const energiaPro: Company = {
       title: "Czas odpowiedzi",
       value: "12",
       unit: "ms",
-      icon: Timer,
+      icon: Clock,
       description: "Szybka komunikacja z urządzeniami",
       details: [
         { label: "Min", value: "8 ms" },
