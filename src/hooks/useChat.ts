@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { generateRAGResponse } from "@/utils/ragUtils";
-import { stats } from "@/components/dashboard/PowerStats";
+import { companiesData } from "@/data/companies";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,7 +13,7 @@ interface Message {
 const getDashboardValue = (query: string): string => {
   const lowercaseQuery = query.toLowerCase();
   
-  const matchingStat = stats.find(stat => {
+  const matchingStat = companiesData[0]?.stats.find(stat => {
     const title = stat.title.toLowerCase();
     return lowercaseQuery.includes(title);
   });
