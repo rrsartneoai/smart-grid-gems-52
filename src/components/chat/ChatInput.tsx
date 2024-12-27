@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Mic, MicOff } from "lucide-react";
+import { Send, Mic, MicOff, Trash2 } from "lucide-react";
+import { Tooltip } from "@/components/ui/tooltip";
 
 interface ChatInputProps {
   input: string;
   setInput: (value: string) => void;
   handleSubmit: (e: React.FormEvent) => void;
   handleVoiceInput: () => void;
+  handleClearConversation: () => void;
   isRecording: boolean;
   isPending: boolean;
 }
@@ -16,6 +18,7 @@ export function ChatInput({
   setInput,
   handleSubmit,
   handleVoiceInput,
+  handleClearConversation,
   isRecording,
   isPending,
 }: ChatInputProps) {
@@ -40,6 +43,17 @@ export function ChatInput({
       >
         {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
       </Button>
+      <Tooltip content="Wyczyść rozmowę">
+        <Button
+          type="button"
+          size="icon"
+          variant="outline"
+          onClick={handleClearConversation}
+          disabled={isPending}
+        >
+          <Trash2 className="h-4 w-4" />
+        </Button>
+      </Tooltip>
     </form>
   );
 }
