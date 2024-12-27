@@ -1,11 +1,15 @@
 import { energiaPro } from "./energiaPro";
 import { greenTech } from "./greenTech";
-// Import other companies...
+import { ekoEnergiaPlus } from "./ekoEnergiaPlus";
+import { smartPowerCorp } from "./smartPowerCorp";
+import { futureEnergy } from "./futureEnergy";
 
 export const companiesData = [
   energiaPro,
   greenTech,
-  // Add other companies...
+  ekoEnergiaPlus,
+  smartPowerCorp,
+  futureEnergy,
 ];
 
 export type { Company } from "@/types/company";
