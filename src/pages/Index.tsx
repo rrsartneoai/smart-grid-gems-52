@@ -64,7 +64,7 @@ const Index = () => {
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
           <CompanySidebar />
-          <main className="flex-1 p-4 lg:container mx-auto">
+          <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
