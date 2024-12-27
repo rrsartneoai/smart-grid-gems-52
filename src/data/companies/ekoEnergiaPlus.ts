@@ -19,7 +19,7 @@ export const ekoEnergiaPlus: Company = {
     },
     {
       title: "Wydajność",
-      value: "87",
+      value: 87,
       unit: "%",
       icon: Zap,
       description: "Ogólna wydajność systemu",
@@ -31,7 +31,7 @@ export const ekoEnergiaPlus: Company = {
     },
     {
       title: "Stan baterii",
-      value: "75",
+      value: 75,
       unit: "%",
       icon: Battery,
       description: "Stan naładowania magazynów energii",
@@ -43,7 +43,7 @@ export const ekoEnergiaPlus: Company = {
     },
     {
       title: "Obciążenie sieci",
-      value: "65",
+      value: 65,
       unit: "%",
       icon: Network,
       description: "Aktualne obciążenie sieci",
@@ -55,13 +55,13 @@ export const ekoEnergiaPlus: Company = {
     }
   ],
   energyData: [
-    { timestamp: "00:00", consumption: 2400 },
-    { timestamp: "03:00", consumption: 1398 },
-    { timestamp: "06:00", consumption: 9800 },
-    { timestamp: "09:00", consumption: 3908 },
-    { timestamp: "12:00", consumption: 4800 },
-    { timestamp: "15:00", consumption: 3800 },
-    { timestamp: "18:00", consumption: 4300 },
-    { timestamp: "21:00", consumption: 2400 },
+    { name: "00:00", value: 2400 },
+    { name: "03:00", value: 1398 },
+    { name: "06:00", value: 9800 },
+    { name: "09:00", value: 3908 },
+    { name: "12:00", value: 4800 },
+    { name: "15:00", value: 3800 },
+    { name: "18:00", value: 4300 },
+    { name: "21:00", value: 2400 },
   ],
 };
