@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { EnergyChart } from "@/components/dashboard/EnergyChart";
 import { PowerStats } from "@/components/dashboard/PowerStats";
-import { Chatbot } from "@/components/Chatbot";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { FileUpload } from "@/components/FileUpload";
 import { ApiKeySettings } from "@/components/settings/ApiKeySettings";
@@ -14,9 +13,9 @@ import SensorsPanel from "@/components/sensors/SensorsPanel";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useEffect } from "react";
+import { FloatingChatbot } from "@/components/FloatingChatbot";
 
 const Index = () => {
-  // Enable dark mode by default
   useEffect(() => {
     document.documentElement.classList.add("dark");
   }, []);
@@ -71,10 +70,6 @@ const Index = () => {
                       <h2 className="text-2xl font-bold mb-4">Wgraj plik</h2>
                       <FileUpload />
                     </div>
-                    <div className="w-full">
-                      <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
-                      <Chatbot />
-                    </div>
                   </div>
                 </TabsContent>
 
@@ -94,6 +89,7 @@ const Index = () => {
           </main>
         </div>
       </SidebarProvider>
+      <FloatingChatbot />
     </div>
   );
 };
