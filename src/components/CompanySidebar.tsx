@@ -54,12 +54,12 @@ export function CompanySidebar() {
   const navigate = useNavigate();
 
   return (
-    <div className="relative h-screen">
+    <div className="relative h-screen border-r border-border/50">
       <Sidebar>
         <SidebarContent>
           <SidebarGroup>
-            <div className="flex items-center justify-between p-4">
-              {!collapsed && <SidebarGroupLabel>Firmy</SidebarGroupLabel>}
+            <div className="flex items-center justify-between p-4 border-b border-border/50">
+              {!collapsed && <SidebarGroupLabel className="text-lg font-semibold">Firmy</SidebarGroupLabel>}
               <Button
                 variant="ghost"
                 size="icon"
@@ -69,15 +69,16 @@ export function CompanySidebar() {
                 <Menu className="h-4 w-4" />
               </Button>
             </div>
-            <SidebarGroupContent>
+            <SidebarGroupContent className="p-2">
               <SidebarMenu>
                 {companiesData.map((company) => (
                   <SidebarMenuItem key={company.id}>
                     <SidebarMenuButton
                       onClick={() => setSelectedCompanyId(company.id)}
                       className={cn(
+                        "transition-colors duration-200 hover:bg-accent",
                         selectedCompanyId === company.id
-                          ? "bg-emerald-500/10 text-emerald-500"
+                          ? "bg-primary/10 text-primary font-medium"
                           : ""
                       )}
                     >
@@ -86,36 +87,38 @@ export function CompanySidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-                <SidebarMenuItem>
-                  <Button 
-                    variant="outline" 
-                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-4`}
-                    onClick={() => console.log("Add company clicked")}
-                  >
-                    <Plus className="w-4 h-4" />
-                    {!collapsed && <span className="ml-2">Dodaj firmę</span>}
-                  </Button>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <Button
-                    variant="outline"
-                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-2`}
-                    onClick={() => generatePDF(selectedCompany)}
-                  >
-                    <FileText className="w-4 h-4" />
-                    {!collapsed && <span className="ml-2">Generuj raport</span>}
-                  </Button>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <Button
-                    variant="outline"
-                    className={`${collapsed ? "w-10 p-2" : "w-full"} mt-2`}
-                    onClick={() => navigate('/assistant')}
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    {!collapsed && <span className="ml-2">Asystent</span>}
-                  </Button>
-                </SidebarMenuItem>
+                <div className="mt-4 space-y-2">
+                  <SidebarMenuItem>
+                    <Button 
+                      variant="outline" 
+                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
+                      onClick={() => console.log("Add company clicked")}
+                    >
+                      <Plus className="w-4 h-4" />
+                      {!collapsed && <span className="ml-2">Dodaj firmę</span>}
+                    </Button>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Button
+                      variant="outline"
+                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
+                      onClick={() => generatePDF(selectedCompany)}
+                    >
+                      <FileText className="w-4 h-4" />
+                      {!collapsed && <span className="ml-2">Generuj raport</span>}
+                    </Button>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Button
+                      variant="outline"
+                      className={`${collapsed ? "w-10 p-2" : "w-full"}`}
+                      onClick={() => navigate('/assistant')}
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      {!collapsed && <span className="ml-2">Asystent</span>}
+                    </Button>
+                  </SidebarMenuItem>
+                </div>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>

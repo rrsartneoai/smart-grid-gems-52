@@ -49,8 +49,16 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased leading-relaxed;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold mb-6 text-foreground/90;
   }
 
   .card-hover {
@@ -59,5 +67,41 @@
 
   .section-fade {
     @apply opacity-0 animate-fade-up;
+  }
+
+  .status-badge {
+    @apply px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-badge-success {
+    @apply bg-success/10 text-success status-badge;
+  }
+
+  .status-badge-warning {
+    @apply bg-warning/10 text-warning status-badge;
+  }
+
+  .status-badge-danger {
+    @apply bg-danger/10 text-danger status-badge;
+  }
+
+  .chart-container {
+    @apply p-6 rounded-lg border bg-card text-card-foreground shadow-sm;
+  }
+
+  .stat-card {
+    @apply p-6 rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-md transition-shadow;
+  }
+
+  .stat-value {
+    @apply text-stat font-bold text-foreground/90;
+  }
+
+  .stat-label {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+
+  .section-divider {
+    @apply my-section border-t border-border/50;
   }
 }

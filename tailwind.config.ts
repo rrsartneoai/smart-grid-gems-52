@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Montserrat", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,6 +55,27 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        success: {
+          DEFAULT: "#22c55e",
+          foreground: "#ffffff",
+        },
+        warning: {
+          DEFAULT: "#eab308",
+          foreground: "#ffffff",
+        },
+        danger: {
+          DEFAULT: "#ef4444",
+          foreground: "#ffffff",
+        },
+      },
+      spacing: {
+        section: "2.5rem",
+      },
+      fontSize: {
+        "stat": "2.5rem",
+      },
+      boxShadow: {
+        'section': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
       keyframes: {
         "fade-up": {
