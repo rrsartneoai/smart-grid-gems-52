@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 import { Badge } from "@/components/ui/badge";
@@ -17,8 +17,6 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     transform,
     transition,
   } = useSortable({ id: stat.title });
-
-  const [isHovered, setIsHovered] = useState(false);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -37,7 +35,7 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return value;
   };
 
-  const isExpanded = expandedCard === index || isHovered;
+  const isExpanded = expandedCard === index;
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -46,25 +44,27 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     }
   };
 
+  const handleClick = useCallback(() => {
+    setExpandedCard(expandedCard === index ? null : index);
+  }, [expandedCard, index, setExpandedCard]);
+
   return (
     <div 
       ref={setNodeRef} 
       style={style} 
       {...attributes} 
       {...listeners}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
       aria-expanded={isExpanded}
-      className="focus:outline-none focus:ring-2 focus:ring-primary rounded-lg"
+      className="focus:outline-none focus:ring-2 focus:ring-primary rounded-lg transition-all duration-300"
     >
       <Card
         className={`cursor-move transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 ${
           isExpanded ? 'ring-2 ring-primary' : ''
         }`}
-        onClick={() => setExpandedCard(expandedCard === index ? null : index)}
+        onClick={handleClick}
       >
         <CardContent className="pt-6">
           <div className="flex items-start justify-between mb-2">
@@ -108,7 +108,7 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2, delay: isHovered ? 0.1 : 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
                 className="mt-4 pt-4 border-t space-y-2"
               >
                 {stat.details.map((detail) => (
