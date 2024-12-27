@@ -17,7 +17,7 @@ export interface EnergyData {
 }
 
 export interface Company {
-  id: string; // Zmieniono z number na string
+  id: string;
   name: string;
   stats: CompanyStats[];
   energyData: EnergyData[];
