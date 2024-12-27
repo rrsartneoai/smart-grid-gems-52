@@ -10,6 +10,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompanyAnalysis } from "@/components/analysis/CompanyAnalysis";
 import { IoTStatus } from "@/components/status/IoTStatus";
+import { SensorsPanel } from "@/components/sensors/SensorsPanel";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useEffect } from "react";
@@ -49,6 +50,7 @@ const Index = () => {
                   <TabsTrigger value="spaces">Przestrzenie</TabsTrigger>
                   <TabsTrigger value="insights">Analiza</TabsTrigger>
                   <TabsTrigger value="status">Status</TabsTrigger>
+                  <TabsTrigger value="sensors">Czujniki</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="spaces" className="space-y-6">
@@ -82,6 +84,10 @@ const Index = () => {
 
                 <TabsContent value="status">
                   <IoTStatus />
+                </TabsContent>
+
+                <TabsContent value="sensors">
+                  <SensorsPanel />
                 </TabsContent>
               </Tabs>
             </motion.div>
