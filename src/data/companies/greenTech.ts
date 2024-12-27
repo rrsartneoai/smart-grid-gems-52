@@ -2,7 +2,7 @@ import { Company } from "@/types/company";
 import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge, Wifi, Timer, Cloud, Sun } from "lucide-react";
 
 export const greenTech: Company = {
-  id: 2,
+  id: "2", // Changed from number to string
   name: "GreenTech Industries",
   stats: [
     {
