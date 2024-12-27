@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Chatbot } from './Chatbot';
 import { Button } from './ui/button';
-import { Bot } from 'lucide-react';
+import { Bot, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
@@ -16,7 +16,8 @@ export function FloatingChatbot() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="mb-4"
+            transition={{ duration: 0.3 }}
+            className="mb-4 w-[90vw] md:w-auto"
           >
             <Chatbot />
           </motion.div>
@@ -28,11 +29,15 @@ export function FloatingChatbot() {
           <TooltipTrigger asChild>
             <Button
               size="lg"
-              className="rounded-full p-4 shadow-lg flex items-center gap-2 bg-primary hover:bg-primary/90"
+              className="rounded-full p-4 shadow-lg flex items-center gap-2 bg-primary hover:bg-primary/90 transition-colors duration-200"
               onClick={() => setIsOpen(!isOpen)}
             >
-              <Bot className="h-6 w-6" />
-              <span className="text-sm font-medium">
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Bot className="h-6 w-6" />
+              )}
+              <span className="text-sm font-medium hidden md:inline">
                 {isOpen ? "Zamknij" : "Asystent AI"}
               </span>
             </Button>

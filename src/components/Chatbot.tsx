@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 import { useChat } from "@/hooks/useChat";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Chatbot() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -77,7 +78,7 @@ export function Chatbot() {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto h-[600px] flex flex-col bg-background shadow-lg rounded-xl">
+    <Card className="w-full max-w-2xl mx-auto h-[600px] md:h-[700px] flex flex-col bg-background shadow-lg rounded-xl">
       <ChatHeader
         isSpeaking={conversation.isSpeaking}
         onStopSpeaking={handleStopSpeaking}
@@ -85,19 +86,33 @@ export function Chatbot() {
         isTyping={isTyping}
       />
       
-      <ScrollArea ref={scrollAreaRef} className="flex-1 p-6 overflow-y-auto">
-        <div className="space-y-6">
-          {messages.map((message, i) => (
-            <ChatMessage key={i} {...message} />
-          ))}
-          {isTyping && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="animate-pulse">●</span>
-              <span className="animate-pulse delay-75">●</span>
-              <span className="animate-pulse delay-150">●</span>
-            </div>
-          )}
-        </div>
+      <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 md:p-6 overflow-y-auto">
+        <AnimatePresence>
+          <div className="space-y-4 md:space-y-6">
+            {messages.map((message, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                <ChatMessage {...message} />
+              </motion.div>
+            ))}
+            {isTyping && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center gap-2 text-sm text-muted-foreground"
+              >
+                <span className="animate-pulse">●</span>
+                <span className="animate-pulse delay-75">●</span>
+                <span className="animate-pulse delay-150">●</span>
+              </motion.div>
+            )}
+          </div>
+        </AnimatePresence>
       </ScrollArea>
 
       <ChatInput
