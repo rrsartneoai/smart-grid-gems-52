@@ -120,7 +120,7 @@ export function EnergyChart() {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={selectedCompany?.energyData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+            margin={{ top: 20, right: 30, left: 20, bottom: 80 }}
             onMouseDown={(e) => e?.activeLabel && setZoomLeft(e.activeLabel)}
             onMouseMove={(e) => isZoomed && e?.activeLabel && setZoomRight(e.activeLabel)}
             onMouseUp={() => handleZoom({ left: zoomLeft || '', right: zoomRight || '' })}
@@ -131,15 +131,17 @@ export function EnergyChart() {
             />
             <XAxis 
               dataKey="name" 
-              height={60}
+              height={80}
               tick={{ fontSize: 12 }} 
-              tickMargin={10}
+              tickMargin={30}
+              angle={-45}
+              textAnchor="end"
               domain={isZoomed && zoomLeft && zoomRight ? [zoomLeft, zoomRight] : ['auto', 'auto']}
             >
               <Label 
                 value="Czas" 
                 position="bottom" 
-                offset={20}
+                offset={50}
                 className="text-sm fill-muted-foreground"
               />
             </XAxis>

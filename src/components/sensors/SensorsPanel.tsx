@@ -17,8 +17,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useState } from "react";
 
 const SensorsPanel = () => {
+  const [selectedCity, setSelectedCity] = useState("gdansk");
+
   const locations = {
     gdansk: {
       name: "Gdańsk",
@@ -115,10 +118,17 @@ const SensorsPanel = () => {
 
       <Carousel className="w-full">
         <CarouselContent>
-          {Object.values(locations).map((location, index) => (
+          {Object.entries(locations).map(([key, location], index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-1">
-                <h3 className="text-xl font-semibold mb-4">{location.name}</h3>
+                <button
+                  onClick={() => setSelectedCity(key)}
+                  className={`text-xl font-semibold mb-4 hover:text-primary transition-colors ${
+                    selectedCity === key ? "text-primary" : ""
+                  }`}
+                >
+                  {location.name}
+                </button>
                 <div className="grid gap-4">
                   {location.sensors.map((sensor, sensorIndex) => (
                     <Card key={sensorIndex} className="p-4">
