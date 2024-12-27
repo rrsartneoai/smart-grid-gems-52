@@ -1,19 +1,15 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
 import { companiesData } from "@/data/companies";
 import { create } from "zustand";
+import { Button } from "@/components/ui/button";
+import { CompanyStoreState } from "@/types/company";
 
-interface CompanyStore {
-  selectedCompanyId: string;
-  setSelectedCompanyId: (id: string) => void;
-}
-
-export const useCompanyStore = create<CompanyStore>((set) => ({
-  selectedCompanyId: companiesData[0].id,
+export const useCompanyStore = create<CompanyStoreState>((set) => ({
+  selectedCompanyId: "1", // Zmieniono na string
   setSelectedCompanyId: (id: string) => set({ selectedCompanyId: id }),
 }));
 
@@ -30,11 +26,11 @@ export function CompanySidebar() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
-          className="fixed left-4 top-4 z-40 lg:hidden"
+          className="lg:hidden"
         >
-          <Menu className="h-4 w-4" />
+          <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] p-0">

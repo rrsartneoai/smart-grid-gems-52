@@ -1,27 +1,9 @@
-export type CompanyData = {
-  id: number;
-  name: string;
-  stats: {
-    title: string;
-    value: string;
-    unit?: string;
-    icon: any;
-    description: string;
-    details: { label: string; value: string }[];
-  }[];
-  energyData: {
-    name: string;
-    consumption: number;
-    production: number;
-    efficiency: number;
-  }[];
-};
-
+import { Company } from "@/types/company";
 import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge, Wifi, Timer } from "lucide-react";
 
-export const companiesData: CompanyData[] = [
+export const companiesData: Company[] = [
   {
-    id: 1,
+    id: "1", // Zmieniono na string
     name: "EnergiaPro S.A.",
     stats: [
       {
@@ -131,7 +113,7 @@ export const companiesData: CompanyData[] = [
     ],
   },
   {
-    id: 2,
+    id: "2", // Zmieniono na string
     name: "GreenTech Industries",
     stats: [
       {
@@ -193,7 +175,7 @@ export const companiesData: CompanyData[] = [
     ],
   },
   {
-    id: 3,
+    id: "3", // Zmieniono na string
     name: "EkoEnergia Plus",
     stats: [
       {
@@ -255,7 +237,7 @@ export const companiesData: CompanyData[] = [
     ],
   },
   {
-    id: 4,
+    id: "4", // Zmieniono na string
     name: "SmartPower Corp",
     stats: [
       {
@@ -317,7 +299,7 @@ export const companiesData: CompanyData[] = [
     ],
   },
   {
-    id: 5,
+    id: "5", // Zmieniono na string
     name: "FutureEnergy Sp. z o.o.",
     stats: [
       {
@@ -377,5 +359,5 @@ export const companiesData: CompanyData[] = [
       { name: "20:00", consumption: 550, production: 520, efficiency: 95 },
       { name: "23:59", consumption: 450, production: 420, efficiency: 93 },
     ],
-  },
+  }
 ];

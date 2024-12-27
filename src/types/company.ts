@@ -17,8 +17,13 @@ export interface EnergyData {
 }
 
 export interface Company {
-  id: number;
+  id: string; // Zmieniono z number na string
   name: string;
   stats: CompanyStats[];
   energyData: EnergyData[];
+}
+
+export interface CompanyStoreState {
+  selectedCompanyId: string | null;
+  setSelectedCompanyId: (id: string) => void;
 }
