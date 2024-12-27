@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 import { Wifi, WifiOff, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function IoTStatus() {
   const { selectedCompanyId } = useCompanyStore();
@@ -62,58 +63,74 @@ export function IoTStatus() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "online":
-        return "bg-green-500";
+        return "bg-green-500/10 text-green-500 border-green-500/20";
       case "offline":
-        return "bg-red-500";
+        return "bg-red-500/10 text-red-500 border-red-500/20";
       case "warning":
-        return "bg-yellow-500";
+        return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
       default:
-        return "bg-blue-500";
+        return "bg-blue-500/10 text-blue-500 border-blue-500/20";
     }
   };
 
   return (
     <div className="relative">
-      <h2 className="text-2xl font-bold mb-6">
+      <motion.h2 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-2xl font-bold mb-6"
+      >
         Status urządzeń IoT - {selectedCompany?.name}
-      </h2>
+      </motion.h2>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {devices.map((device) => (
-          <Card key={device.id} className="p-4">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="font-semibold">{device.name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  Last update: {device.lastUpdate}
-                </p>
+        {devices.map((device, index) => (
+          <motion.div
+            key={device.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Card className="p-4 hover:shadow-lg transition-shadow">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="font-semibold">{device.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Last update: {device.lastUpdate}
+                  </p>
+                </div>
+                <Badge variant="outline" className={getStatusColor(device.status)}>
+                  {getStatusIcon(device.status)}
+                  <span className="ml-1 capitalize">{device.status}</span>
+                </Badge>
               </div>
-              <Badge variant="outline" className={getStatusColor(device.status)}>
-                {getStatusIcon(device.status)}
-                <span className="ml-1 capitalize">{device.status}</span>
-              </Badge>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Signal</span>
-                <div className="flex items-center">
-                  <span className="font-medium">{device.signal}%</span>
-                  <div className="w-20 h-2 bg-gray-200 rounded-full ml-2">
-                    <div
+              
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Signal</span>
+                    <span className="font-medium">{device.signal}%</span>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${device.signal}%` }}
+                      transition={{ duration: 1, delay: index * 0.1 }}
                       className="h-full bg-blue-500 rounded-full"
-                      style={{ width: `${device.signal}%` }}
                     />
                   </div>
                 </div>
-              </div>
-              
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Battery</span>
-                <div className="flex items-center">
-                  <span className="font-medium">{device.battery}%</span>
-                  <div className="w-20 h-2 bg-gray-200 rounded-full ml-2">
-                    <div
+                
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-muted-foreground">Battery</span>
+                    <span className="font-medium">{device.battery}%</span>
+                  </div>
+                  <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${device.battery}%` }}
+                      transition={{ duration: 1, delay: index * 0.1 }}
                       className={`h-full rounded-full ${
                         device.battery > 50
                           ? "bg-green-500"
@@ -121,13 +138,12 @@ export function IoTStatus() {
                           ? "bg-yellow-500"
                           : "bg-red-500"
                       }`}
-                      style={{ width: `${device.battery}%` }}
                     />
                   </div>
                 </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         ))}
       </div>
       

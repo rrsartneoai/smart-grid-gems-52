@@ -6,8 +6,7 @@ import { companiesData } from "@/data/companies";
 import { Badge } from "@/components/ui/badge";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-export const stats = companiesData[0].stats;
+import { Progress } from "@/components/ui/progress";
 
 const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
   const {
@@ -30,6 +29,11 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return "bg-red-500";
   };
 
+  const getProgressValue = (value: string | number) => {
+    if (typeof value === "string") return 100;
+    return value;
+  };
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Card
@@ -47,8 +51,8 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
             </Badge>
           </div>
           
-          <div className="mt-2">
-            <div className="flex items-baseline gap-1">
+          <div className="mt-4">
+            <div className="flex items-baseline gap-1 mb-2">
               <span className="text-2xl font-bold">{stat.value}</span>
               {stat.unit && (
                 <span className="text-sm text-muted-foreground">
@@ -56,7 +60,11 @@ const SortableCard = ({ stat, index, expandedCard, setExpandedCard }) => {
                 </span>
               )}
             </div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <Progress 
+              value={getProgressValue(stat.value)} 
+              className="h-2"
+            />
+            <p className="text-xs text-muted-foreground mt-2">
               {stat.description}
             </p>
           </div>
