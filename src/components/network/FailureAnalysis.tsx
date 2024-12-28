@@ -10,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 interface Failure {
   id: string;
@@ -124,7 +125,7 @@ export function FailureAnalysis() {
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Clock className="w-4 h-4" />
                       <span>
-                        {new Date(failure.timestamp).toLocaleString("pl-PL")}
+                        {new Date(failure.timestamp).toLocaleString()}
                       </span>
                     </div>
                   </div>
