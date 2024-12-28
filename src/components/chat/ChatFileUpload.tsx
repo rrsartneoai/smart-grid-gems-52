@@ -87,14 +87,24 @@ export function ChatFileUpload({ onProcessComplete }: ChatFileUploadProps) {
         throw new Error("Nieobsługiwany format pliku");
       }
 
-      const result = await processDocumentForRAG(text);
+      console.log('Extracted text from file:', text.substring(0, 100) + '...');
+      const topicsText = await processDocumentForRAG(text);
+      console.log('Generated topics:', topicsText);
+      
+      const topics = topicsText
+        .split('\n')
+        .filter(line => line.trim().length > 0)
+        .slice(0, 5)
+        .map(topic => topic.trim());
+
+      console.log('Final processed topics:', topics);
       clearInterval(progressInterval);
 
       setUploadingFiles(prev => prev.map(f => 
         f.file === file ? { ...f, progress: 100, status: 'completed' } : f
       ));
 
-      onProcessComplete(result, []); // Pass the result and an empty array for topics
+      onProcessComplete(text, topics);
 
       toast({
         title: "Sukces",

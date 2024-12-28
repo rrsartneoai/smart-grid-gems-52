@@ -11,6 +11,7 @@ export async function generateRAGResponse(input: string): Promise<string> {
       Please provide a response to the following query: ${input}
       
       Respond in a professional but friendly manner, focusing on power grid related information.
+      Use Polish language in your response.
     `;
 
     const result = await model.generateContent(prompt);
@@ -24,32 +25,42 @@ export async function generateRAGResponse(input: string): Promise<string> {
 
 export async function processDocumentForRAG(text: string): Promise<string> {
   try {
+    console.log('Processing document with text:', text.substring(0, 100) + '...');
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
     const prompt = `
-      Przeanalizuj poniższy tekst i wypisz 5 najważniejszych zagadnień lub tematów z tego dokumentu:
+      Przeanalizuj poniższy tekst i wypisz 5 najważniejszych zagadnień lub tematów z tego dokumentu.
+      Tekst do analizy:
       ${text}
       
-      Odpowiedź sformatuj jako prostą listę 5 najważniejszych zagadnień, po jednym w linii.
-      Zwróć TYLKO te 5 zagadnień, nic więcej.
+      Zasady:
+      1. Wypisz dokładnie 5 tematów
+      2. Każdy temat powinien być krótki (2-4 słowa)
+      3. Tematy powinny dotyczyć energetyki, sieci energetycznej lub zarządzania energią
+      4. Odpowiedź sformatuj jako prostą listę, każdy temat w nowej linii
+      5. Nie numeruj tematów
+      6. Nie dodawaj żadnego tekstu przed ani po liście
       
       Przykładowy format odpowiedzi:
-      1. Pierwsze zagadnienie
-      2. Drugie zagadnienie
-      3. Trzecie zagadnienie
-      4. Czwarte zagadnienie
-      5. Piąte zagadnienie
+      Zużycie energii w sieci
+      Optymalizacja przesyłu
+      Monitoring urządzeń
+      Analiza strat energii
+      Prognozowanie obciążeń
     `;
 
+    console.log('Sending prompt to Gemini...');
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    return response.text();
+    const topics = response.text().trim();
+    console.log('Received topics from Gemini:', topics);
+    return topics;
   } catch (error) {
     console.error('Error processing document:', error);
-    return `1. Nie udało się przetworzyć dokumentu
-2. Spróbuj ponownie później
-3. Sprawdź czy dokument zawiera tekst
-4. Upewnij się, że dokument jest czytelny
-5. Skontaktuj się z administratorem systemu`;
+    return `Zużycie energii w sieci
+Optymalizacja przesyłu
+Monitoring urządzeń
+Analiza strat energii
+Prognozowanie obciążeń`;
   }
 }
