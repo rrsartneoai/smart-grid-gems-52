@@ -50,13 +50,14 @@ export function CompanyAnalysis() {
           const ws = XLSX.utils.json_to_sheet(data);
           const csv = XLSX.utils.sheet_to_csv(ws);
           const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-          const link = document.createElement("a");
           const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
           link.setAttribute("href", url);
           link.setAttribute("download", "analysis.csv");
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+          URL.revokeObjectURL(url);
           break;
         }
         case 'pdf': {
@@ -80,10 +81,14 @@ export function CompanyAnalysis() {
           const element = document.getElementById('analysis-content');
           if (element) {
             const canvas = await html2canvas(element);
+            const url = canvas.toDataURL('image/jpeg');
             const link = document.createElement('a');
             link.download = 'analysis.jpg';
-            link.href = canvas.toDataURL('image/jpeg');
+            link.href = url;
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
           }
           break;
         }
@@ -104,22 +109,22 @@ export function CompanyAnalysis() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center flex-wrap gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 className="text-2xl font-bold">{t("analysis")}</h2>
         <div className="flex flex-wrap gap-2">
-          <Button onClick={() => handleExport('excel')} className="whitespace-nowrap">
+          <Button onClick={() => handleExport('excel')} size="sm" className="whitespace-nowrap">
             {t("exportExcel")}
           </Button>
-          <Button onClick={() => handleExport('csv')} className="whitespace-nowrap">
+          <Button onClick={() => handleExport('csv')} size="sm" className="whitespace-nowrap">
             {t("exportCSV")}
           </Button>
-          <Button onClick={() => handleExport('pdf')} className="whitespace-nowrap">
+          <Button onClick={() => handleExport('pdf')} size="sm" className="whitespace-nowrap">
             {t("exportPDF")}
           </Button>
-          <Button onClick={() => handleExport('jpg')} className="whitespace-nowrap">
+          <Button onClick={() => handleExport('jpg')} size="sm" className="whitespace-nowrap">
             {t("exportJPG")}
           </Button>
-          <Button variant="secondary" className="whitespace-nowrap">
+          <Button variant="secondary" size="sm" className="whitespace-nowrap">
             {t("generateForecast")}
           </Button>
         </div>

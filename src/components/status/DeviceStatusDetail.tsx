@@ -21,59 +21,84 @@ export const DeviceStatusDetail = () => {
   const { t } = useTranslation();
 
   const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Device Status");
-    XLSX.writeFile(wb, "device-status.xlsx");
+    try {
+      const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Device Status");
+      XLSX.writeFile(wb, "device-status.xlsx");
 
-    toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToExcel"),
-    });
+      toast({
+        title: t("exportComplete"),
+        description: t("dataExportedToExcel"),
+      });
+    } catch (error) {
+      toast({
+        title: t("exportError"),
+        description: t("errorExportingData"),
+        variant: "destructive",
+      });
+    }
   };
 
   const exportToCSV = () => {
-    const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
-    const csv = XLSX.utils.sheet_to_csv(ws);
-    
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "device-status.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
+      const csv = XLSX.utils.sheet_to_csv(ws);
+      
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "device-status.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
 
-    toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToCSV"),
-    });
+      toast({
+        title: t("exportComplete"),
+        description: t("dataExportedToCSV"),
+      });
+    } catch (error) {
+      toast({
+        title: t("exportError"),
+        description: t("errorExportingData"),
+        variant: "destructive",
+      });
+    }
   };
 
   const exportToPDF = () => {
-    const doc = new jsPDF();
-    
-    doc.setFontSize(16);
-    doc.text(t("deviceStatusDetails"), 20, 20);
+    try {
+      const doc = new jsPDF();
+      
+      doc.setFontSize(16);
+      doc.text(t("deviceStatusDetails"), 20, 20);
 
-    autoTable(doc, {
-      head: [['Time', 'CPU Usage', 'Memory Usage', 'Network Latency']],
-      body: mockHistoricalData.map(data => [
-        data.time,
-        `${data.cpuUsage}%`,
-        `${data.memoryUsage}%`,
-        `${data.networkLatency}ms`
-      ]),
-      startY: 30,
-    });
+      autoTable(doc, {
+        head: [['Time', 'CPU Usage', 'Memory Usage', 'Network Latency']],
+        body: mockHistoricalData.map(data => [
+          data.time,
+          `${data.cpuUsage}%`,
+          `${data.memoryUsage}%`,
+          `${data.networkLatency}ms`
+        ]),
+        startY: 30,
+      });
 
-    doc.save("device-status.pdf");
+      doc.save("device-status.pdf");
 
-    toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToPDF"),
-    });
+      toast({
+        title: t("exportComplete"),
+        description: t("dataExportedToPDF"),
+      });
+    } catch (error) {
+      toast({
+        title: t("exportError"),
+        description: t("errorExportingData"),
+        variant: "destructive",
+      });
+    }
   };
 
   return (
