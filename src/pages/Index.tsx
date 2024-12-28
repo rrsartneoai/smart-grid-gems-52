@@ -37,11 +37,7 @@ const Index = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsHeaderVisible(false);
-      } else {
-        setIsHeaderVisible(true);
-      }
+      setIsHeaderVisible(currentScrollY < lastScrollY || currentScrollY < 100);
       setLastScrollY(currentScrollY);
     };
 
