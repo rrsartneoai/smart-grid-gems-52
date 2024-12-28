@@ -18,6 +18,7 @@ export function FloatingChatbot() {
     return () => window.removeEventListener('openAssistant', handleOpenAssistant);
   }, []);
 
+  // Hide on spaces tab, show everywhere else
   if (isSpacesTab) return null;
 
   return (

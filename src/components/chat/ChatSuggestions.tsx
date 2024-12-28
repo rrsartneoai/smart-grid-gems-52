@@ -10,9 +10,12 @@ const suggestions = [
 
 interface ChatSuggestionsProps {
   onSuggestionClick: (suggestion: string) => void;
+  visible: boolean;
 }
 
-export function ChatSuggestions({ onSuggestionClick }: ChatSuggestionsProps) {
+export function ChatSuggestions({ onSuggestionClick, visible }: ChatSuggestionsProps) {
+  if (!visible) return null;
+  
   return (
     <div className="flex flex-wrap gap-2 p-4">
       {suggestions.map((suggestion, index) => (

@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export function Chatbot() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(true);
   const {
     messages,
     input,
@@ -55,6 +56,10 @@ export function Chatbot() {
     setIsTyping(isPending);
   }, [isPending]);
 
+  useEffect(() => {
+    setShowSuggestions(messages.length <= 1);
+  }, [messages]);
+
   const handleStopSpeaking = () => {
     conversation.endSession();
   };
@@ -78,6 +83,12 @@ export function Chatbot() {
     URL.revokeObjectURL(url);
   };
 
+  const handleSuggestionClick = (suggestion: string) => {
+    setInput(suggestion);
+    handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+    setShowSuggestions(false);
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto h-[600px] md:h-[700px] flex flex-col bg-background shadow-lg rounded-xl">
       <ChatHeader
@@ -88,12 +99,10 @@ export function Chatbot() {
       />
       
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 md:p-6 overflow-y-auto">
-        {messages.length === 1 && (
-          <ChatSuggestions onSuggestionClick={(suggestion) => {
-            setInput(suggestion);
-            handleSubmit({ preventDefault: () => {} } as React.FormEvent);
-          }} />
-        )}
+        <ChatSuggestions 
+          onSuggestionClick={handleSuggestionClick}
+          visible={showSuggestions}
+        />
         <AnimatePresence>
           <div className="space-y-4 md:space-y-6">
             {messages.map((message, i) => (
