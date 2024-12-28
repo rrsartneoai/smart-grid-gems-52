@@ -1,29 +1,36 @@
-import { LucideIcon } from "lucide-react";
-
-export interface CompanyStats {
-  title: string;
-  value: string;
-  unit?: string;
-  icon: LucideIcon;
-  description: string;
-  details: { label: string; value: string }[];
-}
-
 export interface EnergyData {
   name: string;
-  consumption: number;
-  production: number;
-  efficiency: number;
+  consumption: string;
+  production: string;
+  efficiency: string;
+  value: string;
+  timestamp?: string;
 }
 
 export interface Company {
-  id: string; // Zmieniono z number na string
+  id: string;
   name: string;
-  stats: CompanyStats[];
+  description: string;
+  stats: Stat[];
   energyData: EnergyData[];
+  historicalData: HistoricalData[];
 }
 
-export interface CompanyStoreState {
-  selectedCompanyId: string | null;
-  setSelectedCompanyId: (id: string) => void;
+export interface Stat {
+  title: string;
+  value: number;
+  unit: string;
+  description: string;
+  icon: React.ElementType;
+  details: Detail[];
+}
+
+export interface Detail {
+  label: string;
+  value: string;
+}
+
+export interface HistoricalData {
+  value: string;
+  timestamp: string;
 }

@@ -12,19 +12,15 @@ import { Button } from "@/components/ui/button";
 const tutorialSteps = [
   {
     title: "Witaj w Panelu Monitorowania",
-    description: "Poznaj podstawowe funkcje systemu monitorowania sieci energetycznej.",
+    description: "Poznaj podstawowe funkcje systemu monitorowania sieci energetycznej. Użyj ciemnego motywu dla lepszej czytelności w nocy.",
   },
   {
-    title: "Nawigacja",
-    description: "Użyj menu bocznego, aby przełączać się między firmami. Główne funkcje dostępne są w zakładkach na górze ekranu.",
+    title: "Personalizacja i Nawigacja",
+    description: "Możesz przeciągać kafelki, aby dostosować układ do swoich potrzeb. Użyj zakładek na górze, aby przełączać się między różnymi widokami.",
   },
   {
-    title: "Asystent AI",
-    description: "Asystent AI pomoże Ci w analizie danych i odpowie na Twoje pytania. Możesz go wywołać w dowolnym momencie.",
-  },
-  {
-    title: "Skróty klawiszowe",
-    description: "Naciśnij '?' aby zobaczyć listę dostępnych skrótów klawiszowych. Ctrl+K otwiera wyszukiwarkę.",
+    title: "Szczegółowe Informacje",
+    description: "Kliknij na kafelek, aby zobaczyć więcej szczegółów. Mini-wykresy pokazują trendy w czasie rzeczywistym.",
   },
 ];
 
@@ -55,18 +51,18 @@ export function Tutorial() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent>
+      <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{tutorialSteps[currentStep].title}</DialogTitle>
-          <DialogDescription className="mt-2">
+          <DialogTitle className="text-xl font-bold">{tutorialSteps[currentStep].title}</DialogTitle>
+          <DialogDescription className="mt-4 text-base leading-relaxed">
             {tutorialSteps[currentStep].description}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex justify-between mt-6">
-          <Button variant="ghost" onClick={handleSkip}>
+        <DialogFooter className="flex justify-between mt-8">
+          <Button variant="ghost" onClick={handleSkip} className="hover:bg-secondary">
             Pomiń
           </Button>
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} className="bg-primary hover:bg-primary/90">
             {currentStep === tutorialSteps.length - 1 ? "Zakończ" : "Dalej"}
           </Button>
         </DialogFooter>

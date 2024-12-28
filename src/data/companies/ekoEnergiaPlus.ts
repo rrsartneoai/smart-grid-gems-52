@@ -1,67 +1,86 @@
-import { Battery, Cloud, Cpu, Network, Power, Zap } from "lucide-react";
-import { Company } from "@/types/company";
+import { Company, EnergyData } from "@/types/company";
+import { Battery, Cpu, Activity } from "lucide-react";
+
+const energyData: EnergyData[] = [
+  {
+    name: "Zużycie energii",
+    consumption: "450",
+    production: "600",
+    efficiency: "75",
+    value: "450",
+    timestamp: "2024-03-10T10:00:00"
+  },
+  {
+    name: "Produkcja energii",
+    consumption: "600",
+    production: "600",
+    efficiency: "100",
+    value: "600",
+    timestamp: "2024-03-10T10:00:00"
+  },
+  {
+    name: "Efektywność",
+    consumption: "450",
+    production: "600",
+    efficiency: "75",
+    value: "75",
+    timestamp: "2024-03-10T10:00:00"
+  }
+];
+
+const historicalData = [
+  { value: "42", timestamp: "2024-03-10T10:00:00" },
+  { value: "45", timestamp: "2024-03-10T11:00:00" },
+  { value: "48", timestamp: "2024-03-10T12:00:00" },
+  { value: "51", timestamp: "2024-03-10T13:00:00" },
+  { value: "53", timestamp: "2024-03-10T14:00:00" },
+  { value: "55", timestamp: "2024-03-10T15:00:00" },
+  { value: "58", timestamp: "2024-03-10T16:00:00" },
+  { value: "60", timestamp: "2024-03-10T17:00:00" }
+];
 
 export const ekoEnergiaPlus: Company = {
-  id: "1",
-  name: "EkoEnergia Plus",
+  id: "eko-energia-plus",
+  name: "Eko Energia Plus",
+  description: "Dostawca zielonej energii",
   stats: [
     {
-      title: "Moc całkowita",
-      value: "2.4",
-      unit: "MW",
-      icon: Power,
-      description: "Aktualna moc całkowita systemu",
+      title: "Zużycie energii",
+      value: 450,
+      unit: "kWh",
+      description: "Aktualne zużycie energii",
+      icon: Battery,
       details: [
-        { label: "Szczyt dzienny", value: "2.8 MW" },
-        { label: "Minimum nocne", value: "0.9 MW" },
-        { label: "Średnia 24h", value: "1.9 MW" }
+        { label: "Szczyt dzienny", value: "520 kWh" },
+        { label: "Minimum nocne", value: "180 kWh" },
+        { label: "Średnia 7-dniowa", value: "385 kWh" }
       ]
     },
     {
-      title: "Wydajność",
-      value: 87,
-      unit: "%",
-      icon: Zap,
-      description: "Ogólna wydajność systemu",
+      title: "Produkcja energii",
+      value: 600,
+      unit: "kWh",
+      description: "Aktualna produkcja energii",
+      icon: Cpu,
       details: [
-        { label: "Straty przesyłowe", value: "3%" },
-        { label: "Sprawność konwersji", value: "92%" },
-        { label: "Dostępność", value: "99.9%" }
+        { label: "Panele słoneczne", value: "420 kWh" },
+        { label: "Turbiny wiatrowe", value: "180 kWh" },
+        { label: "Sprawność systemu", value: "92%" }
       ]
     },
     {
-      title: "Stan baterii",
+      title: "Efektywność",
       value: 75,
       unit: "%",
-      icon: Battery,
-      description: "Stan naładowania magazynów energii",
+      description: "Ogólna efektywność systemu",
+      icon: Activity,
       details: [
-        { label: "Temperatura", value: "23°C" },
-        { label: "Cykle ładowania", value: "1,234" },
-        { label: "Żywotność", value: "89%" }
-      ]
-    },
-    {
-      title: "Obciążenie sieci",
-      value: 65,
-      unit: "%",
-      icon: Network,
-      description: "Aktualne obciążenie sieci",
-      details: [
-        { label: "Punkty szczytowe", value: "82%" },
-        { label: "Stabilność", value: "97%" },
-        { label: "Rezerwa mocy", value: "35%" }
+        { label: "Straty przesyłowe", value: "8%" },
+        { label: "Wykorzystanie energii", value: "67%" },
+        { label: "Potencjał optymalizacji", value: "15%" }
       ]
     }
   ],
-  energyData: [
-    { name: "00:00", value: 2400 },
-    { name: "03:00", value: 1398 },
-    { name: "06:00", value: 9800 },
-    { name: "09:00", value: 3908 },
-    { name: "12:00", value: 4800 },
-    { name: "15:00", value: 3800 },
-    { name: "18:00", value: 4300 },
-    { name: "21:00", value: 2400 },
-  ],
+  energyData,
+  historicalData
 };
