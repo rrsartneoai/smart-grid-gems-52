@@ -28,6 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -96,6 +98,47 @@ export function EnergyChart() {
       title: "Dane odświeżone",
       description: "Wykres został zaktualizowany o najnowsze dane",
     });
+  };
+
+  const handleExport = async (format: 'pdf' | 'jpg') => {
+    if (!mapContainer.current) return;
+
+    try {
+      const canvas = await html2canvas(mapContainer.current);
+      
+      if (format === 'pdf') {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('chart-export.pdf');
+        
+        toast({
+          title: "Wykres wyeksportowany",
+          description: "Plik PDF został pobrany",
+        });
+      } else {
+        const link = document.createElement('a');
+        link.download = 'chart-export.jpg';
+        link.href = canvas.toDataURL('image/jpeg');
+        link.click();
+        
+        toast({
+          title: "Wykres wyeksportowany",
+          description: "Plik JPG został pobrany",
+        });
+      }
+    } catch (error) {
+      console.error('Export failed:', error);
+      toast({
+        title: "Błąd eksportu",
+        description: "Nie udało się wyeksportować wykresu",
+        variant: "destructive",
+      });
+    }
   };
 
   const renderChart = () => {
@@ -255,6 +298,22 @@ export function EnergyChart() {
               Reset zoom
             </Button>
           )}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExport('pdf')}
+            className="gap-2"
+          >
+            Eksportuj PDF
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExport('jpg')}
+            className="gap-2"
+          >
+            Eksportuj JPG
+          </Button>
           <Button
             variant="outline"
             size="sm"
