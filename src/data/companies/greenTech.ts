@@ -2,7 +2,7 @@ import { Company } from "@/types/company";
 import { Battery, Cpu, Zap, Power, DollarSign, Flame, Activity, Gauge, Wifi, Timer, Cloud, Sun } from "lucide-react";
 
 export const greenTech: Company = {
-  id: "2", // Changed from number to string
+  id: "2",
   name: "GreenTech Industries",
   stats: [
     {
@@ -103,12 +103,12 @@ export const greenTech: Company = {
     },
   ],
   energyData: [
-    { name: "00:00", consumption: 350, production: 320, efficiency: 91 },
-    { name: "04:00", consumption: 280, production: 260, efficiency: 93 },
-    { name: "08:00", consumption: 550, production: 520, efficiency: 95 },
-    { name: "12:00", consumption: 750, production: 700, efficiency: 93 },
-    { name: "16:00", consumption: 650, production: 600, efficiency: 92 },
-    { name: "20:00", consumption: 450, production: 420, efficiency: 93 },
-    { name: "23:59", consumption: 350, production: 320, efficiency: 91 },
+    { name: "00:00", consumption: 350, production: 320, efficiency: 91, timestamp: "2024-01-01T00:00:00" },
+    { name: "04:00", consumption: 280, production: 260, efficiency: 93, timestamp: "2024-01-01T04:00:00" },
+    { name: "08:00", consumption: 550, production: 520, efficiency: 95, timestamp: "2024-01-01T08:00:00" },
+    { name: "12:00", consumption: 750, production: 700, efficiency: 93, timestamp: "2024-01-01T12:00:00" },
+    { name: "16:00", consumption: 650, production: 600, efficiency: 92, timestamp: "2024-01-01T16:00:00" },
+    { name: "20:00", consumption: 450, production: 420, efficiency: 93, timestamp: "2024-01-01T20:00:00" },
+    { name: "23:59", consumption: 350, production: 320, efficiency: 91, timestamp: "2024-01-01T23:59:00" },
   ],
 };

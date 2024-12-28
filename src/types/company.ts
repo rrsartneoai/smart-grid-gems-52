@@ -3,7 +3,7 @@ export interface EnergyData {
   consumption: number;
   production: number;
   efficiency: number;
-  timestamp: string;
+  timestamp: string; // Required property
 }
 
 export interface Company {

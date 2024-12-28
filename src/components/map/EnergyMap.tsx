@@ -4,6 +4,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useCompanyStore } from '@/components/CompanySidebar';
 import { companiesData } from '@/data/companies';
 
+// Default token - in production, this should be handled more securely
+const MAPBOX_TOKEN = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHM0Z2NyemswMDNqMnFxbzI2eGhvYnl4In0.qL1lc5gPrHs8vLBNiEd7kw';
+
 const EnergyMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -16,7 +19,7 @@ const EnergyMap = () => {
     if (!mapContainer.current) return;
 
     // Initialize map
-    mapboxgl.accessToken = process.env.MAPBOX_TOKEN || '';
+    mapboxgl.accessToken = MAPBOX_TOKEN;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,

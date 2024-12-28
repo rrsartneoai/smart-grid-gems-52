@@ -2,7 +2,7 @@ import { Company } from "@/types/company";
 import { Activity, Battery, Cpu, DollarSign, Flame, Gauge, Power, Zap } from "lucide-react";
 
 export const futureEnergy: Company = {
-  id: "5", // Changed from number to string
+  id: "5",
   name: "FutureEnergy Sp. z o.o.",
   stats: [
     {
@@ -102,12 +102,12 @@ export const futureEnergy: Company = {
     }
   ],
   energyData: [
-    { name: "00:00", consumption: 450, production: 420, efficiency: 93 },
-    { name: "04:00", consumption: 380, production: 360, efficiency: 95 },
-    { name: "08:00", consumption: 650, production: 620, efficiency: 95 },
-    { name: "12:00", consumption: 850, production: 800, efficiency: 94 },
-    { name: "16:00", consumption: 750, production: 700, efficiency: 93 },
-    { name: "20:00", consumption: 550, production: 520, efficiency: 95 },
-    { name: "23:59", consumption: 450, production: 420, efficiency: 93 },
+    { name: "00:00", consumption: 450, production: 420, efficiency: 93, timestamp: "2024-01-01T00:00:00" },
+    { name: "04:00", consumption: 380, production: 360, efficiency: 95, timestamp: "2024-01-01T04:00:00" },
+    { name: "08:00", consumption: 650, production: 620, efficiency: 95, timestamp: "2024-01-01T08:00:00" },
+    { name: "12:00", consumption: 850, production: 800, efficiency: 94, timestamp: "2024-01-01T12:00:00" },
+    { name: "16:00", consumption: 750, production: 700, efficiency: 93, timestamp: "2024-01-01T16:00:00" },
+    { name: "20:00", consumption: 550, production: 520, efficiency: 95, timestamp: "2024-01-01T20:00:00" },
+    { name: "23:59", consumption: 450, production: 420, efficiency: 93, timestamp: "2024-01-01T23:59:00" },
   ],
 };

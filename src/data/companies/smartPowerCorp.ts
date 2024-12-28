@@ -2,7 +2,7 @@ import { Company } from "@/types/company";
 import { Activity, Battery, Cpu, DollarSign, Flame, Gauge, Power, Zap } from "lucide-react";
 
 export const smartPowerCorp: Company = {
-  id: "4", // Changed from number to string
+  id: "4",
   name: "SmartPower Corp",
   stats: [
     {
@@ -102,12 +102,12 @@ export const smartPowerCorp: Company = {
     }
   ],
   energyData: [
-    { name: "00:00", consumption: 250, production: 230, efficiency: 92 },
-    { name: "04:00", consumption: 180, production: 170, efficiency: 94 },
-    { name: "08:00", consumption: 450, production: 420, efficiency: 93 },
-    { name: "12:00", consumption: 650, production: 600, efficiency: 92 },
-    { name: "16:00", consumption: 550, production: 500, efficiency: 91 },
-    { name: "20:00", consumption: 350, production: 320, efficiency: 91 },
-    { name: "23:59", consumption: 250, production: 230, efficiency: 92 },
+    { name: "00:00", consumption: 250, production: 230, efficiency: 92, timestamp: "2024-01-01T00:00:00" },
+    { name: "04:00", consumption: 180, production: 170, efficiency: 94, timestamp: "2024-01-01T04:00:00" },
+    { name: "08:00", consumption: 450, production: 420, efficiency: 93, timestamp: "2024-01-01T08:00:00" },
+    { name: "12:00", consumption: 650, production: 600, efficiency: 92, timestamp: "2024-01-01T12:00:00" },
+    { name: "16:00", consumption: 550, production: 500, efficiency: 91, timestamp: "2024-01-01T16:00:00" },
+    { name: "20:00", consumption: 350, production: 320, efficiency: 91, timestamp: "2024-01-01T20:00:00" },
+    { name: "23:59", consumption: 250, production: 230, efficiency: 92, timestamp: "2024-01-01T23:59:00" },
   ],
 };
