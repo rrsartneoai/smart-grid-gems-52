@@ -1,25 +1,24 @@
 import { Card } from "@/components/ui/card";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useTranslation } from "react-i18next";
 
 interface ChartProps {
   data: Array<{
     time: string;
-    efficiency: number;
     consumption: number;
-    production: number;
+    efficiency: number;
   }>;
 }
 
-export function PerformanceChart({ data }: ChartProps) {
+export function CorrelationChart({ data }: ChartProps) {
   const { t } = useTranslation();
 
   return (
     <Card className="p-6 bg-[#0a0f1c] border-[#1f2937]">
-      <h3 className="text-lg font-semibold mb-4 text-white">Trendy zużycia energii</h3>
+      <h3 className="text-lg font-semibold mb-4 text-white">Analiza korelacji</h3>
       <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <BarChart data={data}>
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis 
               dataKey="time" 
@@ -47,23 +46,19 @@ export function PerformanceChart({ data }: ChartProps) {
                 color: '#fff'
               }}
             />
-            <Line
-              type="monotone"
-              dataKey="consumption"
-              name="Zużycie"
-              stroke="#818cf8"
-              strokeWidth={2}
-              dot={{ fill: '#818cf8', strokeWidth: 2 }}
+            <Bar 
+              dataKey="consumption" 
+              name="Zużycie" 
+              fill="#818cf8" 
+              radius={[4, 4, 0, 0]}
             />
-            <Line
-              type="monotone"
-              dataKey="production"
-              name="Produkcja"
-              stroke="#34d399"
-              strokeWidth={2}
-              dot={{ fill: '#34d399', strokeWidth: 2 }}
+            <Bar 
+              dataKey="efficiency" 
+              name="Wydajność" 
+              fill="#34d399"
+              radius={[4, 4, 0, 0]} 
             />
-          </LineChart>
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </Card>
