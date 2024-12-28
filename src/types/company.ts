@@ -3,6 +3,7 @@ export interface EnergyData {
   consumption: number;
   production: number;
   efficiency: number;
+  timestamp: string;
 }
 
 export interface Company {
@@ -29,7 +30,7 @@ export interface Detail {
 }
 
 export interface HistoricalData {
-  value: string;
+  value: number;
   timestamp: string;
 }
 

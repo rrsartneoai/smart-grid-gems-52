@@ -20,6 +20,7 @@ import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useToast } from "@/hooks/use-toast";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import EnergyMap from "@/components/map/EnergyMap";
 
 const Index = () => {
   const { toast } = useToast();
@@ -91,6 +92,10 @@ const Index = () => {
 
                   <div className="grid gap-4">
                     <EnergyChart />
+                  </div>
+
+                  <div className="grid gap-4">
+                    <EnergyMap />
                   </div>
 
                   <div className="mt-8 grid gap-8 md:grid-cols-2">

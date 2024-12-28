@@ -4,39 +4,36 @@ import { Battery, Cpu, Activity } from "lucide-react";
 const energyData: EnergyData[] = [
   {
     name: "Zużycie energii",
-    consumption: "450",
-    production: "600",
-    efficiency: "75",
-    value: "450",
+    consumption: 450,
+    production: 600,
+    efficiency: 75,
     timestamp: "2024-03-10T10:00:00"
   },
   {
     name: "Produkcja energii",
-    consumption: "600",
-    production: "600",
-    efficiency: "100",
-    value: "600",
+    consumption: 600,
+    production: 600,
+    efficiency: 100,
     timestamp: "2024-03-10T10:00:00"
   },
   {
     name: "Efektywność",
-    consumption: "450",
-    production: "600",
-    efficiency: "75",
-    value: "75",
+    consumption: 450,
+    production: 600,
+    efficiency: 75,
     timestamp: "2024-03-10T10:00:00"
   }
 ];
 
 const historicalData = [
-  { value: "42", timestamp: "2024-03-10T10:00:00" },
-  { value: "45", timestamp: "2024-03-10T11:00:00" },
-  { value: "48", timestamp: "2024-03-10T12:00:00" },
-  { value: "51", timestamp: "2024-03-10T13:00:00" },
-  { value: "53", timestamp: "2024-03-10T14:00:00" },
-  { value: "55", timestamp: "2024-03-10T15:00:00" },
-  { value: "58", timestamp: "2024-03-10T16:00:00" },
-  { value: "60", timestamp: "2024-03-10T17:00:00" }
+  { value: 42, timestamp: "2024-03-10T10:00:00" },
+  { value: 45, timestamp: "2024-03-10T11:00:00" },
+  { value: 48, timestamp: "2024-03-10T12:00:00" },
+  { value: 51, timestamp: "2024-03-10T13:00:00" },
+  { value: 53, timestamp: "2024-03-10T14:00:00" },
+  { value: 55, timestamp: "2024-03-10T15:00:00" },
+  { value: 58, timestamp: "2024-03-10T16:00:00" },
+  { value: 60, timestamp: "2024-03-10T17:00:00" }
 ];
 
 export const ekoEnergiaPlus: Company = {
