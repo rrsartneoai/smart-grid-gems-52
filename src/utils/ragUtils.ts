@@ -2,16 +2,17 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY || "");
 
-export async function generateRAGResponse(input: string): Promise<string> {
+export async function generateRAGResponse(input: string, context?: string): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
     const prompt = `
-      You are an AI assistant specializing in power grid management and energy systems.
-      Please provide a response to the following query: ${input}
+      Kontekst: ${context || "Brak dodatkowego kontekstu"}
       
-      Respond in a professional but friendly manner, focusing on power grid related information.
-      Use Polish language in your response.
+      Pytanie użytkownika: ${input}
+      
+      Odpowiedz na pytanie używając informacji z kontekstu. Jeśli pytanie wykracza poza kontekst,
+      poinformuj o tym użytkownika. Odpowiadaj w języku polskim.
     `;
 
     const result = await model.generateContent(prompt);

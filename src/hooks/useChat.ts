@@ -14,66 +14,6 @@ interface Message {
   }>;
 }
 
-const getDashboardValue = (query: string): { text: string; visualizations?: Message["dataVisualizations"] } => {
-  const lowercaseQuery = query.toLowerCase();
-  
-  // Add IoT status related queries
-  if (lowercaseQuery.includes("status iot") || lowercaseQuery.includes("stan urządzeń")) {
-    const deviceStatus = {
-      activeDevices: "85%",
-      networkConnection: "92%",
-      signalQuality: "78%",
-      cpuUsage: "45%",
-      memoryUsage: "60%",
-      networkLatency: "25%"
-    };
-
-    return {
-      text: `Status IoT:\n
-      Aktywne urządzenia: ${deviceStatus.activeDevices}
-      Połączenie sieciowe: ${deviceStatus.networkConnection}
-      Jakość sygnału: ${deviceStatus.signalQuality}
-      Użycie CPU: ${deviceStatus.cpuUsage}
-      Użycie pamięci: ${deviceStatus.memoryUsage}
-      Opóźnienie sieci: ${deviceStatus.networkLatency}`
-    };
-  }
-
-  if (lowercaseQuery.includes("zużycie") || lowercaseQuery.includes("zuzycie")) {
-    return {
-      text: "Oto wykres zużycia energii w czasie:",
-      visualizations: [{ type: "consumption", title: "Zużycie energii" }]
-    };
-  }
-  
-  if (lowercaseQuery.includes("produkcja")) {
-    return {
-      text: "Oto wykres produkcji energii w czasie:",
-      visualizations: [{ type: "production", title: "Produkcja energii" }]
-    };
-  }
-  
-  if (lowercaseQuery.includes("wydajność") || lowercaseQuery.includes("wydajnosc")) {
-    return {
-      text: "Oto wykres wydajności w czasie:",
-      visualizations: [{ type: "efficiency", title: "Wydajność" }]
-    };
-  }
-
-  const matchingStat = companiesData[0]?.stats.find(stat => {
-    const title = stat.title.toLowerCase();
-    return lowercaseQuery.includes(title);
-  });
-
-  if (matchingStat) {
-    return {
-      text: `${matchingStat.title}: ${matchingStat.value}${matchingStat.unit ? ' ' + matchingStat.unit : ''} (${matchingStat.description})`
-    };
-  }
-
-  return { text: "Nie znalazłem tej informacji w panelu." };
-};
-
 export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -83,6 +23,7 @@ export const useChat = () => {
     },
   ]);
   const [input, setInput] = useState("");
+  const [fileContext, setFileContext] = useState<string>("");
   const { toast } = useToast();
 
   const clearConversation = () => {
@@ -93,6 +34,7 @@ export const useChat = () => {
         timestamp: new Date(),
       },
     ]);
+    setFileContext("");
     toast({
       title: "Konwersacja wyczyszczona",
       description: "Historia czatu została zresetowana.",
@@ -105,11 +47,7 @@ export const useChat = () => {
 
   const { mutate: sendMessage, isPending } = useMutation({
     mutationFn: async (input: string) => {
-      const dashboardValue = getDashboardValue(input);
-      if (dashboardValue.text !== "Nie znalazłem tej informacji w panelu.") {
-        return dashboardValue;
-      }
-      const response = await generateRAGResponse(input);
+      const response = await generateRAGResponse(input, fileContext);
       return { text: response };
     },
     onSuccess: (response) => {
@@ -117,7 +55,6 @@ export const useChat = () => {
         role: "assistant" as const,
         content: response.text,
         timestamp: new Date(),
-        dataVisualizations: response.visualizations,
       };
       setMessages((prev) => [...prev, newMessage]);
     },
@@ -151,6 +88,7 @@ export const useChat = () => {
     handleSubmit,
     isPending,
     clearConversation,
-    addMessage // Added this to the return value
+    addMessage,
+    setFileContext
   };
 };
