@@ -58,11 +58,11 @@ export function Tutorial() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{tutorialSteps[currentStep].title}</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="mt-2">
             {tutorialSteps[currentStep].description}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="flex justify-between">
+        <DialogFooter className="flex justify-between mt-6">
           <Button variant="ghost" onClick={handleSkip}>
             Pomiń
           </Button>

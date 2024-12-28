@@ -19,6 +19,7 @@ import { NotificationCenter } from "@/components/ui/notifications/NotificationCe
 import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useToast } from "@/hooks/use-toast";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 const Index = () => {
   const { toast } = useToast();
@@ -56,6 +57,7 @@ const Index = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          <LanguageSelector />
           <NotificationCenter />
           <DarkModeToggle />
         </div>
