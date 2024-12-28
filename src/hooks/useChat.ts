@@ -9,7 +9,7 @@ interface Message {
   content: string;
   timestamp: Date;
   dataVisualizations?: Array<{
-    type: "consumption" | "production" | "efficiency";
+    type: "consumption" | "production" | "efficiency" | "topic";
     title: string;
   }>;
 }
@@ -99,6 +99,10 @@ export const useChat = () => {
     });
   };
 
+  const addMessage = (message: Message) => {
+    setMessages(prev => [...prev, message]);
+  };
+
   const { mutate: sendMessage, isPending } = useMutation({
     mutationFn: async (input: string) => {
       const dashboardValue = getDashboardValue(input);
@@ -146,6 +150,7 @@ export const useChat = () => {
     setInput,
     handleSubmit,
     isPending,
-    clearConversation
+    clearConversation,
+    addMessage // Added this to the return value
   };
 };
