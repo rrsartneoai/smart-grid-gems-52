@@ -10,6 +10,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { DateRange } from "react-day-picker";
 
 interface DateRangePickerProps {
   onRangeChange: (range: { from: Date; to: Date }) => void;
@@ -17,10 +18,7 @@ interface DateRangePickerProps {
 
 export function DateRangePicker({ onRangeChange }: DateRangePickerProps) {
   const { t } = useTranslation();
-  const [date, setDate] = useState<{
-    from: Date;
-    to?: Date;
-  }>({
+  const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(),
     to: new Date(),
   });
@@ -58,10 +56,14 @@ export function DateRangePicker({ onRangeChange }: DateRangePickerProps) {
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={(range) => {
-              if (range?.from && range?.to) {
-                setDate(range);
-                onRangeChange(range);
+            onSelect={(newDate) => {
+              setDate(newDate);
+              // Only call onRangeChange when both dates are selected
+              if (newDate?.from && newDate?.to) {
+                onRangeChange({
+                  from: newDate.from,
+                  to: newDate.to
+                });
               }
             }}
             numberOfMonths={2}
