@@ -21,6 +21,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useToast } from "@/hooks/use-toast";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import EnergyMap from "@/components/map/EnergyMap";
+import { DeviceStatus } from "@/components/network/DeviceStatus";
+import { NetworkMap } from "@/components/network/NetworkMap";
+import { FailureAnalysis } from "@/components/network/FailureAnalysis";
 
 const Index = () => {
   const { toast } = useToast();
@@ -92,6 +95,18 @@ const Index = () => {
 
                   <div className="grid gap-4">
                     <EnergyChart />
+                  </div>
+
+                  <div className="grid gap-4">
+                    <DeviceStatus />
+                  </div>
+
+                  <div className="grid gap-4">
+                    <NetworkMap />
+                  </div>
+
+                  <div className="grid gap-4">
+                    <FailureAnalysis />
                   </div>
 
                   <div className="grid gap-4">
