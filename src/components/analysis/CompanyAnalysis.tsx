@@ -36,7 +36,11 @@ export function CompanyAnalysis() {
   };
 
   if (!company) {
-    return <div className="p-6 text-white">Wybierz firmę z panelu bocznego</div>;
+    return (
+      <div className="flex items-center justify-center h-[calc(100vh-200px)] text-white text-lg">
+        Wybierz firmę z panelu bocznego
+      </div>
+    );
   }
 
   return (
