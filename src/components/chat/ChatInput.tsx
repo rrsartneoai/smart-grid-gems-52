@@ -4,7 +4,7 @@ import { Send, Mic, MicOff, Trash2, Upload } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
 import { ChatFileUpload } from "./ChatFileUpload";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 interface ChatInputProps {
   input: string;
@@ -27,7 +27,7 @@ export function ChatInput({
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showFileUpload, setShowFileUpload] = useState(false);
-  const [fileSummaries, setFileSummaries] = useState<Array<{ topic: string }>>([]);
+  const [fileSummaries, setFileSummaries] = useState<string[]>([]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -44,7 +44,7 @@ export function ChatInput({
   };
 
   const handleFileProcessComplete = (text: string, topics: string[]) => {
-    setFileSummaries(topics.map(topic => ({ topic })));
+    setFileSummaries(topics);
     toast({
       title: "Plik przetworzony",
       description: "Kliknij w temat, aby uzyskać więcej informacji",
@@ -67,14 +67,14 @@ export function ChatInput({
 
       {fileSummaries.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-2">
-          {fileSummaries.map((summary, index) => (
+          {fileSummaries.map((topic, index) => (
             <Button
               key={index}
               variant="secondary"
               size="sm"
-              onClick={() => handleTopicClick(summary.topic)}
+              onClick={() => handleTopicClick(topic)}
             >
-              {summary.topic}
+              {topic}
             </Button>
           ))}
         </div>

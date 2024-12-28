@@ -18,7 +18,7 @@ interface UploadingFile {
 }
 
 interface ChatFileUploadProps {
-  onProcessComplete: (text: string) => void;
+  onProcessComplete: (text: string, topics: string[]) => void;
 }
 
 export function ChatFileUpload({ onProcessComplete }: ChatFileUploadProps) {
@@ -41,7 +41,7 @@ export function ChatFileUpload({ onProcessComplete }: ChatFileUploadProps) {
   };
 
   const handleFileUpload = async (file: File) => {
-    console.log('Rozpoczęto przetwarzanie pliku w chacie:', file.name);
+    console.log('Rozpoczynam przetwarzanie pliku w chacie:', file.name);
     const startTime = Date.now();
     let preview = undefined;
 
@@ -94,7 +94,7 @@ export function ChatFileUpload({ onProcessComplete }: ChatFileUploadProps) {
         f.file === file ? { ...f, progress: 100, status: 'completed' } : f
       ));
 
-      onProcessComplete(result);
+      onProcessComplete(result, []); // Pass the result and an empty array for topics
 
       toast({
         title: "Sukces",
