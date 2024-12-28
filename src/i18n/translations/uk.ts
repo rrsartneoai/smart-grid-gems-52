@@ -14,7 +14,6 @@ export default {
     "selectCity": "Вибрати місто",
     "selectParameter": "Вибрати параметр",
     "comparison": "Порівняння",
-    "changeLanguage": "Змінити мову",
     
     // Export Actions
     "exportComplete": "Експорт завершено",
@@ -44,12 +43,6 @@ export default {
     // Tooltips
     "clickForDetails": "Натисніть для деталей",
     "scrollForMore": "Прокрутіть для додаткової інформації",
-    "compareData": "Порівняти дані між містами",
-    
-    // Shortcuts
-    "availableShortcuts": "Доступні комбінації клавіш",
-    "shortcutsDescription": "Ctrl+K: Пошук\nCtrl+/: Допомога\nCtrl+B: Бічне меню",
-    "search": "Пошук",
-    "searchComingSoon": "Функція пошуку скоро з'явиться"
+    "compareData": "Порівняти дані між містами"
   }
 };
