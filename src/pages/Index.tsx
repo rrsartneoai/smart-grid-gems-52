@@ -14,6 +14,7 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useEffect, useRef, useState } from "react";
 import { FloatingChatbot } from "@/components/FloatingChatbot";
+import { Chatbot } from "@/components/Chatbot";
 import { NotificationCenter } from "@/components/ui/notifications/NotificationCenter";
 import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
