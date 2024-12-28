@@ -7,6 +7,7 @@ export default {
     "spaces": "Przestrzenie",
     "analysis": "Analiza",
     "status": "Status",
+    "sensors": "Czujniki",
     "uploadFile": "Wgraj plik",
     "aiAssistant": "Asystent AI",
     "dataComparison": "Porównanie Danych",
@@ -69,9 +70,6 @@ export default {
     "checkPowerQuality": "Sprawdzić jakość zasilania",
     "verifyMeasurementModule": "Zweryfikować moduł pomiarowy",
     "performCalibration": "Przeprowadzić kalibrację",
-    "critical": "Krytyczny",
-    
-    // Language
-    "languageChanged": "Zmieniono język"
+    "critical": "Krytyczny"
   }
 };

@@ -10,7 +10,6 @@ import {
   XCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useTranslation } from 'react-i18next';
 
 interface Failure {
   id: string;
