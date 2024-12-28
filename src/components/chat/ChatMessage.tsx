@@ -15,9 +15,18 @@ interface ChatMessageProps {
   onTopicClick?: (topic: string) => void;
 }
 
-export function ChatMessage({ role, content, timestamp, dataVisualizations, onTopicClick }: ChatMessageProps) {
+export function ChatMessage({ role, content, timestamp, dataVisualizations = [], onTopicClick }: ChatMessageProps) {
   const time = format(timestamp, "HH:mm", { locale: pl });
   const isAssistant = role === "assistant";
+
+  // Add example topics if no topics are provided and it's the first assistant message
+  const topics = dataVisualizations.length === 0 && isAssistant ? [
+    { type: "topic" as const, title: "Zużycie energii" },
+    { type: "topic" as const, title: "Produkcja energii" },
+    { type: "topic" as const, title: "Wydajność systemu" },
+    { type: "topic" as const, title: "Status urządzeń" },
+    { type: "topic" as const, title: "Analiza sieci" }
+  ] : dataVisualizations;
 
   const handleTopicClick = (topic: string) => {
     if (onTopicClick) {
@@ -48,9 +57,9 @@ export function ChatMessage({ role, content, timestamp, dataVisualizations, onTo
         >
           <p className="whitespace-pre-wrap">{content}</p>
           
-          {dataVisualizations && dataVisualizations.length > 0 && (
+          {topics && topics.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
-              {dataVisualizations.map((viz, index) => {
+              {topics.map((viz, index) => {
                 if (viz.type === "topic") {
                   return (
                     <Button
