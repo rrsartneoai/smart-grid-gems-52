@@ -30,34 +30,46 @@ export default {
     "generateForecast": "Generuj prognozę",
     
     // Device Status
-    "deviceStatusDetails": "Szczegóły statusu urządzenia",
-    "cpuUsage": "Użycie CPU",
-    "memoryUsage": "Użycie pamięci",
-    "networkLatency": "Opóźnienie sieci",
-    "current": "Aktualne",
+    "deviceStatus": "Status urządzeń",
+    "deviceMonitoring": "Monitorowanie stanu urządzeń w sieci energetycznej",
+    "transformers": "Transformatory",
+    "meters": "Liczniki",
+    "sensors": "Czujniki",
+    "load": "Obciążenie",
+    "temperature": "Temperatura",
+    "efficiency": "Wydajność",
+    "operational": "Operacyjny",
+    "warning": "Ostrzeżenie",
+    "error": "Błąd",
     
-    // Notifications
-    "languageChanged": "Język zmieniony",
-    "languageChangedTo": "Język zmieniony na",
+    // Energy Chart
+    "energyUsage": "Zużycie energii",
+    "energyMonitoring": "Monitorowanie zużycia, produkcji i wydajności w czasie rzeczywistym",
     
-    // Tooltips
-    "clickForDetails": "Kliknij, aby uzyskać szczegóły",
-    "scrollForMore": "Przewiń, aby uzyskać więcej informacji",
-    "compareData": "Porównaj dane między miastami",
+    // Network Map
+    "networkMap": "Mapa sieci",
+    "networkVisualization": "Wizualizacja połączeń między urządzeniami",
     
-    // Shortcuts
-    "availableShortcuts": "Dostępne skróty klawiszowe",
-    "shortcutsDescription": "Ctrl+K: Szukaj\nCtrl+/: Pomoc\nCtrl+B: Menu boczne",
-    "search": "Szukaj",
-    "searchComingSoon": "Funkcja wyszukiwania wkrótce dostępna",
-
-    // Sensor Panel Translations
-    "lastSyncedHour": "Ostatnia synchronizacja godzinę temu",
-    "batteryStatus": "100% naładowania baterii",
-    "signalStrength": "-71 dBm",
-    "searchSensors": "Szukaj czujników...",
-    "cityDataTitle": "Dane dla miasta",
-    "cityDataDescription": "Poniżej znajdują się szczegółowe informacje o jakości powietrza i warunkach środowiskowych w mieście",
-    "allMeasurements": "Wszystkie pomiary są aktualizowane w czasie rzeczywistym, zapewniając dokładny obraz stanu środowiska."
+    // Failure Analysis
+    "failureAnalysis": "Analiza awarii",
+    "failureIdentification": "Identyfikacja i analiza potencjalnych problemów",
+    "problemDescription": "Opis problemu",
+    "highTemperature": "Wykryto wysoką temperaturę transformatora",
+    "possibleCauses": "Możliwe przyczyny",
+    "transformerOverload": "Przeciążenie transformatora",
+    "coolingSystemFailure": "Awaria systemu chłodzenia",
+    "windingShortCircuit": "Zwarcie w uzwojeniu",
+    "recommendedActions": "Zalecane działania",
+    "reduceLoad": "Zmniejszyć obciążenie transformatora",
+    "checkCooling": "Sprawdzić system chłodzenia",
+    "inspectWindings": "Przeprowadzić inspekcję uzwojeń",
+    "unstableReadings": "Niestabilne odczyty zużycia energii",
+    "networkInterference": "Zakłócenia w sieci",
+    "measurementModuleFailure": "Awaria modułu pomiarowego",
+    "calibrationIssues": "Problemy z kalibracją",
+    "checkPowerQuality": "Sprawdzić jakość zasilania",
+    "verifyMeasurementModule": "Zweryfikować moduł pomiarowy",
+    "performCalibration": "Przeprowadzić kalibrację",
+    "critical": "Krytyczny"
   }
 };

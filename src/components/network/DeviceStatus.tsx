@@ -12,6 +12,7 @@ import {
   Signal,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 interface Device {
   id: string;
@@ -99,27 +100,29 @@ const getStatusIcon = (status: Device["status"]) => {
 };
 
 export function DeviceStatus() {
+  const { t } = useTranslation();
+
   return (
     <div className="grid gap-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold">Status urządzeń</h2>
+          <h2 className="text-2xl font-bold">{t('deviceStatus')}</h2>
           <p className="text-muted-foreground">
-            Monitorowanie stanu urządzeń w sieci energetycznej
+            {t('deviceMonitoring')}
           </p>
         </div>
         <div className="flex gap-2">
           <Badge variant="outline" className="gap-1">
             <ServerCog className="w-4 h-4" />
-            <span>Transformatory: 1</span>
+            <span>{t('transformers')}: 1</span>
           </Badge>
           <Badge variant="outline" className="gap-1">
             <Cpu className="w-4 h-4" />
-            <span>Liczniki: 1</span>
+            <span>{t('meters')}: 1</span>
           </Badge>
           <Badge variant="outline" className="gap-1">
             <Database className="w-4 h-4" />
-            <span>Czujniki: 1</span>
+            <span>{t('sensors')}: 1</span>
           </Badge>
         </div>
       </div>
@@ -143,14 +146,14 @@ export function DeviceStatus() {
                   className={`${getStatusColor(device.status)} gap-1`}
                 >
                   {getStatusIcon(device.status)}
-                  <span className="capitalize">{device.status}</span>
+                  <span className="capitalize">{t(device.status)}</span>
                 </Badge>
               </div>
 
               <div className="space-y-4">
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">
-                    Obciążenie
+                    {t('load')}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
@@ -168,7 +171,7 @@ export function DeviceStatus() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">
-                      Temperatura
+                      {t('temperature')}
                     </div>
                     <div className="font-medium">
                       {device.metrics.temperature}°C
@@ -176,7 +179,7 @@ export function DeviceStatus() {
                   </div>
                   <div>
                     <div className="text-sm text-muted-foreground mb-1">
-                      Wydajność
+                      {t('efficiency')}
                     </div>
                     <div className="font-medium">{device.metrics.efficiency}%</div>
                   </div>
