@@ -10,7 +10,7 @@ interface CityTabsProps {
 export const CityTabs = ({ cities, selectedCity, onCitySelect }: CityTabsProps) => {
   return (
     <Tabs value={selectedCity} onValueChange={onCitySelect} className="w-full">
-      <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+      <TabsList className="grid w-full grid-cols-5 gap-1">
         {cities.map((city) => (
           <TabsTrigger 
             key={city} 
