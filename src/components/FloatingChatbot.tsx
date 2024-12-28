@@ -9,7 +9,8 @@ import { useLocation } from 'react-router-dom';
 export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const isSpacesTab = location.hash === '#spaces' || !location.hash;
+  const currentHash = location.hash || '#spaces';
+  const isSpacesTab = currentHash === '#spaces';
 
   useEffect(() => {
     const handleOpenAssistant = () => setIsOpen(true);
@@ -28,7 +29,7 @@ export function FloatingChatbot() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="mb-4 w-[90vw] md:w-auto"
+            className="mb-4 w-[90vw] md:w-auto max-h-[80vh] overflow-auto"
           >
             <Chatbot />
           </motion.div>

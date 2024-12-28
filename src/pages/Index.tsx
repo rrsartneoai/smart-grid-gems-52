@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { EnergyChart } from "@/components/dashboard/EnergyChart";
 import { PowerStats } from "@/components/dashboard/PowerStats";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
@@ -12,9 +12,8 @@ import { IoTStatus } from "@/components/status/IoTStatus";
 import SensorsPanel from "@/components/sensors/SensorsPanel";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FloatingChatbot } from "@/components/FloatingChatbot";
-import { Chatbot } from "@/components/Chatbot";
 import { NotificationCenter } from "@/components/ui/notifications/NotificationCenter";
 import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -31,6 +30,20 @@ import '../i18n/config';
 const Index = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
+  const { scrollY } = useScroll();
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = scrollY.get();
+      setIsVisible(currentScrollY < lastScrollY.current || currentScrollY < 50);
+      lastScrollY.current = currentScrollY;
+    };
+
+    const unsubscribe = scrollY.on("change", handleScroll);
+    return () => unsubscribe();
+  }, [scrollY]);
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -54,8 +67,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Tutorial />
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-b">
+      <motion.div 
+        className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+        initial={{ y: 0 }}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.2 }}
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-center p-4">
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
             <ApiKeySettings />
             <div className="flex flex-col items-center sm:items-start gap-1">
@@ -82,7 +100,7 @@ const Index = () => {
             <DarkModeToggle />
           </div>
         </div>
-      </div>
+      </motion.div>
       
       <div className="pt-28">
         <SidebarProvider>
