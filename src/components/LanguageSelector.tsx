@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,6 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Languages } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import { useToast } from "@/hooks/use-toast";
 
 const languages = [
   { code: "pl", name: "Polski" },
@@ -14,7 +15,17 @@ const languages = [
 ];
 
 export function LanguageSelector() {
-  const [currentLang, setCurrentLang] = useState("pl");
+  const { i18n } = useTranslation();
+  const { toast } = useToast();
+
+  const handleLanguageChange = (langCode: string) => {
+    i18n.changeLanguage(langCode);
+    localStorage.setItem('language', langCode);
+    toast({
+      title: langCode === 'pl' ? "Zmieniono język" : "Language changed",
+      description: langCode === 'pl' ? "Język został zmieniony na Polski" : "Language has been changed to English",
+    });
+  };
 
   return (
     <DropdownMenu>
@@ -27,8 +38,8 @@ export function LanguageSelector() {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setCurrentLang(lang.code)}
-            className={currentLang === lang.code ? "bg-accent" : ""}
+            onClick={() => handleLanguageChange(lang.code)}
+            className={i18n.language === lang.code ? "bg-accent" : ""}
           >
             {lang.name}
           </DropdownMenuItem>

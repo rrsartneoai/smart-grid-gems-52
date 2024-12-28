@@ -24,9 +24,12 @@ import EnergyMap from "@/components/map/EnergyMap";
 import { DeviceStatus } from "@/components/network/DeviceStatus";
 import { NetworkMap } from "@/components/network/NetworkMap";
 import { FailureAnalysis } from "@/components/network/FailureAnalysis";
+import { useTranslation } from 'react-i18next';
+import '../i18n/config';
 
 const Index = () => {
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -54,9 +57,11 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
           <ApiKeySettings />
           <div className="flex flex-col items-center sm:items-start gap-1">
-            <h1 className="text-xl font-semibold text-center sm:text-left">Monitoring Panel</h1>
+            <h1 className="text-xl font-semibold text-center sm:text-left">
+              {t('monitoringPanel')}
+            </h1>
             <p className="text-sm text-muted-foreground text-center sm:text-left">
-              smartgrid energy efficiency in Pomerania
+              {t('smartgridDescription')}
             </p>
           </div>
         </div>
@@ -78,10 +83,10 @@ const Index = () => {
             >
               <Tabs defaultValue="spaces" className="w-full">
                 <TabsList className="w-full justify-start overflow-x-auto flex-wrap">
-                  <TabsTrigger value="spaces">Spaces</TabsTrigger>
-                  <TabsTrigger value="insights">Analysis</TabsTrigger>
-                  <TabsTrigger value="status">Status</TabsTrigger>
-                  <TabsTrigger value="sensors">Sensors</TabsTrigger>
+                  <TabsTrigger value="spaces">{t('spaces')}</TabsTrigger>
+                  <TabsTrigger value="insights">{t('analysis')}</TabsTrigger>
+                  <TabsTrigger value="status">{t('status')}</TabsTrigger>
+                  <TabsTrigger value="sensors">{t('sensors')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="spaces" className="space-y-6">
