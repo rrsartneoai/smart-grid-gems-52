@@ -33,28 +33,28 @@ export const SystemPerformanceDetail = () => {
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('system-performance.pdf');
+        pdf.save('wydajnosc-systemu.pdf');
       } else if (format === 'xlsx' || format === 'csv') {
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
-        XLSX.utils.book_append_sheet(wb, ws, "Performance Data");
+        XLSX.utils.book_append_sheet(wb, ws, "Wydajność Systemu");
         
         if (format === 'csv') {
-          XLSX.writeFile(wb, 'system-performance.csv');
+          XLSX.writeFile(wb, 'wydajnosc-systemu.csv');
         } else {
-          XLSX.writeFile(wb, 'system-performance.xlsx');
+          XLSX.writeFile(wb, 'wydajnosc-systemu.xlsx');
         }
       }
 
       toast({
-        title: "Export completed",
-        description: `File exported as ${format.toUpperCase()}`,
+        title: "Eksport zakończony",
+        description: `Plik wyeksportowany jako ${format.toUpperCase()}`,
       });
     } catch (error) {
       console.error('Export error:', error);
       toast({
-        title: "Export failed",
-        description: "An error occurred during export",
+        title: "Błąd eksportu",
+        description: "Wystąpił błąd podczas eksportu",
         variant: "destructive",
       });
     }
@@ -63,16 +63,16 @@ export const SystemPerformanceDetail = () => {
   return (
     <div className="space-y-6" id="system-performance-detail">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">System Performance Details</h2>
+        <h2 className="text-2xl font-bold">Wydajność Systemu</h2>
         <div className="space-x-2">
-          <Button onClick={() => handleExport('pdf')}>Export PDF</Button>
-          <Button onClick={() => handleExport('xlsx')}>Export Excel</Button>
-          <Button onClick={() => handleExport('csv')}>Export CSV</Button>
+          <Button onClick={() => handleExport('pdf')}>Eksportuj PDF</Button>
+          <Button onClick={() => handleExport('xlsx')}>Eksportuj Excel</Button>
+          <Button onClick={() => handleExport('csv')}>Eksportuj CSV</Button>
         </div>
       </div>
 
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">Historical Data</h3>
+        <h3 className="text-lg font-semibold mb-4">Historia</h3>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={mockHistoricalData}>
@@ -83,21 +83,21 @@ export const SystemPerformanceDetail = () => {
               <Line 
                 type="monotone" 
                 dataKey="cpuUsage" 
-                name="CPU Usage" 
+                name="Użycie CPU" 
                 stroke="#ef4444" 
                 strokeWidth={2}
               />
               <Line 
                 type="monotone" 
                 dataKey="memoryUsage" 
-                name="Memory Usage" 
+                name="Użycie pamięci" 
                 stroke="#34d399" 
                 strokeWidth={2}
               />
               <Line 
                 type="monotone" 
                 dataKey="networkLatency" 
-                name="Network Latency" 
+                name="Opóźnienie sieci" 
                 stroke="#60a5fa" 
                 strokeWidth={2}
               />
@@ -108,9 +108,9 @@ export const SystemPerformanceDetail = () => {
 
       <div className="grid md:grid-cols-3 gap-6">
         {[
-          { icon: Cpu, label: "CPU Usage", value: 45 },
-          { icon: Database, label: "Memory Usage", value: 60 },
-          { icon: Network, label: "Network Latency", value: 25 }
+          { icon: Cpu, label: "Użycie CPU", value: 45 },
+          { icon: Database, label: "Użycie pamięci", value: 60 },
+          { icon: Network, label: "Opóźnienie sieci", value: 25 }
         ].map((item, index) => (
           <Card key={index} className="p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -119,7 +119,7 @@ export const SystemPerformanceDetail = () => {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Current</span>
+                <span className="text-sm text-muted-foreground">Aktualnie</span>
                 <span className="font-medium">{item.value}%</span>
               </div>
               <Progress value={item.value} className="h-2" />

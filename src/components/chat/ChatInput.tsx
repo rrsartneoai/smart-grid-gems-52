@@ -4,6 +4,7 @@ import { Send, Mic, MicOff, Trash2, Upload } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
 import { ChatFileUpload } from "./ChatFileUpload";
+import { toast } from "@/components/ui/use-toast";
 
 interface ChatInputProps {
   input: string;
@@ -26,6 +27,7 @@ export function ChatInput({
 }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showFileUpload, setShowFileUpload] = useState(false);
+  const [fileSummaries, setFileSummaries] = useState<Array<{ topic: string }>>([]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -41,17 +43,41 @@ export function ChatInput({
     }
   };
 
-  const handleFileProcessComplete = (text: string) => {
-    // Instead of using a function with prev, directly concatenate the strings
-    const newInput = input ? `${input}\n\n${text}` : text;
-    setInput(newInput);
+  const handleFileProcessComplete = (text: string, topics: string[]) => {
+    setFileSummaries(topics.map(topic => ({ topic })));
+    toast({
+      title: "Plik przetworzony",
+      description: "Kliknij w temat, aby uzyskać więcej informacji",
+    });
     setShowFileUpload(false);
+  };
+
+  const handleTopicClick = (topic: string) => {
+    const message = `Opowiedz mi więcej o temacie: ${topic}`;
+    setInput(message);
+    handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+    setFileSummaries([]);
   };
 
   return (
     <div className="p-4 border-t space-y-4 bg-background">
       {showFileUpload && (
         <ChatFileUpload onProcessComplete={handleFileProcessComplete} />
+      )}
+
+      {fileSummaries.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-2">
+          {fileSummaries.map((summary, index) => (
+            <Button
+              key={index}
+              variant="secondary"
+              size="sm"
+              onClick={() => handleTopicClick(summary.topic)}
+            >
+              {summary.topic}
+            </Button>
+          ))}
+        </div>
       )}
 
       <form onSubmit={handleSubmit} className="flex gap-3">

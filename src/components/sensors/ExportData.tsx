@@ -24,8 +24,8 @@ export const ExportData = () => {
 
       const ws = XLSX.utils.json_to_sheet(data);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Sensor Data");
-      XLSX.writeFile(wb, "sensor-data.xlsx");
+      XLSX.utils.book_append_sheet(wb, ws, "Dane czujników");
+      XLSX.writeFile(wb, "dane-czujnikow.xlsx");
 
       toast({
         title: "Eksport zakończony",
@@ -61,7 +61,7 @@ export const ExportData = () => {
       const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", "sensor-data.csv");
+      link.setAttribute("download", "dane-czujnikow.csv");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -82,9 +82,16 @@ export const ExportData = () => {
   const exportToPDF = async () => {
     try {
       const element = document.getElementById('sensors-panel');
-      if (!element) return;
+      if (!element) {
+        throw new Error("Element not found");
+      }
 
-      const canvas = await html2canvas(element);
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: true
+      });
+      
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const imgProps = pdf.getImageProperties(imgData);
@@ -92,16 +99,17 @@ export const ExportData = () => {
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('sensor-data.pdf');
+      pdf.save('dane-czujnikow.pdf');
 
       toast({
         title: "Eksport zakończony",
         description: "Dane zostały wyeksportowane do pliku PDF."
       });
     } catch (error) {
+      console.error("PDF export error:", error);
       toast({
         title: "Błąd eksportu",
-        description: "Nie udało się wyeksportować danych.",
+        description: "Nie udało się wyeksportować danych do PDF.",
         variant: "destructive"
       });
     }
@@ -110,22 +118,32 @@ export const ExportData = () => {
   const exportToJPG = async () => {
     try {
       const element = document.getElementById('sensors-panel');
-      if (!element) return;
+      if (!element) {
+        throw new Error("Element not found");
+      }
 
-      const canvas = await html2canvas(element);
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: true
+      });
+      
       const link = document.createElement('a');
-      link.download = 'sensor-data.jpg';
-      link.href = canvas.toDataURL('image/jpeg');
+      link.download = 'dane-czujnikow.jpg';
+      link.href = canvas.toDataURL('image/jpeg', 0.8);
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
       toast({
         title: "Eksport zakończony",
         description: "Dane zostały wyeksportowane do pliku JPG."
       });
     } catch (error) {
+      console.error("JPG export error:", error);
       toast({
         title: "Błąd eksportu",
-        description: "Nie udało się wyeksportować danych.",
+        description: "Nie udało się wyeksportować danych do JPG.",
         variant: "destructive"
       });
     }
