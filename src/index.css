@@ -94,7 +94,7 @@
   }
 
   .stat-value {
-    @apply text-stat font-bold text-foreground/90;
+    @apply text-3xl font-bold text-foreground/90;
   }
 
   .stat-label {
@@ -103,5 +103,25 @@
 
   .section-divider {
     @apply my-section border-t border-border/50;
+  }
+
+  .sticky-header {
+    @apply fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+  }
+
+  .tooltip {
+    @apply invisible absolute;
+  }
+
+  .has-tooltip:hover .tooltip {
+    @apply visible z-50;
+  }
+
+  .chart-legend {
+    @apply text-sm font-medium;
+  }
+
+  .chart-tooltip {
+    @apply bg-background/95 backdrop-blur-sm border rounded-lg p-2 shadow-lg;
   }
 }
