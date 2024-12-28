@@ -10,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 interface Failure {
   id: string;
@@ -94,13 +95,15 @@ const getSeverityIcon = (severity: Failure["severity"]) => {
 };
 
 export function FailureAnalysis() {
+  const { t } = useTranslation();
+  
   return (
     <div className="grid gap-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold">Analiza awarii</h2>
+          <h2 className="text-2xl font-bold">{t('failureAnalysis')}</h2>
           <p className="text-muted-foreground">
-            Identyfikacja i analiza potencjalnych problemów
+            {t('failureIdentification')}
           </p>
         </div>
       </div>
@@ -132,20 +135,20 @@ export function FailureAnalysis() {
                   className={`${getSeverityColor(failure.severity)} gap-1`}
                 >
                   {getSeverityIcon(failure.severity)}
-                  <span className="capitalize">{failure.severity}</span>
+                  <span className="capitalize">{t(failure.severity)}</span>
                 </Badge>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <div className="text-sm font-medium mb-2">Opis problemu</div>
-                  <p className="text-muted-foreground">{failure.description}</p>
+                  <div className="text-sm font-medium mb-2">{t('problemDescription')}</div>
+                  <p className="text-muted-foreground">{t(failure.description)}</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <div className="text-sm font-medium mb-2">
-                      Możliwe przyczyny
+                      {t('possibleCauses')}
                     </div>
                     <ul className="space-y-2">
                       {failure.possibleCauses.map((cause, index) => (
@@ -154,7 +157,7 @@ export function FailureAnalysis() {
                           className="flex items-center gap-2 text-sm text-muted-foreground"
                         >
                           <ArrowRight className="w-4 h-4 text-primary" />
-                          {cause}
+                          {t(cause)}
                         </li>
                       ))}
                     </ul>
@@ -162,7 +165,7 @@ export function FailureAnalysis() {
 
                   <div>
                     <div className="text-sm font-medium mb-2">
-                      Zalecane działania
+                      {t('recommendedActions')}
                     </div>
                     <ul className="space-y-2">
                       {failure.recommendedActions.map((action, index) => (
@@ -171,7 +174,7 @@ export function FailureAnalysis() {
                           className="flex items-center gap-2 text-sm text-muted-foreground"
                         >
                           <ArrowRight className="w-4 h-4 text-primary" />
-                          {action}
+                          {t(action)}
                         </li>
                       ))}
                     </ul>

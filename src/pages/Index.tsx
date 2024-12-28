@@ -9,6 +9,7 @@ import { Tutorial } from "@/components/Tutorial";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
+import { TranslationProvider } from "@/components/TranslationProvider";
 import '../i18n/config';
 
 const Index = () => {
@@ -52,29 +53,31 @@ const Index = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <Tutorial />
-      <DashboardHeader isHeaderVisible={isHeaderVisible} />
-      
-      <div className="pt-28">
-        <SidebarProvider>
-          <div className="min-h-screen flex w-full flex-col lg:flex-row">
-            <CompanySidebar />
-            <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex flex-col gap-6"
-              >
-                <DashboardTabs />
-              </motion.div>
-            </main>
-          </div>
-        </SidebarProvider>
-        <FloatingChatbot />
+    <TranslationProvider>
+      <div className="min-h-screen bg-background">
+        <Tutorial />
+        <DashboardHeader isHeaderVisible={isHeaderVisible} />
+        
+        <div className="pt-28">
+          <SidebarProvider>
+            <div className="min-h-screen flex w-full flex-col lg:flex-row">
+              <CompanySidebar />
+              <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="flex flex-col gap-6"
+                >
+                  <DashboardTabs />
+                </motion.div>
+              </main>
+            </div>
+          </SidebarProvider>
+          <FloatingChatbot />
+        </div>
       </div>
-    </div>
+    </TranslationProvider>
   );
 };
 
