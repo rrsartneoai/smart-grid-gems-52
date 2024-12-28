@@ -12,7 +12,7 @@ import { IoTStatus } from "@/components/status/IoTStatus";
 import SensorsPanel from "@/components/sensors/SensorsPanel";
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FloatingChatbot } from "@/components/FloatingChatbot";
 import { Chatbot } from "@/components/Chatbot";
 import { NotificationCenter } from "@/components/ui/notifications/NotificationCenter";
@@ -31,19 +31,6 @@ import '../i18n/config';
 const Index = () => {
   const { toast } = useToast();
   const { t } = useTranslation();
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsHeaderVisible(currentScrollY < lastScrollY || currentScrollY < 100);
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   useEffect(() => {
     document.documentElement.classList.add("dark");
@@ -67,11 +54,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Tutorial />
-      <div 
-        className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-transform duration-300 ${
-          isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
-        }`}
-      >
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-b">
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
             <ApiKeySettings />
@@ -91,7 +74,7 @@ const Index = () => {
                   <LanguageSelector />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{t('changeLanguage')}</p>
+                  <p>{t('changeLanguage', 'Change language')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -100,7 +83,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-
+      
       <div className="pt-28">
         <SidebarProvider>
           <div className="min-h-screen flex w-full flex-col lg:flex-row">
