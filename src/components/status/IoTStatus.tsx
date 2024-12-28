@@ -2,7 +2,7 @@ import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Cpu, Signal, Network, Memory, Clock, Activity } from "lucide-react";
+import { Cpu, Signal, Network, Database, Clock, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 
 const StatusIndicator = ({ value }: { value: number }) => {
@@ -137,7 +137,7 @@ export function IoTStatus() {
             <ProgressItem
               label="Wykorzystanie pamięci"
               value={60}
-              icon={Memory}
+              icon={Database}
               description="Zużycie pamięci RAM"
             />
             <ProgressItem
