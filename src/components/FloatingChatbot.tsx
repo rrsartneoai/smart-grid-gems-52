@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chatbot } from './Chatbot';
 import { Button } from './ui/button';
-import { Bot, X } from 'lucide-react';
+import { MessageCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { useLocation } from 'react-router-dom';
@@ -18,7 +18,7 @@ export function FloatingChatbot() {
     return () => window.removeEventListener('openAssistant', handleOpenAssistant);
   }, []);
 
-  // Hide on spaces tab, show everywhere else
+  // Show on all sections except spaces
   if (isSpacesTab) return null;
 
   return (
@@ -48,7 +48,7 @@ export function FloatingChatbot() {
               {isOpen ? (
                 <X className="h-6 w-6" />
               ) : (
-                <Bot className="h-6 w-6" />
+                <MessageCircle className="h-6 w-6" />
               )}
               <span className="text-sm font-medium hidden md:inline">
                 {isOpen ? "Zamknij" : "Asystent AI"}
