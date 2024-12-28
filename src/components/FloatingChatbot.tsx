@@ -4,15 +4,22 @@ import { Button } from './ui/button';
 import { Bot, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { useLocation } from 'react-router-dom';
 
 export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleOpenAssistant = () => setIsOpen(true);
     window.addEventListener('openAssistant', handleOpenAssistant);
     return () => window.removeEventListener('openAssistant', handleOpenAssistant);
   }, []);
+
+  // Hide the chatbot on the main dashboard (Spaces) panel
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
