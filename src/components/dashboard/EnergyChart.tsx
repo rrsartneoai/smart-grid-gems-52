@@ -17,7 +17,7 @@ import {
 } from "recharts";
 import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, ZoomIn, BarChart2, LineChart as LineChartIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
@@ -73,6 +73,7 @@ export function EnergyChart() {
   const [zoomRight, setZoomRight] = useState<string | null>(null);
   const [isZoomed, setIsZoomed] = useState(false);
   const [chartType, setChartType] = useState<'line' | 'bar' | 'composed'>('line');
+  const chartRef = useRef<HTMLDivElement>(null);
 
   const handleZoom = (area: { left?: string; right?: string }) => {
     if (!area.left || !area.right || area.left === area.right) {
@@ -93,18 +94,11 @@ export function EnergyChart() {
     setIsZoomed(false);
   };
 
-  const handleRefresh = () => {
-    toast({
-      title: "Dane odświeżone",
-      description: "Wykres został zaktualizowany o najnowsze dane",
-    });
-  };
-
   const handleExport = async (format: 'pdf' | 'jpg') => {
-    if (!mapContainer.current) return;
+    if (!chartRef.current) return;
 
     try {
-      const canvas = await html2canvas(mapContainer.current);
+      const canvas = await html2canvas(chartRef.current);
       
       if (format === 'pdf') {
         const imgData = canvas.toDataURL('image/png');
@@ -314,19 +308,10 @@ export function EnergyChart() {
           >
             Eksportuj JPG
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleRefresh}
-            className="gap-2"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Odśwież
-          </Button>
         </div>
       </div>
       
-      <div className="h-[400px] w-full">
+      <div ref={chartRef} className="h-[400px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           {renderChart()}
         </ResponsiveContainer>

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { SensorCard } from "./SensorCard";
-import { CitySelector } from "./CitySelector";
+import { CityTabs } from "./CityTabs";
 import { sensorsData } from "./SensorsData";
 
 const SensorsPanel = () => {
   const [selectedCity, setSelectedCity] = useState<string>("gdansk");
-  const cities = Object.keys(sensorsData).map(key => key);
+  const cities = Object.keys(sensorsData).map(key => 
+    key.charAt(0).toUpperCase() + key.slice(1)
+  );
   
   const currentCityData = sensorsData[selectedCity];
 
@@ -26,14 +28,14 @@ const SensorsPanel = () => {
         </div>
       </div>
 
-      <CitySelector
+      <CityTabs
         cities={cities}
         selectedCity={selectedCity}
         onCitySelect={handleCitySelect}
       />
 
       {currentCityData && (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6">
           {currentCityData.sensors.map((sensor, index) => (
             <SensorCard 
               key={index}

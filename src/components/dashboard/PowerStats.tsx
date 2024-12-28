@@ -8,8 +8,14 @@ import { Progress } from "@/components/ui/progress";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip
+} from "recharts";
 
 const StatCard = ({ stat, index, expandedCard, setExpandedCard }) => {
   const isExpanded = expandedCard === index;
@@ -30,9 +36,15 @@ const StatCard = ({ stat, index, expandedCard, setExpandedCard }) => {
     return value;
   };
 
+  // Generate mock trend data
+  const trendData = Array.from({ length: 7 }, (_, i) => ({
+    name: `Day ${i + 1}`,
+    value: typeof stat.value === "string" ? 100 : Number(stat.value) + Math.random() * 20 - 10
+  }));
+
   return (
     <Card
-      className={`transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 ${
+      className={`transition-all duration-300 hover:shadow-md dark:border-gray-700 dark:bg-gray-800 cursor-pointer ${
         isExpanded ? 'ring-2 ring-primary' : ''
       }`}
       onClick={handleClick}
@@ -68,6 +80,19 @@ const StatCard = ({ stat, index, expandedCard, setExpandedCard }) => {
             value={getProgressValue(stat.value)} 
             className="h-2"
           />
+          <div className="h-[50px] mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={trendData}>
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#8884d8" 
+                  dot={false}
+                  strokeWidth={2}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
           <p className="text-xs text-muted-foreground mt-2">
             {stat.description}
           </p>
@@ -80,8 +105,23 @@ const StatCard = ({ stat, index, expandedCard, setExpandedCard }) => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
-              className="mt-4 pt-4 border-t space-y-2"
+              className="mt-4 pt-4 border-t space-y-4"
             >
+              <div className="h-[200px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={trendData}>
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line 
+                      type="monotone" 
+                      dataKey="value" 
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
               {stat.details.map((detail) => (
                 <div
                   key={detail.label}
