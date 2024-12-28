@@ -9,8 +9,7 @@ import { useLocation } from 'react-router-dom';
 export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const currentHash = location.hash || '#spaces';
-  const isSpacesTab = currentHash === '#spaces';
+  const currentHash = location.hash;
 
   useEffect(() => {
     const handleOpenAssistant = () => setIsOpen(true);
@@ -18,8 +17,10 @@ export function FloatingChatbot() {
     return () => window.removeEventListener('openAssistant', handleOpenAssistant);
   }, []);
 
-  // Show on all sections except spaces
-  if (isSpacesTab) return null;
+  // Hide only when explicitly on #spaces
+  if (currentHash === '#spaces') {
+    return null;
+  }
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
