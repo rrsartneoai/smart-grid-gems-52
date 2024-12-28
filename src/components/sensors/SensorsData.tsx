@@ -6,12 +6,25 @@ export interface SensorData {
   value: string;
   unit: string;
   status: "Good" | "Warning";
+  description: string;
 }
 
 export interface CityData {
   name: string;
   sensors: SensorData[];
 }
+
+const sensorDescriptions = {
+  temp: "Temperatura powietrza - kluczowy parametr wpływający na komfort cieplny. Optymalna temperatura w pomieszczeniach to 20-22°C.",
+  co2: "Stężenie dwutlenku węgla - wskaźnik jakości powietrza. Poziomy powyżej 1000 ppm mogą powodować zmęczenie i trudności w koncentracji.",
+  voc: "Lotne związki organiczne - substancje chemiczne mogące negatywnie wpływać na zdrowie. Niskie poziomy są kluczowe dla dobrej jakości powietrza.",
+  pm25: "Pył zawieszony PM2.5 - drobne cząstki mogące przenikać do płuc. Poziomy poniżej 25 µg/m³ są uznawane za bezpieczne.",
+  pm10: "Pył zawieszony PM10 - większe cząstki pyłu. Poziomy poniżej 50 µg/m³ są uznawane za bezpieczne dla zdrowia.",
+  humidity: "Wilgotność powietrza - wpływa na komfort i zdrowie. Optymalne poziomy mieszczą się w zakresie 40-60%.",
+  noise: "Poziom hałasu - wpływa na komfort i koncentrację. Poziomy powyżej 65 dBA mogą być uciążliwe.",
+  pressure: "Ciśnienie atmosferyczne - wpływa na samopoczucie. Nagłe zmiany mogą powodować dolegliwości u osób wrażliwych.",
+  light: "Natężenie światła - wpływa na komfort wizualny i produktywność. Optymalne poziomy zależą od rodzaju wykonywanej pracy.",
+};
 
 export const sensorsData: Record<string, CityData> = {
   gdansk: {
@@ -23,6 +36,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "21.5",
         unit: "°C",
         status: "Good",
+        description: sensorDescriptions.temp,
       },
       {
         icon: <Cloud className="w-5 h-5" />,
@@ -30,6 +44,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "508",
         unit: "ppm",
         status: "Good",
+        description: sensorDescriptions.co2,
       },
       {
         icon: <Wind className="w-5 h-5" />,
@@ -37,6 +52,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "48",
         unit: "ppb",
         status: "Good",
+        description: sensorDescriptions.voc,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -44,6 +60,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "12",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm25,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -51,6 +68,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "15",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm10,
       },
       {
         icon: <Droplet className="w-5 h-5" />,
@@ -58,6 +76,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "45",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.humidity,
       },
       {
         icon: <Volume2 className="w-5 h-5" />,
@@ -65,6 +84,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "52",
         unit: "dBA",
         status: "Warning",
+        description: sensorDescriptions.noise,
       },
       {
         icon: <Gauge className="w-5 h-5" />,
@@ -72,6 +92,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "1013",
         unit: "hPa",
         status: "Good",
+        description: sensorDescriptions.pressure,
       },
       {
         icon: <Sun className="w-5 h-5" />,
@@ -79,6 +100,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "75",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.light,
       },
     ],
   },
@@ -91,6 +113,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "19.8",
         unit: "°C",
         status: "Good",
+        description: sensorDescriptions.temp,
       },
       {
         icon: <Cloud className="w-5 h-5" />,
@@ -98,6 +121,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "485",
         unit: "ppm",
         status: "Good",
+        description: sensorDescriptions.co2,
       },
       {
         icon: <Wind className="w-5 h-5" />,
@@ -105,6 +129,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "52",
         unit: "ppb",
         status: "Warning",
+        description: sensorDescriptions.voc,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -112,6 +137,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "8",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm25,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -119,6 +145,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "11",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm10,
       },
       {
         icon: <Droplet className="w-5 h-5" />,
@@ -126,6 +153,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "55",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.humidity,
       },
       {
         icon: <Volume2 className="w-5 h-5" />,
@@ -133,6 +161,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "48",
         unit: "dBA",
         status: "Good",
+        description: sensorDescriptions.noise,
       },
       {
         icon: <Gauge className="w-5 h-5" />,
@@ -140,6 +169,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "1015",
         unit: "hPa",
         status: "Good",
+        description: sensorDescriptions.pressure,
       },
       {
         icon: <Sun className="w-5 h-5" />,
@@ -147,6 +177,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "82",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.light,
       },
     ],
   },
@@ -159,6 +190,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "20.2",
         unit: "°C",
         status: "Good",
+        description: sensorDescriptions.temp,
       },
       {
         icon: <Cloud className="w-5 h-5" />,
@@ -166,6 +198,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "495",
         unit: "ppm",
         status: "Good",
+        description: sensorDescriptions.co2,
       },
       {
         icon: <Wind className="w-5 h-5" />,
@@ -173,6 +206,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "45",
         unit: "ppb",
         status: "Good",
+        description: sensorDescriptions.voc,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -180,6 +214,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "10",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm25,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -187,6 +222,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "13",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm10,
       },
       {
         icon: <Droplet className="w-5 h-5" />,
@@ -194,6 +230,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "50",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.humidity,
       },
       {
         icon: <Volume2 className="w-5 h-5" />,
@@ -201,6 +238,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "43",
         unit: "dBA",
         status: "Good",
+        description: sensorDescriptions.noise,
       },
       {
         icon: <Gauge className="w-5 h-5" />,
@@ -208,6 +246,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "1014",
         unit: "hPa",
         status: "Good",
+        description: sensorDescriptions.pressure,
       },
       {
         icon: <Sun className="w-5 h-5" />,
@@ -215,6 +254,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "68",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.light,
       },
     ],
   },
@@ -227,6 +267,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "19.5",
         unit: "°C",
         status: "Good",
+        description: sensorDescriptions.temp,
       },
       {
         icon: <Cloud className="w-5 h-5" />,
@@ -234,6 +275,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "490",
         unit: "ppm",
         status: "Good",
+        description: sensorDescriptions.co2,
       },
       {
         icon: <Wind className="w-5 h-5" />,
@@ -241,6 +283,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "47",
         unit: "ppb",
         status: "Good",
+        description: sensorDescriptions.voc,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -248,6 +291,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "11",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm25,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -255,6 +299,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "14",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm10,
       },
       {
         icon: <Droplet className="w-5 h-5" />,
@@ -262,6 +307,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "52",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.humidity,
       },
       {
         icon: <Volume2 className="w-5 h-5" />,
@@ -269,6 +315,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "45",
         unit: "dBA",
         status: "Good",
+        description: sensorDescriptions.noise,
       },
       {
         icon: <Gauge className="w-5 h-5" />,
@@ -276,6 +323,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "1012",
         unit: "hPa",
         status: "Good",
+        description: sensorDescriptions.pressure,
       },
       {
         icon: <Sun className="w-5 h-5" />,
@@ -283,6 +331,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "70",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.light,
       },
     ],
   },
@@ -295,6 +344,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "19.2",
         unit: "°C",
         status: "Good",
+        description: sensorDescriptions.temp,
       },
       {
         icon: <Cloud className="w-5 h-5" />,
@@ -302,6 +352,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "475",
         unit: "ppm",
         status: "Good",
+        description: sensorDescriptions.co2,
       },
       {
         icon: <Wind className="w-5 h-5" />,
@@ -309,6 +360,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "44",
         unit: "ppb",
         status: "Good",
+        description: sensorDescriptions.voc,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -316,6 +368,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "9",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm25,
       },
       {
         icon: <Atom className="w-5 h-5" />,
@@ -323,6 +376,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "12",
         unit: "µg/m³",
         status: "Good",
+        description: sensorDescriptions.pm10,
       },
       {
         icon: <Droplet className="w-5 h-5" />,
@@ -330,6 +384,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "58",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.humidity,
       },
       {
         icon: <Volume2 className="w-5 h-5" />,
@@ -337,6 +392,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "42",
         unit: "dBA",
         status: "Good",
+        description: sensorDescriptions.noise,
       },
       {
         icon: <Gauge className="w-5 h-5" />,
@@ -344,6 +400,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "1011",
         unit: "hPa",
         status: "Good",
+        description: sensorDescriptions.pressure,
       },
       {
         icon: <Sun className="w-5 h-5" />,
@@ -351,6 +408,7 @@ export const sensorsData: Record<string, CityData> = {
         value: "65",
         unit: "%",
         status: "Good",
+        description: sensorDescriptions.light,
       },
     ],
   },
