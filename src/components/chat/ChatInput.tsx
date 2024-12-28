@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Mic, MicOff, Trash2, HelpCircle } from "lucide-react";
+import { Send, Mic, MicOff, Trash2, Upload } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useRef } from "react";
 
@@ -40,15 +40,27 @@ export function ChatInput({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border-t flex flex-col gap-3 bg-background">
-      <div className="flex gap-3">
+    <div className="p-4 border-t space-y-4 bg-background">
+      <div className="p-4 border-2 border-dashed rounded-lg bg-muted/30">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <Upload className="h-8 w-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">
+            Przeciągnij i upuść pliki lub kliknij, aby wybrać
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Obsługiwane formaty: PDF, DOCX, PNG, JPG (max 20MB na plik, do 5 plików)
+          </p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex gap-3">
         <Textarea
           ref={textareaRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Napisz wiadomość... (Enter aby wysłać, Shift + Enter dla nowej linii)"
-          className="flex-1 min-h-[44px] max-h-[200px] resize-none text-base"
+          className="flex-1 min-h-[80px] max-h-[200px] resize-none text-base p-4"
           disabled={isPending}
         />
         
@@ -106,7 +118,7 @@ export function ChatInput({
             </Tooltip>
           </TooltipProvider>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }
