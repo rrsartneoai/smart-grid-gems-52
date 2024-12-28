@@ -8,10 +8,8 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ChartControls } from "./charts/ChartControls";
 import { Chart } from "./charts/Chart";
-import { useTranslation } from 'react-i18next';
 
 export function EnergyChart() {
-  const { t } = useTranslation();
   const { toast } = useToast();
   const { selectedCompanyId } = useCompanyStore();
   const selectedCompany = companiesData.find(
@@ -88,10 +86,10 @@ export function EnergyChart() {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h3 className="text-lg font-semibold mb-1">
-            {t('energyUsage')} - {selectedCompany?.name}
+            Zużycie energii - {selectedCompany?.name}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {t('energyMonitoring')}
+            Monitorowanie zużycia, produkcji i wydajności w czasie rzeczywistym
           </p>
         </div>
         <ChartControls
