@@ -4,16 +4,9 @@ import { Button } from './ui/button';
 import { Bot, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
-import { useLocation } from 'react-router-dom';
 
 export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  // Hide chatbot on main page
-  if (location.pathname === '/') {
-    return null;
-  }
 
   useEffect(() => {
     const handleOpenAssistant = () => setIsOpen(true);
