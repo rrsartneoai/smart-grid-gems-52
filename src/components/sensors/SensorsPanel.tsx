@@ -28,15 +28,19 @@ const SensorsPanel = () => {
         </div>
       </div>
 
-      <CityTabs
-        cities={cities}
-        selectedCity={selectedCity}
-        onCitySelect={handleCitySelect}
-      />
+      <div className="overflow-x-auto -mx-4 px-4 pb-4">
+        <div className="min-w-[600px]">
+          <CityTabs
+            cities={cities}
+            selectedCity={selectedCity}
+            onCitySelect={handleCitySelect}
+          />
+        </div>
+      </div>
 
       {currentCityData && (
         <>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-6">
             {currentCityData.sensors.map((sensor, index) => (
               <SensorCard 
                 key={index}
@@ -49,22 +53,60 @@ const SensorsPanel = () => {
               />
             ))}
           </div>
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-4">Dane dla miasta {currentCityData.name}</h3>
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-muted-foreground">
-                Poniżej znajdują się szczegółowe informacje o jakości powietrza i warunkach środowiskowych w mieście {currentCityData.name}. 
-                Wszystkie pomiary są aktualizowane w czasie rzeczywistym, zapewniając dokładny obraz stanu środowiska.
-              </p>
-              <ul className="mt-4 space-y-2">
-                {currentCityData.sensors.map((sensor, index) => (
-                  <li key={index} className="flex items-center gap-2">
-                    <span className="font-medium">{sensor.name}:</span>
-                    <span>{sensor.value} {sensor.unit}</span>
-                    <span className="text-sm text-muted-foreground">- {sensor.description}</span>
-                  </li>
-                ))}
-              </ul>
+          <div className="mt-8 grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
+            <div className="bg-card rounded-lg p-6 shadow-sm">
+              <h3 className="text-lg font-semibold mb-4">Dane dla miasta {currentCityData.name}</h3>
+              <div className="prose dark:prose-invert max-w-none">
+                <p className="text-muted-foreground">
+                  Poniżej znajdują się szczegółowe informacje o jakości powietrza i warunkach środowiskowych w mieście {currentCityData.name}. 
+                  Wszystkie pomiary są aktualizowane w czasie rzeczywistym, zapewniając dokładny obraz stanu środowiska.
+                </p>
+                <div className="mt-4 grid gap-2">
+                  {currentCityData.sensors.map((sensor, index) => (
+                    <div key={index} className="p-4 rounded-lg bg-background/50 border">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-primary">{sensor.icon}</span>
+                        <span className="font-medium">{sensor.name}</span>
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-xl font-semibold">{sensor.value}</span>
+                          <span className="text-sm text-muted-foreground">{sensor.unit}</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{sensor.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="bg-card rounded-lg p-6 shadow-sm">
+              <h3 className="text-lg font-semibold mb-4">Trendy i Analiza</h3>
+              <div className="prose dark:prose-invert max-w-none">
+                <p className="text-muted-foreground">
+                  Analiza trendów i zmian w pomiarach dla miasta {currentCityData.name} w czasie.
+                  Dane są agregowane i analizowane w celu wykrycia wzorców i anomalii.
+                </p>
+                <div className="mt-4 space-y-4">
+                  {currentCityData.sensors.map((sensor, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border">
+                      <div className="flex items-center gap-2">
+                        <span className="text-primary">{sensor.icon}</span>
+                        <span>{sensor.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          sensor.status === "Good" 
+                            ? "bg-success/10 text-success" 
+                            : "bg-warning/10 text-warning"
+                        }`}>
+                          {sensor.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </>
