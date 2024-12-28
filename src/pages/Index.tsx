@@ -34,16 +34,16 @@ const Index = () => {
 
   useHotkeys("?", () => {
     toast({
-      title: "Dostępne skróty klawiszowe",
-      description: "Ctrl+K: Wyszukiwanie\nCtrl+/: Pomoc\nCtrl+B: Menu boczne",
+      title: "Available keyboard shortcuts",
+      description: "Ctrl+K: Search\nCtrl+/: Help\nCtrl+B: Side menu",
     });
   });
 
   useHotkeys("ctrl+k", (e) => {
     e.preventDefault();
     toast({
-      title: "Wyszukiwanie",
-      description: "Funkcja wyszukiwania zostanie wkrótce dodana",
+      title: "Search",
+      description: "Search functionality coming soon",
     });
   });
 
@@ -54,9 +54,9 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
           <ApiKeySettings />
           <div className="flex flex-col items-center sm:items-start gap-1">
-            <h1 className="text-xl font-semibold text-center sm:text-left">Panel Monitorowania</h1>
+            <h1 className="text-xl font-semibold text-center sm:text-left">Monitoring Panel</h1>
             <p className="text-sm text-muted-foreground text-center sm:text-left">
-              efektywności energetycznej smartgrid na Pomorzu
+              smartgrid energy efficiency in Pomerania
             </p>
           </div>
         </div>
@@ -78,10 +78,10 @@ const Index = () => {
             >
               <Tabs defaultValue="spaces" className="w-full">
                 <TabsList className="w-full justify-start overflow-x-auto flex-wrap">
-                  <TabsTrigger value="spaces">Przestrzenie</TabsTrigger>
-                  <TabsTrigger value="insights">Analiza</TabsTrigger>
+                  <TabsTrigger value="spaces">Spaces</TabsTrigger>
+                  <TabsTrigger value="insights">Analysis</TabsTrigger>
                   <TabsTrigger value="status">Status</TabsTrigger>
-                  <TabsTrigger value="sensors">Czujniki</TabsTrigger>
+                  <TabsTrigger value="sensors">Sensors</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="spaces" className="space-y-6">
@@ -115,11 +115,11 @@ const Index = () => {
 
                   <div className="mt-8 grid gap-8 md:grid-cols-2">
                     <div className="w-full">
-                      <h2 className="text-2xl font-bold mb-4">Wgraj plik</h2>
+                      <h2 className="text-2xl font-bold mb-4">Upload File</h2>
                       <FileUpload />
                     </div>
                     <div className="w-full">
-                      <h2 className="text-2xl font-bold mb-4">Asystent AI</h2>
+                      <h2 className="text-2xl font-bold mb-4">AI Assistant</h2>
                       <Chatbot />
                     </div>
                   </div>

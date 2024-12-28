@@ -11,10 +11,15 @@ import {
   Activity,
   AlertTriangle,
   CheckCircle,
-  XCircle
+  XCircle,
+  ChevronRight
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useState } from "react";
+import { DeviceStatusDetail } from "./DeviceStatusDetail";
+import { SystemPerformanceDetail } from "./SystemPerformanceDetail";
+import { Button } from "@/components/ui/button";
 
 const StatusIndicator = ({ value }: { value: number }) => {
   const getColor = (value: number) => {
@@ -36,17 +41,19 @@ const ProgressItem = ({
   label, 
   value, 
   icon: Icon, 
-  description 
+  description,
+  onClick
 }: { 
   label: string; 
   value: number; 
   icon: any;
   description: string;
+  onClick?: () => void;
 }) => (
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="space-y-2">
+        <div className="space-y-2 cursor-pointer" onClick={onClick}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Icon className="w-4 h-4 text-muted-foreground" />
@@ -55,6 +62,7 @@ const ProgressItem = ({
             <div className="flex items-center gap-2">
               <StatusIndicator value={value} />
               <span className="text-sm font-semibold">{value}%</span>
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             </div>
           </div>
           <div className="relative">
@@ -83,17 +91,60 @@ export function IoTStatus() {
   const selectedCompany = companiesData.find(
     (company) => company.id === selectedCompanyId
   );
+  const [activeView, setActiveView] = useState<'overview' | 'devices' | 'system'>('overview');
 
   const getOverallStatus = (values: number[]) => {
     const average = values.reduce((a, b) => a + b, 0) / values.length;
-    if (average >= 80) return "Optymalny";
-    if (average >= 50) return "Wymaga uwagi";
-    return "Krytyczny";
+    if (average >= 80) return "Optimal";
+    if (average >= 50) return "Needs Attention";
+    return "Critical";
   };
 
   const deviceStatus = [85, 92, 78];
   const systemStatus = [45, 60, 25];
   const overallStatus = getOverallStatus([...deviceStatus, ...systemStatus]);
+
+  if (activeView === 'devices') {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="mb-6">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveView('overview')}
+            className="mb-4"
+          >
+            ← Back to Overview
+          </Button>
+        </div>
+        <DeviceStatusDetail />
+      </motion.div>
+    );
+  }
+
+  if (activeView === 'system') {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="mb-6">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveView('overview')}
+            className="mb-4"
+          >
+            ← Back to Overview
+          </Button>
+        </div>
+        <SystemPerformanceDetail />
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div 
@@ -105,19 +156,19 @@ export function IoTStatus() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-bold mb-1">
-            Status IoT - {selectedCompany?.name}
+            IoT Status - {selectedCompany?.name}
           </h2>
           <div className="flex items-center gap-2">
             <StatusIndicator value={deviceStatus[0]} />
             <span className="text-sm text-muted-foreground">
-              Status ogólny: {overallStatus}
+              Overall Status: {overallStatus}
             </span>
           </div>
         </div>
         <div className="text-right flex items-center gap-2 text-sm text-muted-foreground">
           <Clock className="w-4 h-4" />
           <span>
-            Ostatnia aktualizacja: 5 min temu
+            Last update: 5 min ago
           </span>
         </div>
       </div>
@@ -126,26 +177,29 @@ export function IoTStatus() {
         <Card className="p-6 bg-card hover:shadow-lg transition-shadow">
           <div className="flex items-center gap-2 mb-6">
             <Activity className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold">Status Urządzeń</h3>
+            <h3 className="text-lg font-semibold">Device Status</h3>
           </div>
           <div className="space-y-6">
             <ProgressItem
-              label="Aktywne urządzenia"
+              label="Active Devices"
               value={85}
               icon={Cpu}
-              description="Liczba urządzeń aktualnie online"
+              description="Number of devices currently online"
+              onClick={() => setActiveView('devices')}
             />
             <ProgressItem
-              label="Połączenie z siecią"
+              label="Network Connection"
               value={92}
               icon={Network}
-              description="Stabilność połączenia sieciowego"
+              description="Network connection stability"
+              onClick={() => setActiveView('devices')}
             />
             <ProgressItem
-              label="Jakość sygnału"
+              label="Signal Quality"
               value={78}
               icon={Signal}
-              description="Siła i jakość sygnału IoT"
+              description="IoT signal strength and quality"
+              onClick={() => setActiveView('devices')}
             />
           </div>
         </Card>
@@ -153,26 +207,29 @@ export function IoTStatus() {
         <Card className="p-6 bg-card hover:shadow-lg transition-shadow">
           <div className="flex items-center gap-2 mb-6">
             <Activity className="w-5 h-5 text-primary" />
-            <h3 className="text-lg font-semibold">Wydajność Systemu</h3>
+            <h3 className="text-lg font-semibold">System Performance</h3>
           </div>
           <div className="space-y-6">
             <ProgressItem
-              label="Wykorzystanie CPU"
+              label="CPU Usage"
               value={45}
               icon={Cpu}
-              description="Aktualne obciążenie procesora"
+              description="Current CPU load"
+              onClick={() => setActiveView('system')}
             />
             <ProgressItem
-              label="Wykorzystanie pamięci"
+              label="Memory Usage"
               value={60}
               icon={Database}
-              description="Zużycie pamięci RAM"
+              description="RAM memory usage"
+              onClick={() => setActiveView('system')}
             />
             <ProgressItem
-              label="Opóźnienie sieci"
+              label="Network Latency"
               value={25}
               icon={Network}
-              description="Latencja połączenia sieciowego"
+              description="Network connection latency"
+              onClick={() => setActiveView('system')}
             />
           </div>
         </Card>
