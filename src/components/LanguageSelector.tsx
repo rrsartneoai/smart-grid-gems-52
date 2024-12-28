@@ -12,6 +12,9 @@ import { useToast } from "@/hooks/use-toast";
 const languages = [
   { code: "pl", name: "Polski" },
   { code: "en", name: "English" },
+  { code: "de", name: "Deutsch" },
+  { code: "uk", name: "Українська" },
+  { code: "ru", name: "Русский" },
 ];
 
 export function LanguageSelector() {
@@ -21,9 +24,18 @@ export function LanguageSelector() {
   const handleLanguageChange = (langCode: string) => {
     i18n.changeLanguage(langCode);
     localStorage.setItem('language', langCode);
+    
+    const langNames = {
+      pl: "Polski",
+      en: "English",
+      de: "Deutsch",
+      uk: "Українська",
+      ru: "Русский"
+    };
+    
     toast({
-      title: langCode === 'pl' ? "Zmieniono język" : "Language changed",
-      description: langCode === 'pl' ? "Język został zmieniony na Polski" : "Language has been changed to English",
+      title: i18n.t("languageChanged", "Language changed"),
+      description: i18n.t("languageChangedTo", "Language has been changed to") + " " + langNames[langCode as keyof typeof langNames],
     });
   };
 

@@ -53,7 +53,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Tutorial />
-      <div className="flex flex-col sm:flex-row justify-between items-center p-4 border-b">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background flex flex-col sm:flex-row justify-between items-center p-4 border-b">
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
           <ApiKeySettings />
           <div className="flex flex-col items-center sm:items-start gap-1">
@@ -71,82 +71,86 @@ const Index = () => {
           <DarkModeToggle />
         </div>
       </div>
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full flex-col lg:flex-row">
-          <CompanySidebar />
-          <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col gap-6"
-            >
-              <Tabs defaultValue="spaces" className="w-full">
-                <TabsList className="w-full justify-start overflow-x-auto flex-wrap">
-                  <TabsTrigger value="spaces">{t('spaces')}</TabsTrigger>
-                  <TabsTrigger value="insights">{t('analysis')}</TabsTrigger>
-                  <TabsTrigger value="status">{t('status')}</TabsTrigger>
-                  <TabsTrigger value="sensors">{t('sensors')}</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="spaces" className="space-y-6">
-                  <DndContext collisionDetection={closestCenter}>
-                    <SortableContext items={[]} strategy={rectSortingStrategy}>
-                      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                        <PowerStats />
+      
+      {/* Add padding to account for fixed header */}
+      <div className="pt-24">
+        <SidebarProvider>
+          <div className="min-h-screen flex w-full flex-col lg:flex-row">
+            <CompanySidebar />
+            <main className="flex-1 p-4 lg:pl-[320px] transition-all duration-300">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-col gap-6"
+              >
+                <Tabs defaultValue="spaces" className="w-full">
+                  <TabsList className="w-full justify-start overflow-x-auto flex-wrap">
+                    <TabsTrigger value="spaces">{t('spaces')}</TabsTrigger>
+                    <TabsTrigger value="insights">{t('analysis')}</TabsTrigger>
+                    <TabsTrigger value="status">{t('status')}</TabsTrigger>
+                    <TabsTrigger value="sensors">{t('sensors')}</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="spaces" className="space-y-6">
+                    <DndContext collisionDetection={closestCenter}>
+                      <SortableContext items={[]} strategy={rectSortingStrategy}>
+                        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                          <PowerStats />
+                        </div>
+                      </SortableContext>
+                    </DndContext>
+
+                    <div className="grid gap-4">
+                      <EnergyChart />
+                    </div>
+
+                    <div className="grid gap-4">
+                      <DeviceStatus />
+                    </div>
+
+                    <div className="grid gap-4">
+                      <NetworkMap />
+                    </div>
+
+                    <div className="grid gap-4">
+                      <FailureAnalysis />
+                    </div>
+
+                    <div className="grid gap-4">
+                      <EnergyMap />
+                    </div>
+
+                    <div className="mt-8 grid gap-8 md:grid-cols-2">
+                      <div className="w-full">
+                        <h2 className="text-2xl font-bold mb-4">Upload File</h2>
+                        <FileUpload />
                       </div>
-                    </SortableContext>
-                  </DndContext>
-
-                  <div className="grid gap-4">
-                    <EnergyChart />
-                  </div>
-
-                  <div className="grid gap-4">
-                    <DeviceStatus />
-                  </div>
-
-                  <div className="grid gap-4">
-                    <NetworkMap />
-                  </div>
-
-                  <div className="grid gap-4">
-                    <FailureAnalysis />
-                  </div>
-
-                  <div className="grid gap-4">
-                    <EnergyMap />
-                  </div>
-
-                  <div className="mt-8 grid gap-8 md:grid-cols-2">
-                    <div className="w-full">
-                      <h2 className="text-2xl font-bold mb-4">Upload File</h2>
-                      <FileUpload />
+                      <div className="w-full">
+                        <h2 className="text-2xl font-bold mb-4">AI Assistant</h2>
+                        <Chatbot />
+                      </div>
                     </div>
-                    <div className="w-full">
-                      <h2 className="text-2xl font-bold mb-4">AI Assistant</h2>
-                      <Chatbot />
-                    </div>
-                  </div>
-                </TabsContent>
+                  </TabsContent>
 
-                <TabsContent value="insights">
-                  <CompanyAnalysis />
-                </TabsContent>
+                  <TabsContent value="insights">
+                    <CompanyAnalysis />
+                  </TabsContent>
 
-                <TabsContent value="status">
-                  <IoTStatus />
-                </TabsContent>
+                  <TabsContent value="status">
+                    <IoTStatus />
+                  </TabsContent>
 
-                <TabsContent value="sensors">
-                  <SensorsPanel />
-                </TabsContent>
-              </Tabs>
-            </motion.div>
-          </main>
-        </div>
-      </SidebarProvider>
-      <FloatingChatbot />
+                  <TabsContent value="sensors">
+                    <SensorsPanel />
+                  </TabsContent>
+                </Tabs>
+              </motion.div>
+            </main>
+          </div>
+        </SidebarProvider>
+        <FloatingChatbot />
+      </div>
     </div>
   );
 };
