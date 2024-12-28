@@ -42,7 +42,9 @@ export function ChatInput({
   };
 
   const handleFileProcessComplete = (text: string) => {
-    setInput((prev) => prev + (prev ? '\n\n' : '') + text);
+    // Instead of using a function with prev, directly concatenate the strings
+    const newInput = input ? `${input}\n\n${text}` : text;
+    setInput(newInput);
     setShowFileUpload(false);
   };
 
