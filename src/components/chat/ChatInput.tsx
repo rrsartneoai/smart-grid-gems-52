@@ -50,6 +50,21 @@ export function ChatInput({
       description: "Kliknij w temat, aby uzyskać więcej informacji"
     });
     setShowFileUpload(false);
+
+    // Add a new message with the topics as buttons
+    const topicsMessage = {
+      role: "assistant" as const,
+      content: "Wykryłem następujące tematy w pliku. Kliknij w temat, aby dowiedzieć się więcej:",
+      timestamp: new Date(),
+      dataVisualizations: topics.map(topic => ({
+        type: "topic" as const,
+        title: topic
+      }))
+    };
+    
+    // You'll need to add this message to your chat state
+    // This should be handled by your chat context or state management
+    window.dispatchEvent(new CustomEvent('addChatMessage', { detail: topicsMessage }));
   };
 
   const handleTopicClick = (topic: string) => {

@@ -22,7 +22,8 @@ export function Chatbot() {
     setInput,
     handleSubmit,
     isPending,
-    clearConversation
+    clearConversation,
+    addMessage
   } = useChat();
 
   const { isRecording, handleVoiceInput } = useSpeechRecognition((transcript) => {
@@ -59,6 +60,17 @@ export function Chatbot() {
   useEffect(() => {
     setShowSuggestions(messages.length <= 1);
   }, [messages]);
+
+  useEffect(() => {
+    const handleAddChatMessage = (event: CustomEvent) => {
+      addMessage(event.detail);
+    };
+
+    window.addEventListener('addChatMessage', handleAddChatMessage as EventListener);
+    return () => {
+      window.removeEventListener('addChatMessage', handleAddChatMessage as EventListener);
+    };
+  }, [addMessage]);
 
   const handleStopSpeaking = () => {
     conversation.endSession();

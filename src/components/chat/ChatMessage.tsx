@@ -3,18 +3,27 @@ import { format } from "date-fns";
 import { Bot, User } from "lucide-react";
 import { ChatEnergyData } from "./ChatEnergyData";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 interface ChatMessageProps {
   role: "assistant" | "user";
   content: string;
   timestamp: Date;
   dataVisualizations?: Array<{
-    type: "consumption" | "production" | "efficiency";
+    type: "consumption" | "production" | "efficiency" | "topic";
     title: string;
   }>;
 }
 
 export function ChatMessage({ role, content, timestamp, dataVisualizations }: ChatMessageProps) {
+  const handleTopicClick = (topic: string) => {
+    const message = `Opowiedz mi więcej o temacie: ${topic}`;
+    // Dispatch a custom event to trigger the chat input
+    window.dispatchEvent(new CustomEvent('setChatInput', { 
+      detail: { message, submit: true } 
+    }));
+  };
+
   return (
     <div className={`flex gap-3 ${role === "assistant" ? "flex-row" : "flex-row-reverse"}`}>
       <Avatar className="h-8 w-8 md:h-10 md:w-10 shrink-0">
@@ -42,7 +51,19 @@ export function ChatMessage({ role, content, timestamp, dataVisualizations }: Ch
         >
           <p className="text-sm md:text-base whitespace-pre-wrap">{content}</p>
           {dataVisualizations?.map((viz, index) => (
-            <ChatEnergyData key={index} dataType={viz.type} title={viz.title} />
+            viz.type === "topic" ? (
+              <Button
+                key={index}
+                variant="secondary"
+                size="sm"
+                onClick={() => handleTopicClick(viz.title)}
+                className="mt-2 text-sm"
+              >
+                {viz.title}
+              </Button>
+            ) : (
+              <ChatEnergyData key={index} dataType={viz.type} title={viz.title} />
+            )
           ))}
         </motion.div>
         <span className="text-xs text-muted-foreground px-1">
