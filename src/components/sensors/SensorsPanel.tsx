@@ -16,14 +16,14 @@ const SensorsPanel = () => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Czujniki</h2>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <div className="w-full max-w-[1400px] mx-auto px-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold">Czujniki</h2>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-xs sm:text-sm text-muted-foreground">
           <span>Last synced in an hour</span>
-          <span>•</span>
+          <span className="hidden sm:inline">•</span>
           <span>100% est. battery</span>
-          <span>•</span>
+          <span className="hidden sm:inline">•</span>
           <span>-71 dBm</span>
         </div>
       </div>
@@ -35,7 +35,7 @@ const SensorsPanel = () => {
       />
 
       {currentCityData && (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6">
           {currentCityData.sensors.map((sensor, index) => (
             <SensorCard 
               key={index}
