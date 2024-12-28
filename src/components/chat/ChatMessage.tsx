@@ -1,75 +1,83 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Bot, User } from "lucide-react";
-import { ChatEnergyData } from "./ChatEnergyData";
-import { motion } from "framer-motion";
+import { pl } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 
 interface ChatMessageProps {
-  role: "assistant" | "user";
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
   dataVisualizations?: Array<{
     type: "consumption" | "production" | "efficiency" | "topic";
     title: string;
   }>;
+  onTopicClick?: (topic: string) => void;
 }
 
-export function ChatMessage({ role, content, timestamp, dataVisualizations }: ChatMessageProps) {
+export function ChatMessage({ role, content, timestamp, dataVisualizations, onTopicClick }: ChatMessageProps) {
+  const time = format(timestamp, "HH:mm", { locale: pl });
+  const isAssistant = role === "assistant";
+
   const handleTopicClick = (topic: string) => {
-    const message = `Opowiedz mi więcej o temacie: ${topic}`;
-    // Dispatch a custom event to trigger the chat input
-    window.dispatchEvent(new CustomEvent('setChatInput', { 
-      detail: { message, submit: true } 
-    }));
+    if (onTopicClick) {
+      onTopicClick(topic);
+    }
   };
 
   return (
-    <div className={`flex gap-3 ${role === "assistant" ? "flex-row" : "flex-row-reverse"}`}>
-      <Avatar className="h-8 w-8 md:h-10 md:w-10 shrink-0">
-        {role === "assistant" ? (
-          <>
-            <AvatarImage src="/lovable-uploads/045f69f0-5424-4c58-a887-6e9e984d428b.png" />
-            <AvatarFallback><Bot className="h-4 w-4 md:h-5 md:w-5" /></AvatarFallback>
-          </>
-        ) : (
-          <>
-            <AvatarFallback><User className="h-4 w-4 md:h-5 md:w-5" /></AvatarFallback>
-          </>
-        )}
-      </Avatar>
-      <div className={`flex flex-col gap-2 max-w-[85%] md:max-w-[75%] ${role === "assistant" ? "items-start" : "items-end"}`}>
-        <motion.div
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.2 }}
-          className={`rounded-2xl px-4 py-2.5 ${
-            role === "assistant"
-              ? "bg-card text-card-foreground shadow-sm"
+    <div
+      className={cn(
+        "flex gap-3 w-full",
+        isAssistant ? "justify-start" : "justify-end"
+      )}
+    >
+      {isAssistant && (
+        <Avatar>
+          <img src="/lovable-uploads/39b9c17b-f3a0-4537-bafa-6950cdc12a08.png" alt="Assistant" className="w-10 h-10 rounded-full" />
+        </Avatar>
+      )}
+      <div className="flex flex-col gap-2 max-w-[80%]">
+        <div
+          className={cn(
+            "rounded-lg p-3",
+            isAssistant
+              ? "bg-muted text-foreground"
               : "bg-primary text-primary-foreground"
-          }`}
+          )}
         >
-          <p className="text-sm md:text-base whitespace-pre-wrap">{content}</p>
-          {dataVisualizations?.map((viz, index) => (
-            viz.type === "topic" ? (
-              <Button
-                key={index}
-                variant="secondary"
-                size="sm"
-                onClick={() => handleTopicClick(viz.title)}
-                className="mt-2 text-sm"
-              >
-                {viz.title}
-              </Button>
-            ) : (
-              <ChatEnergyData key={index} dataType={viz.type} title={viz.title} />
-            )
-          ))}
-        </motion.div>
-        <span className="text-xs text-muted-foreground px-1">
-          {format(timestamp, "HH:mm")}
-        </span>
+          <p className="whitespace-pre-wrap">{content}</p>
+          
+          {dataVisualizations && dataVisualizations.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {dataVisualizations.map((viz, index) => {
+                if (viz.type === "topic") {
+                  return (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleTopicClick(viz.title)}
+                      className="text-sm"
+                    >
+                      {viz.title}
+                    </Button>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          )}
+        </div>
+        <span className="text-xs text-muted-foreground">{time}</span>
       </div>
+      {!isAssistant && (
+        <Avatar>
+          <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+            U
+          </div>
+        </Avatar>
+      )}
     </div>
   );
 }

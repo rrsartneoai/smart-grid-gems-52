@@ -101,6 +101,11 @@ export function Chatbot() {
     setShowSuggestions(false);
   };
 
+  const handleTopicClick = (topic: string) => {
+    setInput(`Opowiedz mi więcej o temacie: ${topic}`);
+    handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+  };
+
   return (
     <Card className="w-full max-w-2xl mx-auto h-[600px] md:h-[700px] flex flex-col bg-background shadow-lg rounded-xl">
       <ChatHeader
@@ -125,7 +130,7 @@ export function Chatbot() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                <ChatMessage {...message} />
+                <ChatMessage {...message} onTopicClick={handleTopicClick} />
               </motion.div>
             ))}
             {isTyping && (
