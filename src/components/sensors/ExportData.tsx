@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import * as XLSX from 'xlsx';
 import { sensorsData } from "./SensorsData";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export const ExportData = () => {
   const { toast } = useToast();
@@ -77,13 +79,71 @@ export const ExportData = () => {
     }
   };
 
+  const exportToPDF = async () => {
+    try {
+      const element = document.getElementById('sensors-panel');
+      if (!element) return;
+
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('sensor-data.pdf');
+
+      toast({
+        title: "Eksport zakończony",
+        description: "Dane zostały wyeksportowane do pliku PDF."
+      });
+    } catch (error) {
+      toast({
+        title: "Błąd eksportu",
+        description: "Nie udało się wyeksportować danych.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const exportToJPG = async () => {
+    try {
+      const element = document.getElementById('sensors-panel');
+      if (!element) return;
+
+      const canvas = await html2canvas(element);
+      const link = document.createElement('a');
+      link.download = 'sensor-data.jpg';
+      link.href = canvas.toDataURL('image/jpeg');
+      link.click();
+
+      toast({
+        title: "Eksport zakończony",
+        description: "Dane zostały wyeksportowane do pliku JPG."
+      });
+    } catch (error) {
+      toast({
+        title: "Błąd eksportu",
+        description: "Nie udało się wyeksportować danych.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 flex-wrap">
       <Button onClick={exportToExcel}>
         Eksportuj do Excel
       </Button>
       <Button onClick={exportToCSV}>
         Eksportuj do CSV
+      </Button>
+      <Button onClick={exportToPDF}>
+        Eksportuj do PDF
+      </Button>
+      <Button onClick={exportToJPG}>
+        Eksportuj do JPG
       </Button>
     </div>
   );

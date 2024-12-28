@@ -81,7 +81,23 @@ const resources = {
       // Tooltips
       "clickForDetails": "Kliknij po szczegóły",
       "scrollForMore": "Przewiń, aby zobaczyć więcej",
-      "compareData": "Porównaj dane między miastami"
+      "compareData": "Porównaj dane między miastami",
+      
+      // Status Section
+      "networkConnection": "Połączenie sieciowe",
+      "signalQuality": "Jakość sygnału",
+      "systemPerformance": "Wydajność systemu",
+      "cpuUsage": "Użycie CPU",
+      "memoryUsage": "Użycie pamięci",
+      "networkLatency": "Opóźnienie sieci",
+      "activeDevices": "Aktywne urządzenia",
+      "overallStatus": "Status ogólny",
+      "lastUpdate": "Ostatnia aktualizacja",
+      "optimal": "Optymalny",
+      "needsAttention": "Wymaga uwagi",
+      "critical": "Krytyczny",
+      "backToOverview": "Powrót do przeglądu",
+      "minutes": "min temu"
     }
   },
   de: {
