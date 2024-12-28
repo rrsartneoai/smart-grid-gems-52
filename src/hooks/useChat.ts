@@ -17,7 +17,28 @@ interface Message {
 const getDashboardValue = (query: string): { text: string; visualizations?: Message["dataVisualizations"] } => {
   const lowercaseQuery = query.toLowerCase();
   
-  // Check for visualization requests
+  // Add IoT status related queries
+  if (lowercaseQuery.includes("status iot") || lowercaseQuery.includes("stan urządzeń")) {
+    const deviceStatus = {
+      activeDevices: "85%",
+      networkConnection: "92%",
+      signalQuality: "78%",
+      cpuUsage: "45%",
+      memoryUsage: "60%",
+      networkLatency: "25%"
+    };
+
+    return {
+      text: `Status IoT:\n
+      Aktywne urządzenia: ${deviceStatus.activeDevices}
+      Połączenie sieciowe: ${deviceStatus.networkConnection}
+      Jakość sygnału: ${deviceStatus.signalQuality}
+      Użycie CPU: ${deviceStatus.cpuUsage}
+      Użycie pamięci: ${deviceStatus.memoryUsage}
+      Opóźnienie sieci: ${deviceStatus.networkLatency}`
+    };
+  }
+
   if (lowercaseQuery.includes("zużycie") || lowercaseQuery.includes("zuzycie")) {
     return {
       text: "Oto wykres zużycia energii w czasie:",
