@@ -1,15 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useCompanyStore } from '@/components/CompanySidebar';
 import { companiesData } from '@/data/companies';
 
-// Default token - in production, this should be handled more securely
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibG92YWJsZSIsImEiOiJjbHM0Z2NyemswMDNqMnFxbzI2eGhvYnl4In0.qL1lc5gPrHs8vLBNiEd7kw';
-
 const EnergyMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const map = useRef<L.Map | null>(null);
   const { selectedCompanyId } = useCompanyStore();
   const selectedCompany = companiesData.find(
     (company) => company.id === selectedCompanyId
@@ -18,44 +15,50 @@ const EnergyMap = () => {
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Initialize map
-    mapboxgl.accessToken = MAPBOX_TOKEN;
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/light-v11',
-      projection: 'globe',
-      zoom: 5,
-      center: [19.145136, 51.919438], // Centered on Poland
-      pitch: 45,
-    });
+    // Initialize map centered on Tricity (Gdańsk, Sopot, Gdynia)
+    map.current = L.map(mapContainer.current).setView([54.372158, 18.638306], 11);
 
-    // Add navigation controls
-    map.current.addControl(
-      new mapboxgl.NavigationControl({
-        visualizePitch: true,
-      }),
-      'top-right'
-    );
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map.current);
+
+    // Add markers for Tricity cities
+    const cities = [
+      { name: 'Gdańsk', coords: [54.372158, 18.638306] },
+      { name: 'Sopot', coords: [54.441581, 18.560096] },
+      { name: 'Gdynia', coords: [54.518889, 18.531883] }
+    ];
+
+    cities.forEach(city => {
+      if (!map.current) return;
+      L.marker(city.coords as L.LatLngExpression)
+        .bindPopup(city.name)
+        .addTo(map.current);
+    });
 
     // Add markers for energy consumption points
     selectedCompany?.energyData.forEach((data) => {
       if (!map.current) return;
       
-      const marker = new mapboxgl.Marker({
-        color: getMarkerColor(data.efficiency),
-      })
-        .setLngLat([19.145136 + Math.random() * 2, 51.919438 + Math.random() * 2])
-        .setPopup(
-          new mapboxgl.Popup().setHTML(`
-            <div class="p-2">
-              <h3 class="font-bold">${data.name}</h3>
-              <p>Zużycie: ${data.consumption} kWh</p>
-              <p>Produkcja: ${data.production} kWh</p>
-              <p>Efektywność: ${data.efficiency}%</p>
-            </div>
-          `)
-        )
+      // Generate random positions around Tricity area
+      const lat = 54.372158 + (Math.random() - 0.5) * 0.2;
+      const lng = 18.638306 + (Math.random() - 0.5) * 0.2;
+
+      const markerIcon = L.divIcon({
+        className: 'bg-transparent',
+        html: `<div class="w-4 h-4 rounded-full ${getMarkerColorClass(data.efficiency)}" />`,
+      });
+
+      L.marker([lat, lng], { icon: markerIcon })
+        .bindPopup(`
+          <div class="p-2">
+            <h3 class="font-bold">${data.name}</h3>
+            <p>Zużycie: ${data.consumption} kWh</p>
+            <p>Produkcja: ${data.production} kWh</p>
+            <p>Efektywność: ${data.efficiency}%</p>
+          </div>
+        `)
         .addTo(map.current);
     });
 
@@ -65,10 +68,10 @@ const EnergyMap = () => {
     };
   }, [selectedCompanyId]);
 
-  const getMarkerColor = (efficiency: number) => {
-    if (efficiency >= 80) return '#22c55e';
-    if (efficiency >= 60) return '#eab308';
-    return '#ef4444';
+  const getMarkerColorClass = (efficiency: number) => {
+    if (efficiency >= 80) return 'bg-green-500';
+    if (efficiency >= 60) return 'bg-yellow-500';
+    return 'bg-red-500';
   };
 
   return (
