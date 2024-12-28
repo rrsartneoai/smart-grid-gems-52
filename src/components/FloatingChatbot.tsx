@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Chatbot } from './Chatbot';
 import { Button } from './ui/button';
 import { Bot, X } from 'lucide-react';
@@ -7,6 +7,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/t
 
 export function FloatingChatbot() {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenAssistant = () => setIsOpen(true);
+    window.addEventListener('openAssistant', handleOpenAssistant);
+    return () => window.removeEventListener('openAssistant', handleOpenAssistant);
+  }, []);
 
   return (
     <div className="fixed bottom-4 right-4 z-50">

@@ -2,19 +2,34 @@ import { useCompanyStore } from "@/components/CompanySidebar";
 import { companiesData } from "@/data/companies";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Cpu, Signal, Network, Database, Clock, Activity } from "lucide-react";
+import { 
+  Cpu, 
+  Signal, 
+  Network, 
+  Database, 
+  Clock, 
+  Activity,
+  AlertTriangle,
+  CheckCircle,
+  XCircle
+} from "lucide-react";
 import { motion } from "framer-motion";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const StatusIndicator = ({ value }: { value: number }) => {
   const getColor = (value: number) => {
-    if (value >= 80) return "bg-success";
-    if (value >= 50) return "bg-warning";
-    return "bg-danger";
+    if (value >= 80) return "text-success";
+    if (value >= 50) return "text-warning";
+    return "text-danger";
   };
 
-  return (
-    <div className={`w-2 h-2 rounded-full ${getColor(value)} animate-pulse`} />
-  );
+  const getIcon = (value: number) => {
+    if (value >= 80) return <CheckCircle className={`w-5 h-5 ${getColor(value)}`} />;
+    if (value >= 50) return <AlertTriangle className={`w-5 h-5 ${getColor(value)}`} />;
+    return <XCircle className={`w-5 h-5 ${getColor(value)}`} />;
+  };
+
+  return getIcon(value);
 };
 
 const ProgressItem = ({ 
@@ -28,26 +43,39 @@ const ProgressItem = ({
   icon: any;
   description: string;
 }) => (
-  <div className="space-y-2">
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2">
-        <Icon className="w-4 h-4 text-muted-foreground" />
-        <span className="text-sm font-medium">{label}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <StatusIndicator value={value} />
-        <span className="text-sm font-semibold">{value}%</span>
-      </div>
-    </div>
-    <Progress 
-      value={value} 
-      className="h-2 bg-secondary"
-      style={{
-        background: 'hsl(var(--secondary))',
-      }}
-    />
-    <p className="text-xs text-muted-foreground">{description}</p>
-  </div>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Icon className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm font-medium">{label}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <StatusIndicator value={value} />
+              <span className="text-sm font-semibold">{value}%</span>
+            </div>
+          </div>
+          <div className="relative">
+            <Progress 
+              value={value} 
+              className="h-2"
+              style={{
+                background: 'hsl(var(--secondary))',
+              }}
+            />
+            <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-primary-foreground">
+              {value}%
+            </span>
+          </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{description}</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 );
 
 export function IoTStatus() {
@@ -74,9 +102,9 @@ export function IoTStatus() {
       transition={{ duration: 0.5 }}
       className="grid gap-6"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold mb-1">
+          <h2 className="text-xl sm:text-2xl font-bold mb-1">
             Status IoT - {selectedCompany?.name}
           </h2>
           <div className="flex items-center gap-2">
@@ -86,9 +114,9 @@ export function IoTStatus() {
             </span>
           </div>
         </div>
-        <div className="text-right">
-          <Clock className="inline-block w-4 h-4 text-muted-foreground mr-1" />
-          <span className="text-xs text-muted-foreground">
+        <div className="text-right flex items-center gap-2 text-sm text-muted-foreground">
+          <Clock className="w-4 h-4" />
+          <span>
             Ostatnia aktualizacja: 5 min temu
           </span>
         </div>
