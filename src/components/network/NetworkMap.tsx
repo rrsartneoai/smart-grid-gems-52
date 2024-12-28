@@ -83,19 +83,12 @@ export function NetworkMap() {
       const IconComponent = getDeviceIcon(device.type);
       const color = getStatusColor(device.status);
 
-      // Create a temporary div to render the icon
-      const tempDiv = document.createElement('div');
-      const iconElement = createElement(IconComponent, {
-        className: "w-4 h-4",
-        style: { color },
-      });
-
-      // Render the icon to HTML string
+      // Create icon HTML string
       const iconHtml = `
         <div class="relative">
           <div class="absolute -top-4 -left-4 bg-background p-2 rounded-full shadow-lg">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              ${iconElement.type.render().props.children}
+              ${IconComponent({}).toString()}
             </svg>
           </div>
         </div>
