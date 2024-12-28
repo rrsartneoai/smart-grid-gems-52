@@ -28,19 +28,17 @@ const SensorsPanel = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto -mx-4 px-4 pb-4">
-        <div className="min-w-[600px]">
-          <CityTabs
-            cities={cities}
-            selectedCity={selectedCity}
-            onCitySelect={handleCitySelect}
-          />
-        </div>
+      <div className="mb-6">
+        <CityTabs
+          cities={cities}
+          selectedCity={selectedCity}
+          onCitySelect={handleCitySelect}
+        />
       </div>
 
       {currentCityData && (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {currentCityData.sensors.map((sensor, index) => (
               <SensorCard 
                 key={index}
