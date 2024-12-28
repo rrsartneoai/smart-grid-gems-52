@@ -14,6 +14,7 @@ export default {
     "selectCity": "Stadt auswählen",
     "selectParameter": "Parameter auswählen",
     "comparison": "Vergleich",
+    "changeLanguage": "Sprache ändern",
     
     // Export Actions
     "exportComplete": "Export abgeschlossen",
@@ -43,6 +44,12 @@ export default {
     // Tooltips
     "clickForDetails": "Klicken für Details",
     "scrollForMore": "Scrollen für mehr Informationen",
-    "compareData": "Daten zwischen Städten vergleichen"
+    "compareData": "Daten zwischen Städten vergleichen",
+    
+    // Shortcuts
+    "availableShortcuts": "Verfügbare Tastenkombinationen",
+    "shortcutsDescription": "Ctrl+K: Suche\nCtrl+/: Hilfe\nCtrl+B: Seitenmenü",
+    "search": "Suche",
+    "searchComingSoon": "Suchfunktion kommt bald"
   }
 };
