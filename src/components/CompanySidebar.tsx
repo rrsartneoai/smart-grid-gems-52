@@ -34,6 +34,7 @@ export function CompanySidebar() {
   };
 
   const handleOpenAssistant = () => {
+    // This will trigger the FloatingChatbot to open
     const event = new CustomEvent('openAssistant');
     window.dispatchEvent(event);
   };
@@ -63,21 +64,18 @@ export function CompanySidebar() {
         />
       </SheetContent>
       <aside className={`fixed left-0 top-0 z-30 h-screen transition-all duration-300 bg-background border-r ${collapsed ? "w-[60px]" : "w-[300px]"} hidden lg:block`}>
-        <div className="absolute -right-4 top-4 z-50 flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleCollapse}
-            className="relative"
-          >
-            {collapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </Button>
-          {!collapsed && <span className="text-sm text-muted-foreground">Zwiń</span>}
-        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleCollapse}
+          className="absolute -right-4 top-4 z-50"
+        >
+          {collapsed ? (
+            <ChevronRight className="h-4 w-4" />
+          ) : (
+            <ChevronLeft className="h-4 w-4" />
+          )}
+        </Button>
         <SidebarContent 
           collapsed={collapsed} 
           handleAddCompany={handleAddCompany} 

@@ -14,7 +14,6 @@ export default {
     "selectCity": "Выбрать город",
     "selectParameter": "Выбрать параметр",
     "comparison": "Сравнение",
-    "changeLanguage": "Изменить язык",
     
     // Export Actions
     "exportComplete": "Экспорт завершен",
@@ -44,12 +43,6 @@ export default {
     // Tooltips
     "clickForDetails": "Нажмите для деталей",
     "scrollForMore": "Прокрутите для дополнительной информации",
-    "compareData": "Сравнить данные между городами",
-    
-    // Shortcuts
-    "availableShortcuts": "Доступные комбинации клавиш",
-    "shortcutsDescription": "Ctrl+K: Поиск\nCtrl+/: Помощь\nCtrl+B: Боковое меню",
-    "search": "Поиск",
-    "searchComingSoon": "Функция поиска скоро появится"
+    "compareData": "Сравнить данные между городами"
   }
 };
