@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Mic, MicOff, Trash2, Upload } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useEffect, useRef, useState } from "react";
 import { ChatFileUpload } from "./ChatFileUpload";
@@ -45,9 +44,8 @@ export function ChatInput({
 
   const handleFileProcessComplete = (text: string, topics: string[]) => {
     setFileSummaries(topics);
-    toast({
-      title: "Plik przetworzony",
-      description: "Kliknij w temat, aby uzyskać więcej informacji",
+    toast("Plik przetworzony", {
+      description: "Kliknij w temat, aby uzyskać więcej informacji"
     });
     setShowFileUpload(false);
   };
