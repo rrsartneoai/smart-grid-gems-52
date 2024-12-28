@@ -1,83 +1,65 @@
-import { Company, EnergyData } from "@/types/company";
-import { Battery, Cpu, Activity } from "lucide-react";
-
-const energyData: EnergyData[] = [
-  {
-    name: "Zużycie energii",
-    consumption: 450,
-    production: 600,
-    efficiency: 75,
-    timestamp: "2024-03-10T10:00:00"
-  },
-  {
-    name: "Produkcja energii",
-    consumption: 600,
-    production: 600,
-    efficiency: 100,
-    timestamp: "2024-03-10T10:00:00"
-  },
-  {
-    name: "Efektywność",
-    consumption: 450,
-    production: 600,
-    efficiency: 75,
-    timestamp: "2024-03-10T10:00:00"
-  }
-];
-
-const historicalData = [
-  { value: 42, timestamp: "2024-03-10T10:00:00" },
-  { value: 45, timestamp: "2024-03-10T11:00:00" },
-  { value: 48, timestamp: "2024-03-10T12:00:00" },
-  { value: 51, timestamp: "2024-03-10T13:00:00" },
-  { value: 53, timestamp: "2024-03-10T14:00:00" },
-  { value: 55, timestamp: "2024-03-10T15:00:00" },
-  { value: 58, timestamp: "2024-03-10T16:00:00" },
-  { value: 60, timestamp: "2024-03-10T17:00:00" }
-];
+import { Company } from "@/types/company";
+import { Activity, DollarSign, Flame, Power, Zap } from "lucide-react";
 
 export const ekoEnergiaPlus: Company = {
-  id: "eko-energia-plus",
-  name: "Eko Energia Plus",
-  description: "Dostawca zielonej energii",
+  id: "3",
+  name: "EkoEnergia Plus",
   stats: [
     {
-      title: "Zużycie energii",
-      value: 450,
-      unit: "kWh",
-      description: "Aktualne zużycie energii",
-      icon: Battery,
+      title: "Ladunek",
+      value: "18,923",
+      unit: "MW",
+      icon: Power,
+      description: "↗️ +4.5% od ostatniego dnia",
       details: [
-        { label: "Szczyt dzienny", value: "520 kWh" },
-        { label: "Minimum nocne", value: "180 kWh" },
-        { label: "Średnia 7-dniowa", value: "385 kWh" }
-      ]
+        { label: "Szczyt dzienny", value: "19,234 MW" },
+        { label: "Minimum", value: "17,567 MW" },
+        { label: "Średnia", value: "18,456 MW" },
+      ],
     },
     {
-      title: "Produkcja energii",
-      value: 600,
-      unit: "kWh",
-      description: "Aktualna produkcja energii",
-      icon: Cpu,
+      title: "Obciążenie netto",
+      value: "17,456",
+      unit: "MW",
+      icon: Zap,
+      description: "↘️ -1.0% od ostatniej godziny",
       details: [
-        { label: "Panele słoneczne", value: "420 kWh" },
-        { label: "Turbiny wiatrowe", value: "180 kWh" },
-        { label: "Sprawność systemu", value: "92%" }
-      ]
+        { label: "Szczyt", value: "18,000 MW" },
+        { label: "Minimum dzienne", value: "16,500 MW" },
+        { label: "Prognoza", value: "17,000 MW" },
+      ],
     },
     {
-      title: "Efektywność",
-      value: 75,
-      unit: "%",
-      description: "Ogólna efektywność systemu",
-      icon: Activity,
+      title: "Cena",
+      value: "29.00",
+      unit: "/MWh",
+      icon: DollarSign,
+      description: "↗️ +1.0% od ostatniego odczytu",
       details: [
-        { label: "Straty przesyłowe", value: "8%" },
-        { label: "Wykorzystanie energii", value: "67%" },
-        { label: "Potencjał optymalizacji", value: "15%" }
-      ]
+        { label: "Maksymalna", value: "31.00 /MWh" },
+        { label: "Minimalna", value: "28.00 /MWh" },
+        { label: "Średnia dzienna", value: "29.50 /MWh" },
+      ],
+    },
+    {
+      title: "Główne źródło",
+      value: "Energia wiatrowa",
+      icon: Flame,
+      description: "80% udziału w miksie",
+      details: [
+        { label: "Wydajność", value: "95%" },
+        { label: "Emisja CO2", value: "150 g/kWh" },
+        { label: "Moc nominalna", value: "18,000 MW" },
+      ],
     }
   ],
-  energyData,
-  historicalData
+  energyData: [
+    { name: "00:00", consumption: 550, production: 500, efficiency: 91 },
+    { name: "04:00", consumption: 480, production: 450, efficiency: 94 },
+    { name: "08:00", consumption: 750, production: 700, efficiency: 93 },
+    { name: "12:00", consumption: 950, production: 900, efficiency: 95 },
+    { name: "16:00", consumption: 850, production: 800, efficiency: 94 },
+    { name: "20:00", consumption: 650, production: 600, efficiency: 92 },
+    { name: "23:59", consumption: 550, production: 500, efficiency: 91 },
+  ],
 };

@@ -2,14 +2,15 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { companiesData } from "@/data/companies";
 import { create } from "zustand";
 import { Button } from "@/components/ui/button";
 import { CompanyStoreState } from "@/types/company";
+import { useToast } from "@/components/ui/use-toast";
 
 export const useCompanyStore = create<CompanyStoreState>((set) => ({
-  selectedCompanyId: "1", // Zmieniono na string
+  selectedCompanyId: "1",
   setSelectedCompanyId: (id: string) => set({ selectedCompanyId: id }),
 }));
 
@@ -17,9 +18,17 @@ export function CompanySidebar() {
   const [open, setOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const { selectedCompanyId, setSelectedCompanyId } = useCompanyStore();
+  const { toast } = useToast();
 
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleAddCompany = () => {
+    toast({
+      title: "Funkcja w przygotowaniu",
+      description: "Możliwość dodawania nowych firm będzie dostępna wkrótce.",
+    });
   };
 
   return (
@@ -34,7 +43,7 @@ export function CompanySidebar() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] p-0">
-        <SidebarContent />
+        <SidebarContent handleAddCompany={handleAddCompany} />
       </SheetContent>
       <aside className={`fixed left-0 top-0 z-30 h-screen transition-all duration-300 bg-background border-r ${collapsed ? "w-[60px]" : "w-[300px]"} hidden lg:block`}>
         <Button
@@ -49,13 +58,13 @@ export function CompanySidebar() {
             <ChevronLeft className="h-4 w-4" />
           )}
         </Button>
-        <SidebarContent collapsed={collapsed} />
+        <SidebarContent collapsed={collapsed} handleAddCompany={handleAddCompany} />
       </aside>
     </Sheet>
   );
 }
 
-function SidebarContent({ collapsed = false }: { collapsed?: boolean }) {
+function SidebarContent({ collapsed = false, handleAddCompany }: { collapsed?: boolean, handleAddCompany: () => void }) {
   const { selectedCompanyId, setSelectedCompanyId } = useCompanyStore();
 
   return (
@@ -88,6 +97,14 @@ function SidebarContent({ collapsed = false }: { collapsed?: boolean }) {
               </Button>
             </div>
           ))}
+          <Button
+            variant="outline"
+            className={`w-full justify-start ${collapsed ? "px-2" : ""}`}
+            onClick={handleAddCompany}
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            {!collapsed && <span>Dodaj firmę</span>}
+          </Button>
         </div>
       </ScrollArea>
       {!collapsed && (
