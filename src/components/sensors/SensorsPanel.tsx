@@ -2,9 +2,16 @@ import { useState } from "react";
 import { SensorCard } from "./SensorCard";
 import { CityTabs } from "./CityTabs";
 import { sensorsData } from "./SensorsData";
+import { Input } from "@/components/ui/input";
+import { AlertsConfig } from "./AlertsConfig";
+import { DataComparison } from "./DataComparison";
+import { ExportData } from "./ExportData";
+import { Search } from "lucide-react";
 
 const SensorsPanel = () => {
   const [selectedCity, setSelectedCity] = useState<string>("gdansk");
+  const [searchQuery, setSearchQuery] = useState("");
+  
   const cities = Object.keys(sensorsData).map(key => 
     key.charAt(0).toUpperCase() + key.slice(1)
   );
@@ -14,6 +21,11 @@ const SensorsPanel = () => {
   const handleCitySelect = (city: string) => {
     setSelectedCity(city.toLowerCase());
   };
+
+  const filteredSensors = currentCityData.sensors.filter(sensor =>
+    sensor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    sensor.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="w-full max-w-[1400px] mx-auto px-4">
@@ -36,10 +48,26 @@ const SensorsPanel = () => {
         />
       </div>
 
+      <div className="mb-6">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Szukaj czujników..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <ExportData />
+      </div>
+
       {currentCityData && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {currentCityData.sensors.map((sensor, index) => (
+            {filteredSensors.map((sensor, index) => (
               <SensorCard 
                 key={index}
                 icon={sensor.icon}
@@ -51,7 +79,11 @@ const SensorsPanel = () => {
               />
             ))}
           </div>
-          <div className="mt-8 grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
+
+          <div className="mt-8 space-y-8">
+            <AlertsConfig />
+            <DataComparison />
+            
             <div className="bg-card rounded-lg p-6 shadow-sm">
               <h3 className="text-lg font-semibold mb-4">Dane dla miasta {currentCityData.name}</h3>
               <div className="prose dark:prose-invert max-w-none">
@@ -72,34 +104,6 @@ const SensorsPanel = () => {
                           <span className="text-sm text-muted-foreground">{sensor.unit}</span>
                         </div>
                         <p className="text-sm text-muted-foreground">{sensor.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="bg-card rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">Trendy i Analiza</h3>
-              <div className="prose dark:prose-invert max-w-none">
-                <p className="text-muted-foreground">
-                  Analiza trendów i zmian w pomiarach dla miasta {currentCityData.name} w czasie.
-                  Dane są agregowane i analizowane w celu wykrycia wzorców i anomalii.
-                </p>
-                <div className="mt-4 space-y-4">
-                  {currentCityData.sensors.map((sensor, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-background/50 border">
-                      <div className="flex items-center gap-2">
-                        <span className="text-primary">{sensor.icon}</span>
-                        <span>{sensor.name}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          sensor.status === "Good" 
-                            ? "bg-success/10 text-success" 
-                            : "bg-warning/10 text-warning"
-                        }`}>
-                          {sensor.status}
-                        </span>
                       </div>
                     </div>
                   ))}
