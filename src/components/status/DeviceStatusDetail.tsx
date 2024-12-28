@@ -1,100 +1,40 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Cpu, Database, Network } from "lucide-react";
+import { Cpu, Signal, Network } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import * as XLSX from 'xlsx';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import { useTranslation } from 'react-i18next';
 
 const mockHistoricalData = Array.from({ length: 24 }, (_, i) => ({
   time: `${i}:00`,
-  cpuUsage: Math.floor(Math.random() * 30) + 30,
-  memoryUsage: Math.floor(Math.random() * 20) + 50,
-  networkLatency: Math.floor(Math.random() * 15) + 15,
+  activeDevices: Math.floor(Math.random() * 20) + 70,
+  networkConnection: Math.floor(Math.random() * 15) + 80,
+  signalQuality: Math.floor(Math.random() * 25) + 60,
 }));
 
 export const DeviceStatusDetail = () => {
   const { toast } = useToast();
-  const { t } = useTranslation();
 
-  const exportToExcel = () => {
-    const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Device Status");
-    XLSX.writeFile(wb, "device-status.xlsx");
-
+  const handleExport = (format: 'pdf' | 'csv') => {
     toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToExcel"),
+      title: "Export initiated",
+      description: `Exporting data as ${format.toUpperCase()}...`,
     });
-  };
-
-  const exportToCSV = () => {
-    const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
-    const csv = XLSX.utils.sheet_to_csv(ws);
-    
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "device-status.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToCSV"),
-    });
-  };
-
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    
-    doc.setFontSize(16);
-    doc.text(t("deviceStatusDetails"), 20, 20);
-
-    autoTable(doc, {
-      head: [['Time', 'CPU Usage', 'Memory Usage', 'Network Latency']],
-      body: mockHistoricalData.map(data => [
-        data.time,
-        `${data.cpuUsage}%`,
-        `${data.memoryUsage}%`,
-        `${data.networkLatency}ms`
-      ]),
-      startY: 30,
-    });
-
-    doc.save("device-status.pdf");
-
-    toast({
-      title: t("exportComplete"),
-      description: t("dataExportedToPDF"),
-    });
+    // Implement actual export logic here
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center flex-wrap gap-4">
-        <h2 className="text-2xl font-bold">{t("deviceStatusDetails")}</h2>
-        <div className="flex flex-wrap gap-2">
-          <Button onClick={exportToPDF} className="whitespace-nowrap">
-            {t("exportPDF")}
-          </Button>
-          <Button onClick={exportToExcel} className="whitespace-nowrap">
-            {t("exportExcel")}
-          </Button>
-          <Button onClick={exportToCSV} className="whitespace-nowrap">
-            {t("exportCSV")}
-          </Button>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Device Status Details</h2>
+        <div className="space-x-2">
+          <Button onClick={() => handleExport('pdf')}>Export PDF</Button>
+          <Button onClick={() => handleExport('csv')}>Export CSV</Button>
         </div>
       </div>
 
       <Card className="p-6">
-        <h3 className="text-lg font-semibold mb-4">{t("historicalData")}</h3>
+        <h3 className="text-lg font-semibold mb-4">Historical Data</h3>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={mockHistoricalData}>
@@ -104,22 +44,22 @@ export const DeviceStatusDetail = () => {
               <Tooltip />
               <Line 
                 type="monotone" 
-                dataKey="cpuUsage" 
-                name={t("cpuUsage")}
+                dataKey="activeDevices" 
+                name="Active Devices" 
                 stroke="#ef4444" 
                 strokeWidth={2}
               />
               <Line 
                 type="monotone" 
-                dataKey="memoryUsage" 
-                name={t("memoryUsage")}
+                dataKey="networkConnection" 
+                name="Network Connection" 
                 stroke="#34d399" 
                 strokeWidth={2}
               />
               <Line 
                 type="monotone" 
-                dataKey="networkLatency" 
-                name={t("networkLatency")}
+                dataKey="signalQuality" 
+                name="Signal Quality" 
                 stroke="#60a5fa" 
                 strokeWidth={2}
               />
@@ -130,9 +70,9 @@ export const DeviceStatusDetail = () => {
 
       <div className="grid md:grid-cols-3 gap-6">
         {[
-          { icon: Cpu, label: t("cpuUsage"), value: 45 },
-          { icon: Database, label: t("memoryUsage"), value: 60 },
-          { icon: Network, label: t("networkLatency"), value: 25 }
+          { icon: Cpu, label: "Active Devices", value: 85 },
+          { icon: Network, label: "Network Connection", value: 92 },
+          { icon: Signal, label: "Signal Quality", value: 78 }
         ].map((item, index) => (
           <Card key={index} className="p-6">
             <div className="flex items-center gap-2 mb-4">
@@ -141,7 +81,7 @@ export const DeviceStatusDetail = () => {
             </div>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">{t("current")}</span>
+                <span className="text-sm text-muted-foreground">Current</span>
                 <span className="font-medium">{item.value}%</span>
               </div>
               <Progress value={item.value} className="h-2" />
