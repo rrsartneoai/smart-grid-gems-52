@@ -7,12 +7,10 @@ import { AlertsConfig } from "./AlertsConfig";
 import { DataComparison } from "./DataComparison";
 import { ExportData } from "./ExportData";
 import { Search } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 const SensorsPanel = () => {
   const [selectedCity, setSelectedCity] = useState<string>("gdansk");
   const [searchQuery, setSearchQuery] = useState("");
-  const { t } = useTranslation();
   
   const cities = Object.keys(sensorsData).map(key => 
     key.charAt(0).toUpperCase() + key.slice(1)
@@ -32,13 +30,13 @@ const SensorsPanel = () => {
   return (
     <div className="w-full max-w-[1400px] mx-auto px-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <h2 className="text-xl sm:text-2xl font-bold">{t('sensors')}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold">Czujniki</h2>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 text-xs sm:text-sm text-muted-foreground">
-          <span>{t('lastSyncedHour')}</span>
+          <span>Last synced in an hour</span>
           <span className="hidden sm:inline">•</span>
-          <span>{t('batteryStatus')}</span>
+          <span>100% est. battery</span>
           <span className="hidden sm:inline">•</span>
-          <span>{t('signalStrength')}</span>
+          <span>-71 dBm</span>
         </div>
       </div>
 
@@ -54,7 +52,7 @@ const SensorsPanel = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder={t('searchSensors')}
+            placeholder="Szukaj czujników..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -87,12 +85,11 @@ const SensorsPanel = () => {
             <DataComparison />
             
             <div className="bg-card rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-4">
-                {t('cityDataTitle')} {currentCityData.name}
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Dane dla miasta {currentCityData.name}</h3>
               <div className="prose dark:prose-invert max-w-none">
                 <p className="text-muted-foreground">
-                  {t('cityDataDescription')} {currentCityData.name}. {t('allMeasurements')}
+                  Poniżej znajdują się szczegółowe informacje o jakości powietrza i warunkach środowiskowych w mieście {currentCityData.name}. 
+                  Wszystkie pomiary są aktualizowane w czasie rzeczywistym, zapewniając dokładny obraz stanu środowiska.
                 </p>
                 <div className="mt-4 grid gap-2">
                   {currentCityData.sensors.map((sensor, index) => (
