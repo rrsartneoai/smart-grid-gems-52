@@ -30,46 +30,10 @@ export default {
     "generateForecast": "Generuj prognozę",
     
     // Device Status
-    "deviceStatus": "Status urządzeń",
-    "deviceMonitoring": "Monitorowanie stanu urządzeń w sieci energetycznej",
-    "transformers": "Transformatory",
-    "meters": "Liczniki",
-    "sensors": "Czujniki",
-    "load": "Obciążenie",
-    "temperature": "Temperatura",
-    "efficiency": "Wydajność",
-    "operational": "Operacyjny",
-    "warning": "Ostrzeżenie",
-    "error": "Błąd",
-    
-    // Energy Chart
-    "energyUsage": "Zużycie energii",
-    "energyMonitoring": "Monitorowanie zużycia, produkcji i wydajności w czasie rzeczywistym",
-    
-    // Network Map
-    "networkMap": "Mapa sieci",
-    "networkVisualization": "Wizualizacja połączeń między urządzeniami",
-    
-    // Failure Analysis
-    "failureAnalysis": "Analiza awarii",
-    "failureIdentification": "Identyfikacja i analiza potencjalnych problemów",
-    "problemDescription": "Opis problemu",
-    "highTemperature": "Wykryto wysoką temperaturę transformatora",
-    "possibleCauses": "Możliwe przyczyny",
-    "transformerOverload": "Przeciążenie transformatora",
-    "coolingSystemFailure": "Awaria systemu chłodzenia",
-    "windingShortCircuit": "Zwarcie w uzwojeniu",
-    "recommendedActions": "Zalecane działania",
-    "reduceLoad": "Zmniejszyć obciążenie transformatora",
-    "checkCooling": "Sprawdzić system chłodzenia",
-    "inspectWindings": "Przeprowadzić inspekcję uzwojeń",
-    "unstableReadings": "Niestabilne odczyty zużycia energii",
-    "networkInterference": "Zakłócenia w sieci",
-    "measurementModuleFailure": "Awaria modułu pomiarowego",
-    "calibrationIssues": "Problemy z kalibracją",
-    "checkPowerQuality": "Sprawdzić jakość zasilania",
-    "verifyMeasurementModule": "Zweryfikować moduł pomiarowy",
-    "performCalibration": "Przeprowadzić kalibrację",
-    "critical": "Krytyczny"
+    "deviceStatusDetails": "Szczegóły statusu urządzenia",
+    "cpuUsage": "Użycie CPU",
+    "memoryUsage": "Użycie pamięci",
+    "networkLatency": "Opóźnienie sieci",
+    "current": "Aktualne",
   }
 };

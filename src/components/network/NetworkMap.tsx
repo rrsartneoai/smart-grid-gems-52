@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CircuitBoard, Gauge, Signal } from "lucide-react";
 import { createElement } from "react";
-import { useTranslation } from 'react-i18next';
 
 interface Device {
   id: string;
@@ -62,7 +61,6 @@ const getStatusColor = (status: Device["status"]) => {
 };
 
 export function NetworkMap() {
-  const { t } = useTranslation();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const connections = useRef<L.Polyline[]>([]);
@@ -140,23 +138,23 @@ export function NetworkMap() {
     <div className="grid gap-6">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold">{t('networkMap')}</h2>
+          <h2 className="text-2xl font-bold">Mapa sieci</h2>
           <p className="text-muted-foreground">
-            {t('networkVisualization')}
+            Wizualizacja połączeń między urządzeniami
           </p>
         </div>
         <div className="flex gap-2">
           <Badge variant="outline" className="gap-1">
             <CircuitBoard className="w-4 h-4" />
-            <span>{t('transformers')}</span>
+            <span>Transformatory</span>
           </Badge>
           <Badge variant="outline" className="gap-1">
             <Gauge className="w-4 h-4" />
-            <span>{t('meters')}</span>
+            <span>Liczniki</span>
           </Badge>
           <Badge variant="outline" className="gap-1">
             <Signal className="w-4 h-4" />
-            <span>{t('sensors')}</span>
+            <span>Czujniki</span>
           </Badge>
         </div>
       </div>
