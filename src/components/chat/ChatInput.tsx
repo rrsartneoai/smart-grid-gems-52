@@ -44,6 +44,7 @@ export function ChatInput({
   };
 
   const handleFileProcessComplete = (text: string, topics: string[]) => {
+    console.log("File processing complete, topics:", topics);
     setFileSummaries(topics);
     toast("Plik przetworzony", {
       description: "Kliknij w temat, aby uzyskać więcej informacji"
@@ -72,6 +73,7 @@ export function ChatInput({
               variant="secondary"
               size="sm"
               onClick={() => handleTopicClick(topic)}
+              className="text-sm"
             >
               {topic}
             </Button>
