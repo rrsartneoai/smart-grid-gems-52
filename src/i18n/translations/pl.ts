@@ -35,5 +35,29 @@ export default {
     "memoryUsage": "Użycie pamięci",
     "networkLatency": "Opóźnienie sieci",
     "current": "Aktualne",
+    
+    // Notifications
+    "languageChanged": "Język zmieniony",
+    "languageChangedTo": "Język zmieniony na",
+    
+    // Tooltips
+    "clickForDetails": "Kliknij, aby uzyskać szczegóły",
+    "scrollForMore": "Przewiń, aby uzyskać więcej informacji",
+    "compareData": "Porównaj dane między miastami",
+    
+    // Shortcuts
+    "availableShortcuts": "Dostępne skróty klawiszowe",
+    "shortcutsDescription": "Ctrl+K: Szukaj\nCtrl+/: Pomoc\nCtrl+B: Menu boczne",
+    "search": "Szukaj",
+    "searchComingSoon": "Funkcja wyszukiwania wkrótce dostępna",
+
+    // Sensor Panel Translations
+    "lastSyncedHour": "Ostatnia synchronizacja godzinę temu",
+    "batteryStatus": "100% naładowania baterii",
+    "signalStrength": "-71 dBm",
+    "searchSensors": "Szukaj czujników...",
+    "cityDataTitle": "Dane dla miasta",
+    "cityDataDescription": "Poniżej znajdują się szczegółowe informacje o jakości powietrza i warunkach środowiskowych w mieście",
+    "allMeasurements": "Wszystkie pomiary są aktualizowane w czasie rzeczywistym, zapewniając dokładny obraz stanu środowiska."
   }
 };
