@@ -66,14 +66,19 @@ export function CompanySidebar() {
       <aside className={`fixed left-0 top-0 z-30 h-screen transition-all duration-300 bg-background border-r ${collapsed ? "w-[60px]" : "w-[300px]"} hidden lg:block`}>
         <Button
           variant="ghost"
-          size="icon"
           onClick={toggleCollapse}
-          className="absolute -right-4 top-4 z-50"
+          className="absolute -right-4 top-4 z-50 flex items-center gap-2"
         >
           {collapsed ? (
-            <ChevronRight className="h-4 w-4" />
+            <>
+              <ChevronRight className="h-4 w-4" />
+              <span className="text-sm">Rozwiń</span>
+            </>
           ) : (
-            <ChevronLeft className="h-4 w-4" />
+            <>
+              <ChevronLeft className="h-4 w-4" />
+              <span className="text-sm">Zwiń</span>
+            </>
           )}
         </Button>
         <SidebarContent 

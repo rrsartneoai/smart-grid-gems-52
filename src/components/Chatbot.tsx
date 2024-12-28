@@ -87,6 +87,12 @@ export function Chatbot() {
       />
       
       <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 md:p-6 overflow-y-auto">
+        {messages.length === 1 && (
+          <ChatSuggestions onSuggestionClick={(suggestion) => {
+            setInput(suggestion);
+            handleSubmit({ preventDefault: () => {} } as React.FormEvent);
+          }} />
+        )}
         <AnimatePresence>
           <div className="space-y-4 md:space-y-6">
             {messages.map((message, i) => (

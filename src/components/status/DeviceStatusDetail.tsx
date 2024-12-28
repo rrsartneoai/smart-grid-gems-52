@@ -4,6 +4,9 @@ import { Cpu, Signal, Network } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import * as XLSX from 'xlsx';
 
 const mockHistoricalData = Array.from({ length: 24 }, (_, i) => ({
   time: `${i}:00`,
@@ -15,20 +18,54 @@ const mockHistoricalData = Array.from({ length: 24 }, (_, i) => ({
 export const DeviceStatusDetail = () => {
   const { toast } = useToast();
 
-  const handleExport = (format: 'pdf' | 'csv') => {
-    toast({
-      title: "Export initiated",
-      description: `Exporting data as ${format.toUpperCase()}...`,
-    });
-    // Implement actual export logic here
+  const handleExport = async (format: 'pdf' | 'csv' | 'xlsx') => {
+    try {
+      if (format === 'pdf') {
+        const element = document.getElementById('device-status-detail');
+        if (!element) return;
+        
+        const canvas = await html2canvas(element);
+        const imgData = canvas.toDataURL('image/png');
+        
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('device-status.pdf');
+      } else if (format === 'csv' || format === 'xlsx') {
+        const ws = XLSX.utils.json_to_sheet(mockHistoricalData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Device Status");
+        
+        if (format === 'csv') {
+          XLSX.writeFile(wb, 'device-status.csv');
+        } else {
+          XLSX.writeFile(wb, 'device-status.xlsx');
+        }
+      }
+
+      toast({
+        title: "Export completed",
+        description: `File exported as ${format.toUpperCase()}`,
+      });
+    } catch (error) {
+      toast({
+        title: "Export failed",
+        description: "An error occurred during export",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" id="device-status-detail">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Device Status Details</h2>
         <div className="space-x-2">
           <Button onClick={() => handleExport('pdf')}>Export PDF</Button>
+          <Button onClick={() => handleExport('xlsx')}>Export Excel</Button>
           <Button onClick={() => handleExport('csv')}>Export CSV</Button>
         </div>
       </div>
